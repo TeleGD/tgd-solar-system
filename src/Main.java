@@ -1,4 +1,6 @@
 import javax.swing.JOptionPane;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -34,7 +36,10 @@ public final class Main {
 			}
 
 		};
-		AppGameContainer container = returnValue == 0 ? new AppGameContainer (game, 1920, 1080, true) : new AppGameContainer (game, 1280, 720, false);
+		
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		
+		AppGameContainer container = returnValue == 0 ? new AppGameContainer (game,  gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight(), true) : new AppGameContainer (game, 1280, 720, false);
 		container.setTargetFrameRate (60);
 		container.setVSync (true);
 		container.setShowFPS (false);
