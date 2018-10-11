@@ -1,8 +1,11 @@
 package solar_system;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -15,10 +18,17 @@ public class World extends BasicGameState {
 
 	private int width;
 	private int height;
-
+	
+	private Image image;
+	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
+		try {
+			image = new Image("res/images/planet.png");
+		} catch(SlickException e) {
+			e.printStackTrace();
+		};
 	}
 
 	@Override
@@ -66,6 +76,8 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
+		context.drawImage(image, container.getWidth()/2-(image.getWidth()-1)/2, container.getHeight()/2-(image.getHeight()-1)/2, container.getWidth()/2+(image.getWidth()-1)/2, container.getHeight()/2+(image.getHeight()-1)/2, 0, 0, image.getWidth()-1, image.getHeight()-1, new Color((int) (Math.random()*255),(int) (Math.random()*255),(int) (Math.random()*255)));
+
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
