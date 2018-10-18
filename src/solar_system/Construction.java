@@ -14,9 +14,12 @@ public abstract class Construction {
 	protected Image image;
 	protected boolean detruit;
 	protected Player player;
+	protected Case tile;
+	protected int x, y;
 	
-	public Construction() {
+	public Construction(Case tile) {
 		detruit=false;
+		this.tile = tile;
 	}
 	
 	public void takeDamage(int damage) {	
