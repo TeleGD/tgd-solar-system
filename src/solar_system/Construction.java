@@ -13,6 +13,7 @@ public abstract class Construction {
 	protected String caracteristiques;
 	protected Image image;
 	protected boolean detruit;
+	protected Player player;
 	
 	public Construction() {
 		detruit=false;
@@ -24,9 +25,8 @@ public abstract class Construction {
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		for (Production prod :productions) {
-			prod.update( container, game,delta);
+			prod.update(container, game, delta);
 		}
-		
 	}
 	public void render() {
 		
