@@ -19,8 +19,13 @@ public class Production {
 	}
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		quantite=delta*(double)debit/1000;
-		player.addRessource(type, quantite);
-		tile.preleveResource(quantite);
+		if (quantite>tile.getResourceQuantity()){
+			player.addRessource(type, quantite);
+			tile.preleveResource(quantite);
+		} else if (tile.getResourceQuantity()>0){
+			player.addRessource(type, tile.getResourceQuantity());
+			tile.preleveResource(tile.getResourceQuantity());
+		}
 	}
 	
 
