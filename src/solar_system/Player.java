@@ -5,20 +5,26 @@ import java.util.List;
 import java.util.Map;
 
 public class Player {
-	private Map<String , Integer> ressources = new HashMap<String,Integer>(); 
+	private Map<String , Double> ressources = new HashMap<String,Double >(); 
 	private int [] technologie = new int[2];
-	private List<Planet> knownPlanets; 
+	private List<Planet> knownPlanets;
+	private int DiscoveredPlanet;
 	
 	// initialiZation des ressources du joueur
 	
-	//ressources.put("Nourriture",0);
-
-
-public void addRessource(String type , int augmentation ){
-	if(type == "cobble"){
-		ressource[0] += augmentation;
+	public Player() {
+		ressources.put("Nourriture",0.);
+		ressources.put("Fer",10.);
+		ressources.put("Noyau Linux",1.);
 	}
-	else if(type == "Mana")
-}
+	
 
+	
+	public void addRessource(String type , int augmentation ){
+		if(ressources.containsValue(type)){
+		ressources.put(type,ressources.get(type)+augmentation);	
+		// Fabien nous garantit que ca ne va pas merder.  
+	
+		}
+	}
 }
