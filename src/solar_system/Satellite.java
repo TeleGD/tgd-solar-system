@@ -1,18 +1,23 @@
 package solar_system;
 
-public class Satellite {
-	private int debit;
-	private String type;
-	
-	public Satellite(int d, String t) {
-		this.debit = d;
-		this.type = t;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
+public class Satellite extends Orbital{
+	public Satellite(int lifeMax, int cout,int posX,int posY) {
+		super(lifeMax, cout, posX, posY);
 	}
-	
-	public int getDebit() {
-		return debit;
+
+	@Override
+	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		// TODO Auto-generated method stub
+		
 	}
-	public String getType() {
-		return type;
+
+	@Override
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		// TODO Auto-generated method stub
+		
 	}
 }

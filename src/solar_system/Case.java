@@ -12,14 +12,12 @@ public class Case {
 	private int x, y, size;
 	
 	public Case(){
-		//Use the matrice indexation and the screen resolution to calculte the position of the case
 		resource = null;
 		resourceQuantity = 0;
 		construction = null;
 	}
 	
 	public Case(String resource, int resourceQuantity){
-		//Use the matrice indexation and the screen resolution to calculte the position of the case
 		this.resource = resource;
 		this.resourceQuantity = resourceQuantity;
 		construction = null;
