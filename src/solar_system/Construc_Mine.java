@@ -7,8 +7,6 @@ public class Construc_Mine extends Construction {
 		super(100,100,0,0);
 		
 		//this.productions.add(new Production(3, "fer", player));
-	}
-	
-	
+	}	
 }
 
