@@ -15,11 +15,12 @@ public class Solsys {
 		r= new Random();
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
-		for (int k=1; k<nbPlanet ; k=k+1 ) {
-			addPlanet(new Planet(0,r.nextInt(500)+500,r.nextInt(500)+500,"description",world));
+		addPlanet(new Planet(9,0,0,150,"des",world));
+		for(int k=0; k<nbPlanet; k++ ) {
+			addPlanet(new Planet(1+k,r.nextFloat()*2f*(float)Math.PI ,200+100*k ,"description",world));
 		}
 	}
-		
+	
 	public void addPlanet(Planet p) {
 		if (planets.size()<nbPlanet) 
 			planets.add(p);

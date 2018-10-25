@@ -73,6 +73,7 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
+		solsys.update(container,game,delta);
 	}
 
 	@Override
