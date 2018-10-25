@@ -104,4 +104,12 @@ public class World extends BasicGameState {
 		return this.state;
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
 }

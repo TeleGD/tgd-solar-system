@@ -1,21 +1,47 @@
 package solar_system;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 public abstract class Construction {
 	protected int life;
 	protected int lifeMax;
-	protected ArrayList<Production> productions;
-	protected String caracteristiques;
-	protected Image image;
-	protected boolean detruit;
+	protected int posX;
+	protected int posY;
+	protected String description;
+	protected int cout;
+	protected Map<String,Double> debits;
+	protected boolean destructed;
+	protected Case c;
 	
-	public Construction() {
-		detruit=false;
+	public Construction(int lifeMax, int cout,int posX,int posY) {
+		this.life = life;
+		this.lifeMax = life;
+		this.posX=posX;
+		this.posY=posY;
+		this.cout = cout;
+		destructed = false;
+		
+		c = null;
+		
+		debits = new HashMap<String,Double >();
+	}
+	
+	public Construction(int lifeMax, int cout,int posX,int posY, Case c) {
+		this.life = life;
+		this.lifeMax = life;
+		this.posX=posX;
+		this.posY=posY;
+		this.cout = cout;
+		destructed = false;
+		
+		this.c = c;
+		
+		debits = new HashMap<String,Double >();
 	}
 	
 	public void takeDamage(int damage) {	
@@ -23,26 +49,24 @@ public abstract class Construction {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
-		for (Production prod :productions) {
-			prod.update( container, game,delta);
-		}
-		
+
 	}
-	public void render() {
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
 	}
 	public void isDead() {
 		if (life<=0) {
-			detruit=true;
+			destructed=true;
 		}
 	}
 	
-	public boolean isDetruit() {
-		return detruit;
+	public boolean isDestructed() {
+		return destructed;
 	}
 
 	public void setDetruit(boolean detruit) {
-		this.detruit = detruit;
+		this.destructed = detruit;
 	}
 }
 
