@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Case {
-	private String resource;
+	private Resource resource;
 	private double resourceQuantity;
 	private Construction construction;
 	private int x, y, size;
@@ -17,7 +17,7 @@ public class Case {
 		construction = null;
 	}
 	
-	public Case(String resource, int resourceQuantity){
+	public Case(Resource resource, int resourceQuantity){
 		this.resource = resource;
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
@@ -46,9 +46,19 @@ public class Case {
 	public void preleveResource(double quantiteAPrelever) {
 		resourceQuantity=resourceQuantity-quantiteAPrelever;
 	}
+	
 	public double getResourceQuantity() {
 		return resourceQuantity;
 	}
+	
+	public Resource getResource(){
+		return resource;
+	}
+	
+	public void setResource(Resource r){
+		resource = r;
+	}
+	
 	public int getX() {
 		return x;
 	}
