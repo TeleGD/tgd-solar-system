@@ -45,15 +45,15 @@ public abstract class Construction {
 		for( Map.Entry resource : resourcesProduced.entrySet())
 		{
 			Resource res = (Resource) resource;
-			double qtiteAPrelever = (double)delta*debits.get(res.getName());			
+			double qtiteAjoutee = (double)delta*debits.get(res.getName());			
 
-			if ( res.equals(tile.getResource())==false ){
-				res.modifQuantite(qtiteAPrelever);
-			} else if (qtiteAPrelever>tile.getResourceQuantity()) {
-				tile.preleveResource(qtiteAPrelever);
-			} else {
-				tile.preleveResource(tile.getResourceQuantity());
+			if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
+				if (qtiteAjoutee<tile.getResourceQuantity()) {
+				qtiteAjoutee=tile.getResourceQuantity();
+				}
+				tile.preleveResource(qtiteAjoutee);
 			}
+			res.modifQuantite(qtiteAjoutee);
 		}
 	}
 	
