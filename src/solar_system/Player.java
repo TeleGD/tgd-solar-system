@@ -18,8 +18,6 @@ public class Player {
 		ressources.put("Noyau Linux",1.);
 	}
 	
-
-	
 	public void addRessource(String type , double augmentation ){
 		if(ressources.containsValue(type)){
 		ressources.put(type,ressources.get(type)+augmentation);	

@@ -44,11 +44,16 @@ public class Case {
 	
 
 	public void preleveResource(double quantiteAPrelever) {
-		resourceQuantity=resourceQuantity-quantiteAPrelever;
+		if(quantiteAPrelever <= resourceQuantity)
+			resourceQuantity=resourceQuantity-quantiteAPrelever;
+		else
+			System.out.println("Not enough resources");
 	}
+	
 	public double getResourceQuantity() {
 		return resourceQuantity;
 	}
+	
 	public int getX() {
 		return x;
 	}
