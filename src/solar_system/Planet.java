@@ -15,6 +15,7 @@ public class Planet {
 	private int type;
 	private String description;
 	private Ground ground;
+	private Air air;
 	private int radius;
 	
 	private Random r;
@@ -29,6 +30,7 @@ public class Planet {
 		this.description=description;
 		this.radius = r.nextInt(400)+400;
 		this.ground = new Ground(this, null);
+		this.air = new Air(2,(int)(5.0/4)*radius);
 		this.image = Images.getPlanet(/*r.nextInt(4)*/0);
 	}
 	
