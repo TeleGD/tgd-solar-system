@@ -5,8 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Satellite extends Orbital{
-	public Satellite(int lifeMax, int cout,int posX,int posY) {
-		super(lifeMax, cout, posX, posY);
+	public Satellite(int lifeMax, int cout,int posX,int posY, double speed) {
+		super(lifeMax, cout, posX, posY, speed);
 	}
 
 	@Override

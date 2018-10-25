@@ -18,6 +18,7 @@ public class World extends BasicGameState {
 
 	private int width;
 	private int height;
+	private Solsys solsys;
 	
 	private Image image;
 	
@@ -41,6 +42,7 @@ public class World extends BasicGameState {
 		/* Méthode exécutée une unique fois au chargement du programme */
 		this.width = container.getWidth ();
 		this.height = container.getHeight ();
+		 System.out.println(width + "" + height);
 	}
 
 	@Override
@@ -76,12 +78,13 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		context.drawImage(image, container.getWidth()/2-(image.getWidth()-1)/2, container.getHeight()/2-(image.getHeight()-1)/2, container.getWidth()/2+(image.getWidth()-1)/2, container.getHeight()/2+(image.getHeight()-1)/2, 0, 0, image.getWidth()-1, image.getHeight()-1, new Color((int) (Math.random()*255),(int) (Math.random()*255),(int) (Math.random()*255)));
-
+		solsys.render(container, game, context);
+		
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		this.solsys= new Solsys(5,this);
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {

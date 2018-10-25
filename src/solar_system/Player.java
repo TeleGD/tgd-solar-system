@@ -26,15 +26,17 @@ public class Player {
 		
 	}
 	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
 		for(Map.Entry<String , Double> ressource: ressources.entrySet()){
 			ressource.getKey();
 			ressource.getValue();
 		}
-		context.setColor(new Color(255, 0, 0));
+		context.setColor(new Color(255, 255, 255));
 		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
 	}
 	
+
 	public void addRessource(String type , double augmentation ){
 		if(ressources.containsValue(type)){
 		ressources.put(type,ressources.get(type)+augmentation);	

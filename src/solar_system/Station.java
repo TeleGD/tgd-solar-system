@@ -7,8 +7,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Station extends Orbital {
 	private int nbVaisseaux;
 	
-	public Station(int lifeMax, int cout,int posX,int posY) {
-		super(lifeMax, cout, posX, posY);
+	public Station(int lifeMax, int cout,int posX,int posY, double speed) {
+		super(lifeMax, cout, posX, posY, speed);
 		this.nbVaisseaux = 0;
 	}
 	
