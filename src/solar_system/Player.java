@@ -31,9 +31,14 @@ public class Player {
 		for(Map.Entry<String , Double> ressource: ressources.entrySet()){
 			ressource.getKey();
 			ressource.getValue();
+			context.setColor(Color.white);
+			context.drawString(ressource.getKey()+" : "+ressource.getValue(), 399, 10)//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10))
+			
 		}
 		context.setColor(new Color(255, 255, 255));
 		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
+		
+		
 	}
 	
 
