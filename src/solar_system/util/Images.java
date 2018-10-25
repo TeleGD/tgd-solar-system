@@ -14,13 +14,13 @@ public class Images {
 	
 	static {
 		try {
-			for (int i=0; i<5; i++) {
+			for (int i=0; i<1; i++) {
 				planet.add(new Image("res/images/planet/planet"+i+".png"));
-				satellite.add(new Image("res/images/satellite/satellite"+i+".png"));
+				//satellite.add(new Image("res/images/satellite/satellite"+i+".png"));
 				
 			}
 			
-			construction.put("mine",new Image("res/images/construction/mine.png"));
+			//construction.put("mine",new Image("res/images/construction/mine.png"));
 			
 		} catch (SlickException e) {
 			e.printStackTrace();
