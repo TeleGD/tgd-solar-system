@@ -42,7 +42,16 @@ public abstract class Construction {
 	}
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
+		for( Map.Entry resource : resourcesProduced.entrySet())
+		{
+			Resource res = (Resource) resource;
+			double qtiteAjoutee = (double)delta*debits.get(res.getName());			
 
+			if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
+				qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
+			}
+			res.modifQuantite(qtiteAjoutee);
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
