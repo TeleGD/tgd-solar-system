@@ -48,10 +48,7 @@ public abstract class Construction {
 			double qtiteAjoutee = (double)delta*debits.get(res.getName());			
 
 			if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
-				if (qtiteAjoutee<tile.getResourceQuantity()) {
-				qtiteAjoutee=tile.getResourceQuantity();
-				}
-				tile.preleveResource(qtiteAjoutee);
+				qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
 			}
 			res.modifQuantite(qtiteAjoutee);
 		}
