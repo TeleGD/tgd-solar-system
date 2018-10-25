@@ -16,9 +16,11 @@ public abstract class Construction {
 	protected int cout;
 	protected Map<String,Double> debits;
 	protected boolean destructed;
-	protected Case c;
+	protected Case tile;
+	protected HashMap<String, Resource> resourcesProduced;
 	
-	public Construction(int lifeMax, int cout,int posX,int posY) {
+	
+	public Construction(int lifeMax, int cout,int posX,int posY, Case tile) {
 		this.life = life;
 		this.lifeMax = life;
 		this.posX=posX;
@@ -26,21 +28,12 @@ public abstract class Construction {
 		this.cout = cout;
 		destructed = false;
 		
-		c = null;
+		this.tile = tile;
 		
-		debits = new HashMap<String,Double >();
-	}
-	
-	public Construction(int lifeMax, int cout,int posX,int posY, Case c) {
-		this.life = life;
-		this.lifeMax = life;
-		this.posX=posX;
-		this.posY=posY;
-		this.cout = cout;
-		destructed = false;
+		resourcesProduced = new HashMap<String, Resource>();
 		
-		this.c = c;
-		
+		Resource resOfCase = tile.getResource() ;
+		resourcesProduced.put(resOfCase.getName(), resOfCase);
 		debits = new HashMap<String,Double >();
 	}
 	
