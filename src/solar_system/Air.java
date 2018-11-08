@@ -19,7 +19,6 @@ public class Air {
 	public Air(int nbOrbitaux, int distance) {
 		this.nbOrbitaux = nbOrbitaux;
 		this.distance = distance;
-		
 		this.orbitals = new ArrayList<Orbital>();
 	}
 	

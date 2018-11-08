@@ -24,7 +24,7 @@ public class Planet {
 	private Image image;
 	private Color color;
 	private float mass,periode;
-	//private Orbital orbital;
+	private Orbital orbital;
 	
 	public Planet(int type,float angle,float distance, String description, World world) {
 		this(type,angle,distance,(r.nextInt(50)+50)/2,description, world);
@@ -45,6 +45,8 @@ public class Planet {
 		this.color=new Color(type*120,0,255/type);
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
+		this.orbital=new Satellite(20,0,0,0,0.3);
+		air.addOrbital(orbital);
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -52,15 +54,16 @@ public class Planet {
 		angle+=(float)delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
-		//air.update(container, game, delta);
-		ground.update(container, game, delta);
+		air.update(container, game, delta);
+
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
 		context.setColor(color);
 		context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
-	}
+		air.render(container, game, context);
+		}
 	
 	
 	public int getRadius() {

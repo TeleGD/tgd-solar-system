@@ -10,38 +10,43 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Player {
-	private Map<String , Double> ressources = new HashMap<String,Double >();
+	private Map<String , Resource> ressources = new HashMap<String,Resource >();
 	private int [] technologie = new int[2];
 	private List<Planet> knownPlanets;
 	private int DiscoveredPlanet;
 	private World world;
 	
+	
 	// initialiZation des ressources du joueur
 	
 	public Player(World world) {
-		ressources.put("Nourriture",0.);
-		ressources.put("Fer",10.);
-		ressources.put("Noyau Linux",1.);
+		ressources.put("Nourriture",new Resource("Nourriture"));
+		ressources.put("Fer",new Resource("Fer"));
+		ressources.put("Noyau Linux", new Resource("Noyau Linux"));
 		this.world=world;
-		
 	}
 	
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
-		for(Map.Entry<String , Double> ressource: ressources.entrySet()){
-			ressource.getKey();
-			ressource.getValue();
-			context.setColor(Color.white);
-			context.drawString(ressource.getKey()+" : "+ressource.getValue(), 399, 10);//Essai d'affichage des ressources :reste à modif l'emplacement de chaque(pas 399,10))
-			
-		}
-		context.setColor(new Color(255, 255, 255));
+		int size;
+		int comp=0;
+		size=ressources.size();//taille du hashmap
+		context.setColor(Color.black);
 		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
+		for(Map.Entry<String , Resource> resource: ressources.entrySet()){
+			context.setColor(Color.white);
+			context.drawString(resource.getKey()+" : "+resource.getValue().getQuantite(), world.getWidth()*comp/size, world.getHeight()/40);//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
+			comp+=1;
+		}
+		
+	}
+	
+	public void update (GameContainer container, StateBasedGame game, int delta) {
 		
 		
 	}
 	
-
+	
 	public void addRessource(String type , double augmentation ){
 		if(ressources.containsValue(type)){
 		ressources.put(type,ressources.get(type)+augmentation);	

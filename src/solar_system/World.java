@@ -19,6 +19,7 @@ public class World extends BasicGameState {
 	private int width;
 	private int height;
 	private Solsys solsys;
+	private Player player;
 	
 	private Image image;
 	
@@ -83,11 +84,13 @@ public class World extends BasicGameState {
 			solsys.render(container, game, context);
 		else
 			this.ground.render(container, game, context);
+		player.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		this.solsys= new Solsys(5,this);
+		this.player= new Player(this);
 		this.ground = null;
 	}
 
