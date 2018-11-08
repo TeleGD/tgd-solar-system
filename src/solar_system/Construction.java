@@ -18,6 +18,7 @@ public abstract class Construction {
 	protected boolean destructed;
 	protected Case tile;
 	protected HashMap<String, Resource> resourcesProduced;
+	public static HashMap<String, Resource> resourcesExploitable;
 	
 	
 	public Construction(int lifeMax, int cout,int posX,int posY, Case tile) {
@@ -70,6 +71,12 @@ public abstract class Construction {
 	public void setDetruit(boolean detruit) {
 		this.destructed = detruit;
 	}
+	
+	public static boolean constructPossible(Case tileConstructLocation) {
+		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
+	}
+	
 }
+
 
 
