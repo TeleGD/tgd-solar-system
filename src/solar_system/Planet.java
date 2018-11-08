@@ -36,7 +36,7 @@ public class Planet {
 		this.type = type;
 		this.description=description;
 		this.radius = radius;
-		//this.ground = new Ground(this, world);
+		this.ground = new Ground(this, world);
 		this.air = new Air(2,(int)(5.0/4)*radius);
 		this.image = Images.getPlanet(/*r.nextInt(4)*/0);
 		this.world=world;
@@ -64,4 +64,15 @@ public class Planet {
 		return radius;
 	}
 	
+	public 	float getPosX() {
+		return posx;
+	}
+	
+	public float getPosY() {
+		return posy;
+	}
+	
+	public Ground getGround() {
+		return ground;
+	}
 }

@@ -15,7 +15,7 @@ public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
-
+	private Ground ground;
 	private int width;
 	private int height;
 	private Solsys solsys;
@@ -25,6 +25,7 @@ public class World extends BasicGameState {
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
+		this.ground = null;
 		try {
 			image = new Image("res/images/planet.png");
 		} catch(SlickException e) {
@@ -79,8 +80,10 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		solsys.render(container, game, context);
-		
+		if(ground == null)
+			solsys.render(container, game, context);
+		else
+			this.ground.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
@@ -115,5 +118,12 @@ public class World extends BasicGameState {
 	public int getHeight() {
 		return height;
 	}
-
+	
+	@Override
+	public void mousePressed(int arg0, int x, int y) 
+	{
+		Ground tempGround = solsys.planetTouched(arg0, x, y);
+		if(tempGround!= null)
+			ground = tempGround;
+	}
 }
