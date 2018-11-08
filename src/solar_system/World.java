@@ -80,12 +80,11 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		solsys.render(container, game, context);
-		player.render(container, game, context);
 		if(ground == null)
 			solsys.render(container, game, context);
 		else
 			this.ground.render(container, game, context);
+		player.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
