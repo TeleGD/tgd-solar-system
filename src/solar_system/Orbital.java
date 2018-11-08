@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public abstract class Orbital extends Construction {
 	private double speed;
 	public Orbital(int lifeMax, int cout,int posX,int posY, double speed) {
-		super(lifeMax, cout, posX, posY,null);
+		super(lifeMax, cout, posX, posY,new Case(new Resource("Fer"), 12));
 		this.speed=0.3;
 	}
 	
