@@ -18,14 +18,13 @@ public class Ground {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
 		this.planet = planet;
 		this.world = world;
-		this.cases = new Case[][]{};
+		generateCases();
 		// Calcul du coin haut-gauche de la zone d'affichage (pour l'instant un carré) des cases
 		double half_width = planet.getRadius()/Math.sqrt(2);
 		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) );
 		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) );
-		//this.case_width = (int) Math.floor((2*half_width)/cases.length);
+		this.case_width = (int) Math.floor((2*half_width)/cases.length);
 		
-		generateCases();
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

@@ -25,7 +25,6 @@ public class World extends BasicGameState {
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
-		this.ground = null;
 		try {
 			image = new Image("res/images/planet.png");
 		} catch(SlickException e) {
@@ -55,7 +54,7 @@ public class World extends BasicGameState {
 			this.resume (container, game);
 		}
 	}
-
+	
 	@Override
 	public void leave (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée à la disparition de la page */
@@ -89,6 +88,7 @@ public class World extends BasicGameState {
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
 		this.solsys= new Solsys(5,this);
+		this.ground = null;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
