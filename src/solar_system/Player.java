@@ -16,6 +16,7 @@ public class Player {
 	private int DiscoveredPlanet;
 	private World world;
 	
+	
 	// initialiZation des ressources du joueur
 	
 	public Player(World world) {
@@ -28,20 +29,25 @@ public class Player {
 	
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
-		for(Map.Entry<String , Double> ressource: ressources.entrySet()){
-			ressource.getKey();
-			ressource.getValue();
-			context.setColor(Color.white);
-			context.drawString(ressource.getKey()+" : "+ressource.getValue(), 399, 10)//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10))
-			
-		}
-		context.setColor(new Color(255, 255, 255));
+		int size;
+		int comp=0;
+		size=ressources.size();//taille du hashmap
+		context.setColor(Color.black);
 		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
+		for(Map.Entry<String , Double> ressource: ressources.entrySet()){
+			context.setColor(Color.white);
+			context.drawString(ressource.getKey()+" : "+ressource.getValue(), world.getWidth()*comp/size, world.getHeight()/40);//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
+			comp+=1;
+		}
+		
+	}
+	
+	public void update (GameContainer container, StateBasedGame game, int delta) {
 		
 		
 	}
 	
-
+	
 	public void addRessource(String type , double augmentation ){
 		if(ressources.containsValue(type)){
 		ressources.put(type,ressources.get(type)+augmentation);	
