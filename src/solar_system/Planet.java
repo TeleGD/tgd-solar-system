@@ -50,7 +50,8 @@ public class Planet {
 		angle+=(float)delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
-		
+		//air.update(container, game, delta);
+		ground.update(container, game, delta);
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
