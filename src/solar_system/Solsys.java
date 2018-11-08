@@ -29,6 +29,7 @@ public class Solsys {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 			for (Planet p: planets) {
 				p.render(container, game, context);
+			
 			}
 	}
 		

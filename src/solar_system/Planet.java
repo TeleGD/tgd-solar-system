@@ -50,6 +50,7 @@ public class Planet {
 		angle+=(float)delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
+		air.update(container, game, delta);
 		
 	}
 
@@ -57,6 +58,7 @@ public class Planet {
 		/* Méthode exécutée environ 60 fois par seconde */
 		context.setColor(color);
 		context.fillOval(posx+(world.getWidth()-radius)/2, posy+(world.getHeight()-radius)/2, radius, radius);
+		air.render(container, game, context);
 	}
 	
 	
