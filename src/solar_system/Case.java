@@ -16,6 +16,7 @@ public class Case {
 		resourceQuantity = 0;
 		construction = null;
 	}
+
 	
 	public Case(Resource resource, int resourceQuantity){
 		this.resource = resource;
@@ -40,6 +41,12 @@ public class Case {
 			context.setColor(new Color(0, 0, 255, 127));
 		}
 		context.fillRect(x, y, size, size);
+	}
+
+	public void update (GameContainer container, StateBasedGame game, int delta) {
+		if (construction != null) {
+		construction.update(container, game, delta);
+		}
 	}
 	
 

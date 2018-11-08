@@ -15,7 +15,7 @@ public class Resource {
 	public boolean modifQuantite (double qtite) {  
 		/* Ajoute ou prélève (si qtite<0)
 			Renvoie true si l'opération a réussi,
-			Renvoie false si l'oprération est interrompue
+			Renvoie false si l'opération est interrompue
 				(prélèvement supérieur à la quantite disponible).
 		*/
 		if (qtite+quantite<0){
@@ -33,13 +33,8 @@ public class Resource {
 		return quantite;
 	}
 	
-	public void preleveResource (double qtite) {
-		quantite-=qtite;
-	}
-	
-	
 	public void render() {
-		// A faire.
+		//TODO
 	}
 	
 }

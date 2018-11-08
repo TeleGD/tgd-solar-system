@@ -36,7 +36,7 @@ public class Planet {
 		this.type = type;
 		this.description=description;
 		this.radius = radius;
-		//this.ground = new Ground(this, world);
+		this.ground = new Ground(this, world);
 		this.air = new Air(2,(int)(5.0/4)*radius);
 		this.image = Images.getPlanet(/*r.nextInt(4)*/0);
 		this.world=world;
@@ -50,7 +50,8 @@ public class Planet {
 		angle+=(float)delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
-		
+		//air.update(container, game, delta);
+		ground.update(container, game, delta);
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
