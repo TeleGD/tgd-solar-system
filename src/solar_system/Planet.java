@@ -27,11 +27,11 @@ public class Planet {
 	//private Orbital orbital;
 	
 	public Planet(int type,float angle,float distance, String description, World world) {
-		this(type,angle,distance,r.nextInt(50)+50,description, world);
+		this(type,angle,distance,(r.nextInt(50)+50)/2,description, world);
 	}
 	
 	public Planet(int type,float angle, float distance ,int radius, String description, World world) {
-		this.angle=angle;
+		this.angle=(float) (r.nextDouble()*Math.PI*2);
 		this.distance=distance;
 		this.type = type;
 		this.description=description;
@@ -43,6 +43,8 @@ public class Planet {
 		this.mass=(4f/3f)*(float)Math.PI*(float)Math.pow((double)radius,3)*type;
 		this.periode=(float)Math.sqrt(Math.pow((double)radius, 3));
 		this.color=new Color(type*120,0,255/type);
+		posx=(float)Math.cos((double)angle)*distance;
+		posy=(float)Math.sin((double)angle)*distance;
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -57,7 +59,7 @@ public class Planet {
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
 		context.setColor(color);
-		context.fillOval(posx+(world.getWidth()-radius)/2, posy+(world.getHeight()-radius)/2, radius, radius);
+		context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
 	}
 	
 	

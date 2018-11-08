@@ -17,7 +17,7 @@ public class Solsys {
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.world = world;
-		addPlanet(new Planet(9,0,0,150,"des",world));
+		addPlanet(new Planet(9,0,0,75,"des",world));
 		for(int k=0; k<nbPlanet; k++ ) {
 			addPlanet(new Planet(1+k,r.nextFloat()*2f*(float)Math.PI ,200+100*k ,"description",world));
 		}
@@ -36,14 +36,14 @@ public class Solsys {
 		
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		for (Planet p : planets) {
-			p.update(container, game, delta);
+//			p.update(container, game, delta);
 		}
 	}
 	
 	public Ground planetTouched(int arg0, int x, int y) 
 	{
 		for(Planet p : planets) {
-			if(Math.hypot(x-(p.getPosX()+(world.getWidth()-p.getRadius())/2) , y-(p.getPosY()+(world.getWidth()-p.getRadius())/2)) < p.getRadius()) {
+			if(Math.hypot(x-p.getPosX()-world.getWidth()/2, y-p.getPosY()-world.getHeight()/2) < p.getRadius()) {
 				return p.getGround();
 			}
 		}

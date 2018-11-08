@@ -42,7 +42,6 @@ public class Ground {
 				c.update(container, game, delta);
 			}
 		}
-		
 	}
 	
 	
