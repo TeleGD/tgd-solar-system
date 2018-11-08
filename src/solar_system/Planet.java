@@ -68,4 +68,15 @@ public class Planet {
 		return radius;
 	}
 	
+	public 	float getPosX() {
+		return posx;
+	}
+	
+	public float getPosY() {
+		return posy;
+	}
+	
+	public Ground getGround() {
+		return ground;
+	}
 }
