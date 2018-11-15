@@ -63,6 +63,7 @@ public class Planet {
 		context.setColor(color);
 		context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
 		air.render(container, game, context);
+		ground.render(container, game, context);
 		}
 	
 	

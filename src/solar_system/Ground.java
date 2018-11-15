@@ -1,5 +1,6 @@
 package solar_system;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
@@ -34,7 +35,7 @@ public class Ground {
 			}
 		}
 		context.setColor(Color.red);
-		context.fillRect(0,0,20,20);
+		context.fillRect(0,50,20,20);
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
