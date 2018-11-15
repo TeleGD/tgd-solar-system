@@ -128,5 +128,10 @@ public class World extends BasicGameState {
 		Ground tempGround = solsys.planetTouched(arg0, x, y);
 		if(tempGround!= null)
 			ground = tempGround;
+		if (ground!=null) {
+			if (ground.mousePressed(arg0,x,y)) {
+				ground=null;
+			}
+		}
 	}
 }

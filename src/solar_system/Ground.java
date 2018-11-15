@@ -64,6 +64,9 @@ public class Ground {
 			}
 		}
 	}
-	
-	
+	public boolean mousePressed(int arg0,int x ,int y) {
+		//TODO verifier que le click est dans le carre
+		
+		return (x<20 && x>0 && y<70 && y>50);
+	}
 }
