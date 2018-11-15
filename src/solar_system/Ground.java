@@ -33,6 +33,8 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
+		context.setColor(Color.red);
+		context.fillRect(0,0,20,20);
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
