@@ -19,7 +19,7 @@ public class Solsys {
 		this.world = world;
 		addPlanet(new Planet(9,0,0,75,"des",world));
 		for(int k=0; k<nbPlanet; k++ ) {
-			addPlanet(new Planet(1+k,r.nextFloat()*2f*(float)Math.PI ,200+100*k ,"description",world));
+			addPlanet(new Planet(1+k,(float)0.5*r.nextFloat()*2f*(float)Math.PI ,200+100*k ,"description",world));
 		}
 	}
 	
