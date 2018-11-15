@@ -38,7 +38,7 @@ public class Solsys {
 		
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		for (Planet p : planets) {
-//			p.update(container, game, delta);
+			p.update(container, game, delta);
 		}
 	}
 	

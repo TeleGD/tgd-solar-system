@@ -11,14 +11,20 @@ public class Case {
 	private Construction construction;
 	private int x, y, size;
 	
-	public Case(){
+	public Case(int x, int y, int size){
+		this.x = x;
+		this.y = y;
+		this.size = size;
 		resource = null;
 		resourceQuantity = 0;
 		construction = null;
 	}
 
 	
-	public Case(Resource resource, int resourceQuantity){
+	public Case(int x, int y, int size, Resource resource, int resourceQuantity){
+		this.x = x;
+		this.y = y;
+		this.size = size;
 		this.resource = resource;
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
@@ -45,7 +51,7 @@ public class Case {
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		if (construction != null) {
-		construction.update(container, game, delta);
+			construction.update(container, game, delta);
 		}
 	}
 	

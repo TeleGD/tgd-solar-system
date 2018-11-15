@@ -26,11 +26,6 @@ public class World extends BasicGameState {
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
-		try {
-			image = new Image("res/images/planet.png");
-		} catch(SlickException e) {
-			e.printStackTrace();
-		};
 	}
 
 	@Override

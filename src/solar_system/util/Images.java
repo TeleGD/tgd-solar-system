@@ -15,7 +15,7 @@ public class Images {
 	static {
 		try {
 			for (int i=0; i<1; i++) {
-				planet.add(new Image("res/images/planet/planet"+i+".png"));
+				planet.add(new Image("res/images/planets/"+i+".png"));
 				//satellite.add(new Image("res/images/satellite/satellite"+i+".png"));
 				
 			}

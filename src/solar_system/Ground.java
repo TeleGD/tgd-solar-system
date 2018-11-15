@@ -1,8 +1,12 @@
 package solar_system;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 
 public class Ground {
 	
@@ -12,7 +16,7 @@ public class Ground {
 	private Case[][] cases;
 	private int x_origin;	//Abscisse du coin supérieur gauche
 	private int y_origin;	//Ordonnée du coin supérieur gauche
-	private int case_width;
+	private Image image;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -23,11 +27,17 @@ public class Ground {
 		double half_width = planet.getRadius()/Math.sqrt(2);
 		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) );
 		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) );
-		this.case_width = (int) Math.floor((2*half_width)/cases.length);
+		
+		try{
+			this.image = new Image(planet.getNomImage());
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		context.drawImage(image,5,5);
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.render(container, game, context);
@@ -36,7 +46,6 @@ public class Ground {
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.update(container, game, delta);
@@ -47,6 +56,10 @@ public class Ground {
 	
 	public void generateCases() {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
+		//TODO : prendre une ressource aléatoire dans une liste
+		
+		Resource resource = new Resource("test");
+		int resourceQuantity = 0;
 		
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor(Math.sqrt(2 * planet.getRadius())/ sizeCase);
@@ -55,9 +68,7 @@ public class Ground {
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				cases[i][j] = new Case();
-				cases[i][j].setX(x_origin + i*case_width);
-				cases[i][j].setY(y_origin + j*case_width);
+				cases[i][j] = new Case(x_origin + i*sizeCase, y_origin + j*sizeCase, sizeCase, resource, resourceQuantity);
 			}
 		}
 	}

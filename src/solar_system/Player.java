@@ -47,11 +47,11 @@ public class Player {
 	}
 	
 	
-	public void addRessource(String type , double augmentation ){
-		if(ressources.containsValue(type)){
-		ressources.put(type,ressources.get(type)); // + augmentation	
-		// Fabien nous garantit que ca ne va pas merder.  
-	
-		}
-	}
+//	public void addRessource(String type , double augmentation ){
+//		if(ressources.containsValue(type)){
+//		ressources.put(type,ressources.get(type)); // + augmentation	
+//		// Fabien nous garantit que ca ne va pas merder.  
+//	
+//		}
+//	}
 }
