@@ -21,7 +21,6 @@ public class Player {
 	
 	public Player(World world) {
 		initRessources();
-		getResources();
 		this.world=world;
 	}
 	
@@ -50,6 +49,7 @@ public class Player {
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));
 		}
+	
 	public Map<String,Resource> getResources(){
 		return resources;
 	}
