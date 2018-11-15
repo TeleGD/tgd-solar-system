@@ -43,6 +43,8 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
+		context.setColor(Color.red);
+		context.fillRect(0,50,20,20);
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -72,6 +74,9 @@ public class Ground {
 			}
 		}
 	}
-	
-	
+	public boolean mousePressed(int arg0,int x ,int y) {
+		//TODO verifier que le click est dans le carre
+		
+		return (x<20 && x>0 && y<70 && y>50);
+	}
 }

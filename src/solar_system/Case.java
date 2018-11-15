@@ -3,6 +3,7 @@ package solar_system;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Case {
@@ -10,6 +11,7 @@ public class Case {
 	private double resourceQuantity;
 	private Construction construction;
 	private int x, y, size;
+	private Image backgroundImg;
 	
 	public Case(int x, int y, int size){
 		this.x = x;

@@ -69,7 +69,12 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		solsys.update(container,game,delta);
+		
+		if(ground == null)
+			solsys.update(container, game, delta);
+		else
+			this.ground.update(container, game, delta);
+		player.update(container, game, delta);
 	}
 
 	@Override
@@ -123,5 +128,10 @@ public class World extends BasicGameState {
 		Ground tempGround = solsys.planetTouched(arg0, x, y);
 		if(tempGround!= null)
 			ground = tempGround;
+		if (ground!=null) {
+			if (ground.mousePressed(arg0,x,y)) {
+				ground=null;
+			}
+		}
 	}
 }
