@@ -1,14 +1,23 @@
 package solar_system;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class Resource {
 	
 	private String name;
 	private double quantite;
+	private Image image;
 	
 	public Resource(String name) {
 		this.name=name;
 		this.quantite=0;
+		
+		try {
+			image = new Image(imagePath(name));
+		} catch(SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -37,4 +46,14 @@ public class Resource {
 		//TODO
 	}
 	
+	public String imagePath(String name) {
+		String path = null;
+		switch (name) {
+			case "Fer": path = "res/resources/fer_minerais.png";
+			case "Bois": path = "res/resources/Bois.png";
+			case "Cailloux": path = "res/resources/cailloux.png";
+			//case "Noyaux Linux": path = "res/resources/";
+		}
+		return path;
+	}
 }
