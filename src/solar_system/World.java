@@ -69,7 +69,7 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		if (mouv == false && solsys.planetTouched(arg0, x, y)t) {
+		if (mouv == false) {
 			if(ground == null)
 				solsys.update(container, game, delta);
 			else

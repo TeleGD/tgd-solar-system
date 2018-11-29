@@ -17,6 +17,9 @@ public class Ground {
 	private int x_origin;	//Abscisse du coin supérieur gauche
 	private int y_origin;	//Ordonnée du coin supérieur gauche
 	private Image image;
+	private Air air;
+	private Orbital orbital;
+	private int radius = 300;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -27,6 +30,10 @@ public class Ground {
 		double half_width = planet.getRadius()/Math.sqrt(2);
 		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) );
 		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) );
+		
+		this.air = new Air(2,(int)(5.0/4)*radius);
+		this.orbital=new Satellite(20,0,100,100,0.3, 200);
+		air.addOrbital(orbital);
 		
 		try{
 			this.image = new Image(planet.getNomImage());
@@ -43,7 +50,11 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
-		//carre rouge pour revenir 
+		// affichage du satellite
+		context.setColor(Color.red);
+		context.fillRect(0,50,20,20);
+		air.render(container, game, context);
+		// carre rouge pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
 	}
@@ -54,6 +65,7 @@ public class Ground {
 				c.update(container, game, delta);
 			}
 		}
+		air.update(container, game, delta);
 	}
 	
 	
