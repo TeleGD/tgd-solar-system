@@ -71,7 +71,7 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		if (!mouv ) {
+		if (!mouv) {
 			mouv = true;
 		} else if (!planetTouched) {
 			if(ground == null)
