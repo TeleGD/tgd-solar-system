@@ -61,7 +61,7 @@ public class Planet {
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		angle+=(float)0.1*delta/periode;
+		angle+=(float)delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
 		air.update(container, game, delta);
