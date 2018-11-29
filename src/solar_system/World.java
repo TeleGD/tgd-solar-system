@@ -21,6 +21,7 @@ public class World extends BasicGameState {
 	private Solsys solsys;
 	private Player player;
 	private boolean mouv;
+	private boolean planetTouched;
 	private Image image;
 	
 	public World (int ID) {
@@ -39,6 +40,7 @@ public class World extends BasicGameState {
 		this.width = container.getWidth ();
 		this.height = container.getHeight ();
 		 System.out.println(width + "" + height);
+		
 	}
 
 	@Override
@@ -69,7 +71,9 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		if (mouv == false) {
+		if (!mouv) {
+			mouv = true;
+		} else if (!planetTouched) {
 			if(ground == null)
 				solsys.update(container, game, delta);
 			else
@@ -93,6 +97,8 @@ public class World extends BasicGameState {
 		this.solsys= new Solsys(5,this);
 		this.player= new Player(this);
 		this.ground = null;
+		this.mouv = true;
+		this.planetTouched = false;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
@@ -126,7 +132,7 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		Ground tempGround = solsys.planetTouched(arg0, x, y);
+		Ground tempGround = solsys.planetTouched(x, y);
 		if(tempGround!= null)
 			ground = tempGround;
 		if (ground!=null) {
@@ -136,9 +142,8 @@ public class World extends BasicGameState {
 		}
 	}
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
-		mouv = (oldX!=newX && oldY!=newY); 
-	
-		
+		mouv = false;
+		planetTouched = solsys.planetTouched(newX, newY) != null;
 	}
 }
 
