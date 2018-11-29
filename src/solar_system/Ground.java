@@ -43,6 +43,7 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
+		//carre rouge pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
 	}

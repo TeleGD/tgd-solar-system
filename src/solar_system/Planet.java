@@ -55,13 +55,13 @@ public class Planet {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
+		this.image=image.getScaledCopy(radius*2,radius*2);
 		this.ground = new Ground(this, world);
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		angle+=(float)delta/periode;
+		angle+=(float)0.1*delta/periode;
 		posx=(float)Math.cos((double)angle)*distance;
 		posy=(float)Math.sin((double)angle)*distance;
 		air.update(container, game, delta);
@@ -70,8 +70,9 @@ public class Planet {
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		context.setColor(color);
-		context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
+		context.drawImage(image,posx+world.getWidth()/2-radius,posy+world.getHeight()/2-radius);
+		//context.setColor(color);
+		//context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
 		air.render(container, game, context);
 		}
 	
