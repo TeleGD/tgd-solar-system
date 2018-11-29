@@ -84,7 +84,7 @@ public class Planet {
 		return radius;
 	}
 	
-	public 	float getPosX() {
+	public float getPosX() {
 		return posx;
 	}
 	

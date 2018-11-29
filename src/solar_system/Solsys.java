@@ -42,7 +42,7 @@ public class Solsys {
 		}
 	}
 	
-	public Ground planetTouched(int arg0, int x, int y) 
+	public Ground planetTouched(int x, int y) 
 	{
 		for(Planet p : planets) {
 			if(Math.hypot(x-p.getPosX()-world.getWidth()/2, y-p.getPosY()-world.getHeight()/2) < p.getRadius()) {
