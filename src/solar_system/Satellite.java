@@ -10,9 +10,7 @@ public class Satellite extends Orbital{
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta, Orbital o, int orbitalSize, int i) {
-		// TODO Auto-generated method stub
-		super.update(container, game, delta, o, orbitalSize, i);
-		
+	public void update(GameContainer container, StateBasedGame game, int delta, int orbitalSize, int i) {
+		super.update(container, game, delta, orbitalSize, i);
 	}
 }

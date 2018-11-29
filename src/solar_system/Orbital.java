@@ -24,10 +24,10 @@ public abstract class Orbital extends Construction {
 		context.fillOval(posX*1f, posY*1f, size * 2, size * 2);
 	}
 	
-	public void update (GameContainer container, StateBasedGame game, int delta, Orbital o, int orbitals_size, int i) {
-		angle += delta*o.getSpeed()%(2*Math.PI);
-		o.set_X((int)(container.getWidth()/2+size*Math.cos(angle)));
-		o.set_Y((int)(container.getHeight()/2-size*Math.sin(angle)));
+	public void update (GameContainer container, StateBasedGame game, int delta, int orbitals_size, int i) {
+		angle += delta*this.getSpeed()%(2*Math.PI);
+		this.set_X((int)(container.getWidth()/2+size*Math.cos(angle)));
+		this.set_Y((int)(container.getHeight()/2-size*Math.sin(angle)));
 		//System.out.println("X : "+ posX + " Y : "+ posY);
 	}
 	
