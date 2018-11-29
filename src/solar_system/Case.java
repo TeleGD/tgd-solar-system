@@ -42,13 +42,14 @@ public class Case {
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
+		
 		if(resource != null){
-			context.setColor(new Color(255, 0, 0, 127));
+			context.setColor(new Color(0, 0, 0, 127));
 		}
 		else{
-			context.setColor(new Color(0, 0, 255, 127));
+			context.setColor(new Color(0, 0, 0, 127));
 		}
-		context.fillRect(x, y, size, size);
+		context.drawRect(x, y, size, size);
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {

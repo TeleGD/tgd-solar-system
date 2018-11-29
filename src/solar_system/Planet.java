@@ -44,7 +44,7 @@ public class Planet {
 		posy=(float)Math.sin((double)angle)*distance;
 		
 		Random rnd = new Random();
-		this.nomImage = "res/images/planets/"+rnd.nextInt(4)+".png";
+		this.nomImage = "res/images/planets/"+rnd.nextInt(6)+".png";
 		try{
 			this.image = new Image(nomImage);
 		} catch (SlickException e) {

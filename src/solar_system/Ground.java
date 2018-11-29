@@ -17,19 +17,21 @@ public class Ground {
 	private int x_origin;	//Abscisse du coin supérieur gauche
 	private int y_origin;	//Ordonnée du coin supérieur gauche
 	private Image image;
+	private int radius;
 	private Air air;
 	private Orbital orbital;
-	private int radius = 300;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
 		this.planet = planet;
 		this.world = world;
-		generateCases();
+		this.radius = (int) Math.floor(this.planet.getRadius()*8.1);
 		// Calcul du coin haut-gauche de la zone d'affichage (pour l'instant un carré) des cases
-		double half_width = planet.getRadius()/Math.sqrt(2);
-		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) );
-		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) );
+		double half_width = radius/Math.sqrt(2)*world.getHeight()/1080;
+		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) ) + 7;
+		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) ) + 7;
+		
+		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
 		this.orbital=new Satellite(20,0,100,100,0.3, 50);
@@ -44,7 +46,8 @@ public class Ground {
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		context.drawImage(image,5,5);
+		
+		context.drawImage(image, container.getWidth()/2-radius*world.getHeight()/1080, container.getHeight()/2-radius*world.getHeight()/1080, container.getWidth()/2+radius*world.getHeight()/1080, container.getHeight()/2+radius*world.getHeight()/1080, 0, 0, image.getWidth()-1, image.getWidth()-1);
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.render(container, game, context);
@@ -77,13 +80,13 @@ public class Ground {
 		int resourceQuantity = 0;
 		
 		// Nombre de cases en longueur :
-		int n = (int) Math.floor(Math.sqrt(2 * planet.getRadius())/ sizeCase);
+		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius + 14) / (float) sizeCase);
 		
 		this.cases = new Case[n][n];
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				cases[i][j] = new Case(x_origin + i*sizeCase, y_origin + j*sizeCase, sizeCase, resource, resourceQuantity);
+				cases[i][j] = new Case(x_origin + i*sizeCase*world.getHeight()/1080, y_origin + j*sizeCase*world.getHeight()/1080, sizeCase*world.getHeight()/1080, resource, resourceQuantity);
 			}
 		}
 	}
