@@ -49,7 +49,7 @@ public class Planet {
 		air.addOrbital(orbital);
 		
 		Random rnd = new Random();
-		this.nomImage = "res/images/planets/"+rnd.nextInt(4)+".png";
+		this.nomImage = "res/images/planets/"+rnd.nextInt(6)+".png";
 		try{
 			this.image = new Image(nomImage);
 		} catch (SlickException e) {
