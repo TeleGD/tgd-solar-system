@@ -49,9 +49,13 @@ public class Resource {
 	public String imagePath(String name) {
 		String path = null;
 		switch (name) {
-			case "Fer": path = "res/resources/fer_minerais.png";
-			case "Bois": path = "res/resources/Bois.png";
-			case "Cailloux": path = "res/resources/cailloux.png";
+			case "Fer": path = "res/images/resources/fer_minerai.png";
+				break;
+			case "Bois": path = "res/images/resources/Bois.png";
+				break;
+			case "Cailloux": path = "res/images/resources/cailloux.png";
+				break;
+			default : path = "res/images/resources/cailloux.png";
 			//case "Noyaux Linux": path = "res/resources/";
 		}
 		return path;
