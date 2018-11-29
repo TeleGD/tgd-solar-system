@@ -23,7 +23,7 @@ public class Air {
 	}
 	
 	public void addOrbital(Orbital o) {
-		if (orbitals.size()<nbOrbitaux) {
+		if (orbitals.size() < nbOrbitaux) {
 			orbitals.add(o);
 		}
 		else

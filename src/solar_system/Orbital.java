@@ -10,11 +10,13 @@ import org.newdawn.slick.state.StateBasedGame;
 public abstract class Orbital extends Construction {
 	private double speed;
 	private float size;
+	private double angle;
 	
 	public Orbital(int lifeMax, int cout,int posX,int posY, double speed, double size) {
 		super(lifeMax, cout, posX, posY,new Case(posX, posY, 80, new Resource("Fer"), 12));
 		this.speed=0.3;
 		this.size = (float) size;
+		this.angle = 0;
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context){
@@ -23,8 +25,9 @@ public abstract class Orbital extends Construction {
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta, Orbital o, int orbitals_size, int i) {
-		o.set_X((int)(container.getWidth()/2+Math.cos(2*i*Math.PI/orbitals_size)*Math.cos(delta*o.getSpeed())));
-		o.set_Y((int)(container.getHeight()/2-Math.sin(2*i*Math.PI/orbitals_size)*Math.sin(delta*o.getSpeed())));
+		angle += delta*o.getSpeed()%(2*Math.PI);
+		o.set_X((int)(container.getWidth()/2+size*Math.cos(angle)));
+		o.set_Y((int)(container.getHeight()/2-size*Math.sin(angle)));
 		//System.out.println("X : "+ posX + " Y : "+ posY);
 	}
 	

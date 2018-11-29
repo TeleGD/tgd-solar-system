@@ -32,7 +32,7 @@ public class Ground {
 		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) );
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
-		this.orbital=new Satellite(20,0,100,100,0.3, 200);
+		this.orbital=new Satellite(20,0,100,100,0.3, 50);
 		air.addOrbital(orbital);
 		
 		try{
