@@ -18,7 +18,7 @@ public abstract class Orbital extends Construction {
 		this.speed=0.001;
 		this.size = (float) size;
 		this.angle = 0;
-		this.distance = distance;
+		this.distance = distance+(int)size;
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan){
