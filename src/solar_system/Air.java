@@ -31,16 +31,16 @@ public class Air {
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		int i = 0;
+		//int i = 0;
 		for (Orbital o : orbitals) {
 			o.update(container, game, delta);
-			i++;
+			//i++;
 		}
 	}
 	
-	public void render (GameContainer container, StateBasedGame game, Graphics context) {
+	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan) {
 		for (Orbital o : orbitals) {
-			o.render(container, game, context);
+			o.render(container, game, context, arrierePlan);
 		}
 	}
 }

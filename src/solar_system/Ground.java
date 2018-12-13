@@ -19,7 +19,6 @@ public class Ground {
 	private Image image;
 	private int radius;
 	private Air air;
-	private Orbital orbital;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -34,8 +33,7 @@ public class Ground {
 		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
-		this.orbital=new Satellite(20,0,100,100,0.3, 50);
-		air.addOrbital(orbital);
+		air.addOrbital(new Satellite(20,0,100,100,0.3, 50,(int)(5.0/4)*radius ));
 		
 		try{
 			this.image = new Image(planet.getNomImage());
@@ -47,16 +45,15 @@ public class Ground {
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
+		// Cette fonction contient deux fois "air.render()" : c'est normal (cf définition de air.render())
+		air.render(container, game, context, true);
 		context.drawImage(image, container.getWidth()/2-radius*world.getHeight()/1080, container.getHeight()/2-radius*world.getHeight()/1080, container.getWidth()/2+radius*world.getHeight()/1080, container.getHeight()/2+radius*world.getHeight()/1080, 0, 0, image.getWidth()-1, image.getWidth()-1);
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.render(container, game, context);
 			}
 		}
-		// affichage du satellite
-		context.setColor(Color.red);
-		context.fillRect(0,50,20,20);
-		air.render(container, game, context);
+		air.render(container, game, context, false);
 		// carre rouge pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
