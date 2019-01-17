@@ -23,10 +23,12 @@ public class World extends BasicGameState {
 	private boolean mouv;
 	private boolean planetTouched;
 	private Image image;
+	private boolean dispRessources;
 	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
+		this.dispRessources = false;
 	}
 
 	@Override
@@ -129,6 +131,10 @@ public class World extends BasicGameState {
 		return height;
 	}
 	
+	public boolean getDispRessources(){
+		return dispRessources;
+	}
+	
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
@@ -139,8 +145,18 @@ public class World extends BasicGameState {
 			if (ground.mousePressed(arg0,x,y)) {
 				ground=null;
 			}
+			if (player.mousePressed(arg0,x,y)){
+				if(dispRessources){
+					dispRessources=false;
+				}
+				else{
+					dispRessources=true;
+				}
+			}
 		}
 	}
+	
+	
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
 		mouv = false;
 		planetTouched = solsys.planetTouched(newX, newY) != null;
