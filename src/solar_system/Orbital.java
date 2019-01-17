@@ -10,21 +10,28 @@ import org.newdawn.slick.state.StateBasedGame;
 public abstract class Orbital extends Construction {
 	private double speed;
 	private float size;
+	private double angle;
+	private int distance;
 	
-	public Orbital(int lifeMax, int cout,int posX,int posY, double speed, double size) {
+	public Orbital(int lifeMax, int cout,int posX,int posY, double speed, double size, int distance) {
 		super(lifeMax, cout, posX, posY,new Case(posX, posY, 80, new Resource("Fer"), 12));
-		this.speed=0.3;
+		this.speed=0.001;
 		this.size = (float) size;
+		this.angle = 0;
+		this.distance = distance+(int)size;
 	}
 	
-	public void render (GameContainer container, StateBasedGame game, Graphics context){
+	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan){
+		if ( (arrierePlan && Math.sin(angle)>0)  ||   (!(arrierePlan) && !(Math.sin(angle)>0)) ) {
 		context.setColor(Color.blue);
 		context.fillOval(posX*1f, posY*1f, size * 2, size * 2);
+		}
 	}
 	
-	public void update (GameContainer container, StateBasedGame game, int delta, Orbital o, int orbitals_size, int i) {
-		o.set_X((int)(container.getWidth()/2+Math.cos(2*i*Math.PI/orbitals_size)*Math.cos(delta*o.getSpeed())));
-		o.set_Y((int)(container.getHeight()/2-Math.sin(2*i*Math.PI/orbitals_size)*Math.sin(delta*o.getSpeed())));
+	public void update (GameContainer container, StateBasedGame game, int delta  /* , int orbitals_size, int i */ ) {
+		angle += delta*this.getSpeed()%(2*Math.PI);
+		this.set_X((int)(container.getWidth()/2+distance*Math.cos(angle)));
+		this.set_Y((int)(container.getHeight()/2-distance*Math.sin(angle)/2));
 		//System.out.println("X : "+ posX + " Y : "+ posY);
 	}
 	
