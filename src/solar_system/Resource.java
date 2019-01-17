@@ -42,8 +42,12 @@ public class Resource {
 		return quantite;
 	}
 	
+	public Image getImage () {
+		return image;
+	}
+	
 	public void render() {
-		//TODO
+		//TODO wtf non !
 	}
 	
 	public String imagePath(String name) {
