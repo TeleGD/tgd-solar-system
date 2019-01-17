@@ -92,4 +92,8 @@ public class Ground {
 		
 		return (x<20 && x>0 && y<70 && y>50);
 	}
+	
+	public void clickGround(int x, int y) {
+		
+	}
 }

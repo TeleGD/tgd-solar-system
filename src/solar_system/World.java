@@ -133,6 +133,7 @@ public class World extends BasicGameState {
 			if (ground.mousePressed(arg0,x,y)) {
 				ground=null;
 			}
+			ground.clickGround(x,y);
 		}
 	}
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
