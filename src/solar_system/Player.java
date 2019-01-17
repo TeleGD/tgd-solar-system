@@ -14,6 +14,7 @@ public class Player {
 	private int [] technologie = new int[2];
 	private List<Planet> knownPlanets;
 	private int DiscoveredPlanet;
+	
 	private World world;
 	
 	
@@ -33,7 +34,10 @@ public class Player {
 		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 			context.setColor(Color.white);
-			context.drawString(resource.getKey()+" : "+resource.getValue().getQuantite(), world.getWidth()*comp/size, world.getHeight()/40);//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
+			//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
+			context.drawString(resource.getKey()+" : "+(int)resource.getValue().getQuantite(), 50 + world.getWidth()*comp/size, world.getHeight()/40);
+			// affichage de l'image de la ressource "scaled"
+			context.drawImage(resource.getValue().getImage().getScaledCopy(40,40),world.getWidth()*comp/size,world.getHeight()/50);
 			comp+=1;
 		}
 		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
@@ -48,7 +52,7 @@ public class Player {
 	}
 	
 	public void initRessources(){
-			resources.put("Nourriture",new Resource("Nourriture"));
+			resources.put("Bois",new Resource("Bois"));
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));
 		}
@@ -56,7 +60,7 @@ public class Player {
 	public String resourcesToString(){
 		StringBuilder sb = new StringBuilder();
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
-			sb.append(resource.getKey()+" : "+resource.getValue().getQuantite()+"\n");
+			sb.append(resource.getKey()+" : "+(int)resource.getValue().getQuantite()+"\n");
 		}
 		return sb.toString();
 	}
