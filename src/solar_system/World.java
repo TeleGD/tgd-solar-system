@@ -132,7 +132,10 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		Ground tempGround = solsys.planetTouched(x, y);
+		Ground tempGround = null;
+		if (ground == null) {
+			tempGround = solsys.planetTouched(x, y);
+		}
 		if(tempGround!= null)
 			ground = tempGround;
 		if (ground!=null) {
@@ -141,6 +144,7 @@ public class World extends BasicGameState {
 			}
 		}
 	}
+	
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
 		mouv = false;
 		planetTouched = solsys.planetTouched(newX, newY) != null;
