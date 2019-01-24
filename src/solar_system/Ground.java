@@ -89,15 +89,26 @@ public class Ground {
 			}
 		}
 	}
-	public boolean mousePressed(int arg0,int x ,int y) {
-		//TODO verifier que le click est dans le carre
+	public boolean mousePressed(int arg0,int x ,int y) { 
+		// Gère les clics sur le Ground.
+		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
 		
-		// TODO : selectedCase = selectCase(x,y);
-		
-		if (x<20 && x>0 && y<70 && y>50) {
-			selectedCase = null;
+		if (x<20 && x>0 && y<70 && y>50) { // Clic sur le carré de retour.
+			selectedCase = null; // On désélectionne la case.
+			return(true);
 		}
-		return (x<20 && x>0 && y<70 && y>50);
+
+		return (false);
 		
+	}
+	
+	public Case selectCase(int x , int y){
+		// Retourne la case dans laquelle le point (x,y) est contenu. 
+		int renderedSize = sizeCase * world.getHeight()/1080;
+		if (y - y_origin < 0 || (y - y_origin)/renderedSize >= cases.length || x - x_origin < 0 || (x - x_origin)/renderedSize >= cases.length){
+			return (null); // Aucune case ne contient (x,y) !
+		}
+		else {
+			return (cases[(x - x_origin)/renderedSize][(y - y_origin)/renderedSize]);}
 	}
 }

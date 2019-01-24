@@ -21,6 +21,9 @@ public abstract class Construction {
 	protected HashMap<String, Resource> resourcesProduced;
 	public static HashMap<String, Resource> resourcesExploitable;
 	
+	static{
+		resourcesExploitable = new HashMap<>();
+	}
 	
 	public Construction(int lifeMax, int cout,int posX,int posY, Case tile) {
 		this.life = life;
@@ -38,6 +41,7 @@ public abstract class Construction {
 		Resource resOfCase = tile.getResource() ;
 		resourcesProduced.put(resOfCase.getName(), resOfCase);
 		debits = new HashMap<String,Double >();
+
 	}
 	
 	public void takeDamage(int damage) {	
