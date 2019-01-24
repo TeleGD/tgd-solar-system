@@ -89,7 +89,16 @@ public class Ground {
 	}
 	public boolean mousePressed(int arg0,int x ,int y) {
 		//TODO verifier que le click est dans le carre
-		
+
 		return (x<20 && x>0 && y<70 && y>50);
+	}
+	
+	public Case selectCase(int x , int y){
+		int renderedSize = sizeCase * world.getHeight()/1080;
+		if (y - y_origin < 0 || (y - y_origin)/renderedSize >= cases.length || x - x_origin < 0 || (x - x_origin)/renderedSize >= cases.length){
+			return (null);
+		}
+		else {
+			return (cases[(x - x_origin)/renderedSize][(y - y_origin)/renderedSize]);}
 	}
 }
