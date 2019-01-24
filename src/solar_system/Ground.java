@@ -52,7 +52,7 @@ public class Ground {
 		int x_bas_droite = this.x_origin+(int)(2*radius*facteur_magique);
 		int y_bas_droite = this.y_origin+(int)(2*radius*facteur_magique);
 		int taille_x = image.getWidth()-1;
-		int taille_y = image.getWidth()-1;
+		int taille_y = image.getHeight()-1;
 		context.drawImage(image, x_origin, y_origin, x_bas_droite, y_bas_droite, 0, 0, taille_x, taille_y);
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
