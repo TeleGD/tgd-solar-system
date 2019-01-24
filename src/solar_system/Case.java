@@ -1,11 +1,15 @@
 package solar_system;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import solar_system.constructions.Mine;
 
 public class Case {
 	private Resource resource;
@@ -82,6 +86,19 @@ public class Case {
 			resourceQuantity = 0;
 			return resourcePreleved;
 		}
+	}
+	
+	public ArrayList<String> infoConstruct(Case tile){
+		//Retourne les constructions faisables sur la case cliquée
+		
+		ArrayList<String> construPossible = new ArrayList<>();
+		
+		//Pour chaque nouvelle construction, ajouter un if comme ci-dessous
+		if(Mine.constructPossible(tile)){
+			construPossible.add("Mine");
+		}
+		
+		return construPossible;
 	}
 	
 	public double getResourceQuantity() {

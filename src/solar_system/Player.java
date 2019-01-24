@@ -51,7 +51,10 @@ public class Player {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+/////////////////////////////////////////////////////////////////////
+	//VA CHERCHER TES RESSOURCES TOI MEME !!! <3//
+/////////////////////////////////////////////////////////////////////
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		

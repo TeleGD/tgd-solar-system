@@ -44,7 +44,6 @@ public class Ground {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
@@ -118,5 +117,9 @@ public class Ground {
 		}
 		else {
 			return (cases[(x - x_origin)/renderedSize][(y - y_origin)/renderedSize]);}
+	}
+	
+	public void clickGround(int x, int y) {
+		
 	}
 }
