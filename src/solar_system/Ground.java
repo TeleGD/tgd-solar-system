@@ -42,7 +42,6 @@ public class Ground {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
