@@ -24,7 +24,7 @@ public abstract class Orbital extends Construction {
 	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan){
 		if ( (arrierePlan && Math.sin(angle)>0)  ||   (!(arrierePlan) && !(Math.sin(angle)>0)) ) {
 		context.setColor(Color.blue);
-		context.fillOval(posX*1f, posY*1f, size * 2, size * 2);
+		context.fillOval(posX*1f-size, posY*1f-size, size * 2, size * 2);
 		}
 	}
 	

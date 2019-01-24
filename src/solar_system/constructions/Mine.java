@@ -21,6 +21,7 @@ public class Mine extends Construction {
 //		this.image = Images.getConstruction("mine");
 		this.lifeMax=100;
 		this.life=lifeMax;
+		// this.debits.put("Fer", 5.0);
 	}
 }
 

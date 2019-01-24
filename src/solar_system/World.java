@@ -148,13 +148,13 @@ public class World extends BasicGameState {
 			if (ground.mousePressed(arg0,x,y)) {
 				ground=null;
 			}
-			if (player.mousePressed(arg0,x,y)){
-				if(dispRessources){
-					dispRessources=false;
-				}
-				else{
-					dispRessources=true;
-				}
+		}
+		if (player.mousePressed(arg0,x,y)){
+			if(dispRessources){
+				dispRessources=false;
+			}
+			else{
+				dispRessources=true;
 			}
 		}
 	}
