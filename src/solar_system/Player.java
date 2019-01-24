@@ -41,11 +41,18 @@ public class Player {
 			comp+=1;
 		}
 		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
-		context.drawString(resourcesToString(),world.getWidth()*size/(size+1) , world.getHeight()/20);
-		
+		if(world.getDispRessources()){
+			context.drawString(resourcesToString(),world.getWidth()*size/(size+1) , world.getHeight()/20);
+		}
 		
 	}
 	
+	private Object getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		
 		
@@ -69,7 +76,6 @@ public class Player {
 		return resources;
 	}
 	
-
 	public boolean mousePressed(int arg0,int x ,int y){
 		return (x<world.getWidth() && x>world.getWidth()*resources.size()/(resources.size()+1) && y<world.getHeight()/20 && y>0);
 	}
