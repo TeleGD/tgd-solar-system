@@ -13,6 +13,7 @@ public abstract class Construction {
 	protected int posX;
 	protected int posY;
 	protected String description;
+	protected String name;
 	protected int cout;
 	protected Map<String,Double> debits;
 	protected boolean destructed;
@@ -30,6 +31,7 @@ public abstract class Construction {
 		this.posX=posX;
 		this.posY=posY;
 		this.cout = cout;
+		this.name = "";
 		destructed = false;
 		
 		this.tile = tile;
@@ -59,9 +61,6 @@ public abstract class Construction {
 		}
 	}
 	
-	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		
-	}
 	public void isDead() {
 		if (life<=0) {
 			destructed=true;
@@ -74,6 +73,10 @@ public abstract class Construction {
 
 	public void setDetruit(boolean detruit) {
 		this.destructed = detruit;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 	public static boolean constructPossible(Case tileConstructLocation) {

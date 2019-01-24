@@ -34,7 +34,7 @@ public class Resource {
 		return true;
 	}
 	
-	public String getName () {
+	public String getName() {
 		return name;
 	}
 	

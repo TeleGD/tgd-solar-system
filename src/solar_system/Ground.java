@@ -74,7 +74,7 @@ public class Ground {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		//TODO : prendre une ressource aléatoire dans une liste
 		
-		Resource resource = new Resource("test");
+		Resource resource = new Resource("Fer");
 		int resourceQuantity = 0;
 		
 		// Nombre de cases en longueur :

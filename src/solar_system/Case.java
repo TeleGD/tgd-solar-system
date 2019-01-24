@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
@@ -34,11 +35,26 @@ public class Case {
 		this.resource = resource;
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
+		
+		if (this.resource==null){
+			this.backgroundImg = null;
+		} else {
+			try{
+				this.backgroundImg = new Image(resource.imagePath(resource.getName()));
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void setConstruction(Construction construction){
 		if(this.construction == null){
 			this.construction = construction;
+			try{
+				this.backgroundImg = new Image("res/images/constructions/"+construction.getName()+".png");
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		else{
 			System.out.println("Case déjà ocupé");
@@ -46,14 +62,12 @@ public class Case {
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		
-		if(resource != null){
-			context.setColor(new Color(0, 0, 0, 127));
-		}
-		else{
-			context.setColor(new Color(0, 0, 0, 127));
-		}
+
+		context.setColor(new Color(0, 0, 0, 127));
 		context.drawRect(x, y, size, size);
+		if(backgroundImg != null){
+			context.drawImage(backgroundImg.getScaledCopy(size,size),x,y);
+		}
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
