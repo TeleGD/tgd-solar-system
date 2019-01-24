@@ -19,16 +19,18 @@ public class Ground {
 	private Image image;
 	private int radius;
 	private Air air;
+	private int facteur_magique;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
 		this.planet = planet;
 		this.world = world;
 		this.radius = (int) Math.floor(this.planet.getRadius()*8.1);
-		// Calcul du coin haut-gauche de la zone d'affichage (pour l'instant un carré) des cases
-		double half_width = radius/Math.sqrt(2)*world.getHeight()/1080;
-		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) ) + 7;
-		this.y_origin =  (int) (world.getHeight()/2 - Math.floor(half_width) ) + 7;
+		// Origine de la planète (toutes les longueurs sont multipliées par un certain facteur,
+		// le facteur magique.)
+		this.facteur_magique = world.getHeight()/1080;
+		this.x_origin = world.getWidth()/2 - radius*facteur_magique;
+		this.y_origin = world.getHeight()/2 - radius*facteur_magique;
 		
 		generateCases();
 		
@@ -47,7 +49,13 @@ public class Ground {
 		
 		// Cette fonction contient deux fois "air.render()" : c'est normal (cf définition de air.render())
 		air.render(container, game, context, true);
-		context.drawImage(image, container.getWidth()/2-radius*world.getHeight()/1080, container.getHeight()/2-radius*world.getHeight()/1080, container.getWidth()/2+radius*world.getHeight()/1080, container.getHeight()/2+radius*world.getHeight()/1080, 0, 0, image.getWidth()-1, image.getWidth()-1);
+		int x_origine = this.x_origin;
+		int y_origine = this.y_origin;
+		int x_bas_droite = this.x_origin+2*facteur_magique;
+		int y_bas_droite = this.y_origin+2*facteur_magique;
+		int taille_x = image.getWidth()-1;
+		int taille_y = image.getWidth()-1;
+		context.drawImage(image, x_origine, y_origine, x_bas_droite, y_bas_droite, 0, 0, taille_x, taille_y);
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.render(container, game, context);
@@ -77,13 +85,15 @@ public class Ground {
 		int resourceQuantity = 0;
 		
 		// Nombre de cases en longueur :
-		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius + 14) / (float) sizeCase);
+		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
 		
 		this.cases = new Case[n][n];
+		// padding = marge intérieure (distance entre la grille et le bord de l'image)
+		int padding = (radius*2-n*sizeCase)*facteur_magique/2;
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				cases[i][j] = new Case(x_origin + i*sizeCase*world.getHeight()/1080, y_origin + j*sizeCase*world.getHeight()/1080, sizeCase*world.getHeight()/1080, resource, resourceQuantity);
+				cases[i][j] = new Case(x_origin+padding+i*sizeCase*facteur_magique, y_origin+padding+j*sizeCase*facteur_magique, sizeCase*facteur_magique, resource, resourceQuantity);
 			}
 		}
 	}
