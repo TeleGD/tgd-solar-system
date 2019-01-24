@@ -163,5 +163,9 @@ public class World extends BasicGameState {
 		mouv = false;
 		planetTouched = solsys.planetTouched(newX, newY) != null;
 	}
+
+	public Ground getGround() {//pour récupérer les infos du ground dans le player
+		return ground;
+	}
 }
 
