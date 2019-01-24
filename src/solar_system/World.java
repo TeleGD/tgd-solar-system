@@ -148,7 +148,6 @@ public class World extends BasicGameState {
 			if (ground.mousePressed(arg0,x,y)) {
 				ground=null;
 			}
-			ground.clickGround(x,y);
 		}
 		if (player.mousePressed(arg0,x,y)){
 			if(dispRessources){
