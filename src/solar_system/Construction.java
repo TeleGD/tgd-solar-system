@@ -46,13 +46,12 @@ public abstract class Construction {
 		for( Map.Entry<String , Resource> resource : resourcesProduced.entrySet())
 		{
 			Resource res = (Resource) resource.getValue();
-			//TODO : Initialiser debit un jour !
-			/*double qtiteAjoutee = (double)delta*debits.get(res.getName());			
+			double qtiteAjoutee = (double)delta*debits.get(res.getName());			
 
 			if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
 				qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
 			}
-			res.modifQuantite(qtiteAjoutee);*/
+			res.modifQuantite(qtiteAjoutee);
 		}
 	}
 	

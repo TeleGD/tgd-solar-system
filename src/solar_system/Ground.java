@@ -19,12 +19,14 @@ public class Ground {
 	private Image image;
 	private int radius;
 	private Air air;
+	private Case selectedCase;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
 		this.planet = planet;
 		this.world = world;
 		this.radius = (int) Math.floor(this.planet.getRadius()*8.1);
+		this.selectedCase = null;
 		// Calcul du coin haut-gauche de la zone d'affichage (pour l'instant un carré) des cases
 		double half_width = radius/Math.sqrt(2)*world.getHeight()/1080;
 		this.x_origin =  (int) (world.getWidth()/2 - Math.floor(half_width) ) + 7;
@@ -90,6 +92,12 @@ public class Ground {
 	public boolean mousePressed(int arg0,int x ,int y) {
 		//TODO verifier que le click est dans le carre
 		
+		// TODO : selectedCase = selectCase(x,y);
+		
+		if (x<20 && x>0 && y<70 && y>50) {
+			selectedCase = null;
+		}
 		return (x<20 && x>0 && y<70 && y>50);
+		
 	}
 }
