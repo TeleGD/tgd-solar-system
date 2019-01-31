@@ -23,7 +23,7 @@ public class Solsys {
 		}
 	}
 	
-	public void addPlanet(Planet p) {
+	public void addPlanet(Planet p) {  // ATTENTION  : techniquement, il est possible d'avoir un système solaire SANS AUCUNE planète
 		if (planets.size()<nbPlanet) 
 			planets.add(p);
 	}

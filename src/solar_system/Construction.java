@@ -25,12 +25,10 @@ public abstract class Construction {
 		resourcesExploitable = new HashMap<>();
 	}
 	
-	public Construction(int lifeMax, int cout,int posX,int posY, Case tile) {
-		this.life = life;
-		this.lifeMax = life;
-		this.posX=posX;
-		this.posY=posY;
-		this.cout = cout;
+	public Construction(Case tile) {
+		this.lifeMax = 100;
+		this.life = lifeMax;
+		this.cout = 50; // Utile ?
 		this.name = "";
 		destructed = false;
 		

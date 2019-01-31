@@ -21,9 +21,10 @@ public class Mine extends Construction {
         resourcesExploitable.put("Fer",new Resource("Fer"));
 	}
 	
-	public Mine (int lifeMax, int cout,int posX,int posY, Case tile){
-		super(lifeMax, cout, posX, posY, tile);
-//		this.image = Images.getConstruction("mine");
+	public Mine (Case tile){
+		super(tile);
+		this.posX=tile.getX();
+		this.posY=tile.getY();
 		this.lifeMax=100;
 		this.life=lifeMax;
 		this.debits.put("Fer", 5.0);

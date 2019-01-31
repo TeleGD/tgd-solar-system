@@ -50,11 +50,6 @@ public class Case {
 	public void setConstruction(Construction construction){
 		if(this.construction == null){
 			this.construction = construction;
-			try{
-				this.backgroundImg = new Image("res/images/constructions/"+construction.getName()+".png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
 		}
 		else{
 			System.out.println("Case déjà ocupé");
@@ -68,6 +63,12 @@ public class Case {
 		if(backgroundImg != null){
 			context.drawImage(backgroundImg.getScaledCopy(size,size),x,y);
 		}
+	}
+
+	public void renderHighlighted (GameContainer container, StateBasedGame game, Graphics context) {
+		context.setColor(new Color(127, 0, 0, 127));
+		context.drawRect(x, y, size, size);
+		context.drawRect(x+1, y+1, size-2, size-2);
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -101,12 +102,20 @@ public class Case {
 		return construPossible;
 	}
 	
+	public void setBackground(Image img) {
+		 backgroundImg = img;
+	}
+	
 	public double getResourceQuantity() {
 		return resourceQuantity;
 	}
 	
 	public Resource getResource(){
 		return resource;
+	}
+	
+	public Construction getConstruction(){
+		return construction;
 	}
 	
 	public void setResource(Resource r){
