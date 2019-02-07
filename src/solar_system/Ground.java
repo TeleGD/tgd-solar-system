@@ -2,6 +2,7 @@ package solar_system;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -101,7 +102,7 @@ public class Ground {
 			selectedCase.renderHighlighted (container, game, context);
 		}
 		// Affichage du Menu des constructions
-		if (menuConstruction) {
+		if (selectedCase != null) {
 			if (selectedCase.getConstruction() == null) {
 				coinMenuX = (int)(0.8*world.getWidth());
 				coinMenuY = (int)(0.1*world.getHeight());
@@ -113,7 +114,21 @@ public class Ground {
 					N_image++;
 				}
 			} else {
-				
+				coinMenuY = world.getHeight()-24*3;
+				Construction c = selectedCase.getConstruction();
+				context.setColor(Color.white);
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), coinMenuX, coinMenuY);
+				coinMenuY += 24;
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
+				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinMenuX, coinMenuY);
+				String les_debits = "";
+				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
+					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
+				}
+				coinMenuY += 24;
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
+				context.drawString(les_debits, coinMenuX, coinMenuY);
 			}
 		}
 	}
