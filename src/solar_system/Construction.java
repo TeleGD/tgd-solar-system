@@ -14,18 +14,16 @@ public abstract class Construction {
 	protected int posY;
 	protected String description;
 	protected String name;
-	protected int cout;
+	protected HashMap<String, Double> cout;
 	protected Map<String,Double> debits;
 	protected boolean destructed;
 	protected Case tile;
 	protected HashMap<String, Resource> resourcesProduced;
-	public static HashMap<String, Resource> resourcesExploitable;
-	
 	
 	public Construction(Case tile) {
 		this.lifeMax = 100;
 		this.life = lifeMax;
-		this.cout = 50; // Utile ?
+		this.cout = new HashMap<String, Double>(); // Utile ?
 		this.name = "";
 		destructed = false;
 		
@@ -54,6 +52,15 @@ public abstract class Construction {
 		}
 	}
 	
+	public boolean playerCanConstruct(Player player){
+		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
+			if(player.getResource(costEntry.getKey()).getQuantite() < costEntry.getValue()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void isDead() {
 		if (life<=0) {
 			destructed=true;
@@ -72,9 +79,6 @@ public abstract class Construction {
 		return name;
 	}
 	
-	public static boolean constructPossible(Case tileConstructLocation) {
-		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
-	}
 	
 }
 

@@ -2,6 +2,7 @@ package solar_system;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -10,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 
 public class Ground {
@@ -88,12 +90,31 @@ public class Ground {
 			selectedCase.renderHighlighted (container, game, context);
 		}
 		// Affichage du Menu des constructions
-		if (menuConstruction) {
-			coinMenuX = (int)(0.8*world.getWidth());
-			coinMenuY = (int)(0.1*world.getHeight());
-			renderMenuConstruct(container, game, context);
+
+		if (selectedCase != null) {
+			if (selectedCase.getConstruction() == null) {
+				coinMenuX = (int)(0.8*world.getWidth());
+				coinMenuY = (int)(0.1*world.getHeight());
+				renderMenuConstruct(container, game, context);
+			} else {
+				coinMenuY = world.getHeight()-24*3;
+				Construction c = selectedCase.getConstruction();
+				context.setColor(Color.white);
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), coinMenuX, coinMenuY);
+				coinMenuY += 24;
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
+				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinMenuX, coinMenuY);
+				String les_debits = "";
+				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
+					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
+				}
+				coinMenuY += 24;
+				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
+				context.drawString(les_debits, coinMenuX, coinMenuY);
+			}
+
 		}
-		
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -130,16 +151,18 @@ public class Ground {
 	public Construction nameToConst (String name, Case tile) {
 		if(name=="Mine"){
 			return new Mine(tile);
-		} else {
-			return null;  //  TODO :    !!!    new Ferme(tile);    !!!
 		}
+		if(name=="Ferme"){
+			return new Ferme(tile);
+		}
+		return null;
 	}
 	
 	public boolean mousePressed(int arg0,int x ,int y) { 
 		// Gère les clics sur le Ground.
 		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
-			
+
 			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
 				
 				int number = (y-coinMenuY)/imageConstructSize;

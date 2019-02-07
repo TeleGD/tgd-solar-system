@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
+import solar_system.constructions.Ferme;
 
 public class Case {
 	private Resource resource;
@@ -100,6 +101,10 @@ public class Case {
 		ArrayList<String> construPossible = new ArrayList<>();
 		
 		construPossible.add("Mine");
+		
+		if(Ferme.constructPossible(tile)){
+			construPossible.add("Ferme");
+		}
 		
 		return construPossible;
 	}
