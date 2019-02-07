@@ -17,7 +17,7 @@ public class Mine extends Construction {
 	public static HashMap<String, Resource> resourcesExploitable ; //TODO Initialiser la HashMap (la même que dans Construction) avec la liste des ressources exploitables par une mine
 	static 
 	{
-		resourcesExploitable = new HashMap<String, Resource>();
+		resourcesExploitable = new HashMap<>();
         resourcesExploitable.put("Fer",new Resource("Fer"));
 	}
 	
@@ -27,7 +27,7 @@ public class Mine extends Construction {
 		this.posY=tile.getY();
 		this.lifeMax=100;
 		this.life=lifeMax;
-		this.debits.put("Fer", 5.0);
+		this.debits.put("Fer", 0.2);
 		this.name = "Mine";
 	}
 	

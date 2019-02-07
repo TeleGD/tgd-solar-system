@@ -112,6 +112,8 @@ public class Ground {
 					context.drawImage(img, coinMenuX, coinMenuY+(N_image-1)*200, coinMenuX+200, coinMenuY+N_image*200, 0, 0, taille_x, taille_y);
 					N_image++;
 				}
+			} else {
+				
 			}
 		}
 	}
@@ -130,8 +132,8 @@ public class Ground {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		//TODO : prendre une ressource aléatoire dans une liste
 		
-		Resource resource = new Resource("Fer");
-		int resourceQuantity = 0;
+		Resource resource = world.getPlayer().getResource("Fer");
+		int resourceQuantity = 3000;
 		
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);

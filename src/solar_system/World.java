@@ -96,8 +96,8 @@ public class World extends BasicGameState {
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
-		this.solsys= new Solsys(5,this);
 		this.player= new Player(this);
+		this.solsys= new Solsys(5,this);
 		this.ground = null;
 		this.mouv = true;
 		this.planetTouched = false;
@@ -133,6 +133,10 @@ public class World extends BasicGameState {
 	
 	public boolean getDispRessources(){
 		return dispRessources;
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	@Override
