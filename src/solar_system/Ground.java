@@ -29,7 +29,9 @@ public class Ground {
 	private boolean menuConstruction;
 	private int coinMenuX;
 	private int coinMenuY;
-	private List<Image> imagesConstructions;  // doit contenir les images de toutes les constructions du jeu (pour le menu des constructions).
+	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
+	private List<String> constructionsPossibles;
+	private List<Image> imagesConstructions;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -45,21 +47,7 @@ public class Ground {
 		menuConstruction = false;
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
-		imagesConstructions = new ArrayList<Image>();
-
-		// on stocke temporairement dans 'image' les images des constructions à ajouter à la liste.
-		try{   // Image de la Mine
-			this.image = new Image("res/images/constructions/Mine.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		imagesConstructions.add(image);
-		try{  // Image de la Ferme
-			this.image = new Image("res/images/constructions/Ferme.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		imagesConstructions.add(image);
+		imageConstructSize = 150;
 		
 		generateCases();
 		
@@ -103,13 +91,7 @@ public class Ground {
 		if (menuConstruction) {
 			coinMenuX = (int)(0.8*world.getWidth());
 			coinMenuY = (int)(0.1*world.getHeight());
-			int N_image = 1;
-			for(Image img : imagesConstructions) {
-				taille_x = img.getWidth()-1;
-				taille_y = img.getHeight()-1;
-				context.drawImage(img, coinMenuX, coinMenuY+(N_image-1)*200, coinMenuX+200, coinMenuY+N_image*200, 0, 0, taille_x, taille_y);
-				N_image++;
-			}
+			renderMenuConstruct(container, game, context);
 		}
 		
 	}
@@ -144,24 +126,47 @@ public class Ground {
 			}
 		}
 	}
+	
+	public Construction nameToConst (String name, Case tile) {
+		if(name=="Mine"){
+			return new Mine(tile);
+		} else {
+			return null;  //  TODO :    !!!    new Ferme(tile);    !!!
+		}
+	}
+	
 	public boolean mousePressed(int arg0,int x ,int y) { 
 		// Gère les clics sur le Ground.
 		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
 			
-			if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY && y<coinMenuY+200) { // Clic sur la Mine
-				selectedCase.setConstruction( new Mine(selectedCase) );
-				selectedCase.setBackground(imagesConstructions.get(0));  // Actuellement, on peut changer l'image sur une case.
-				// TODO : il faudra intégrer le changement d'image à la construction du bâtiment. Cela n'a pas été fait ici car la construction du bâtiment est Bugée.
-			}
-			if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY+200 && y<coinMenuY+400) { // Clic sur la deuxième construction
-				//TODO : penser à IMPORTER la classe de la construction voulue.
-				// selectedCase.setConstruction( new Ferme(selectedCase) );
-				selectedCase.setBackground(imagesConstructions.get(1));
+			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
+				
+				int number = (y-coinMenuY)/imageConstructSize;
+				String construct = construcRequested(number);
+				if (construct != "") {
+					selectedCase.setConstruction( nameToConst(construct, selectedCase) );
+					selectedCase.setBackground(getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+				}
 			}
 		}
 
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
+        
+		if(selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
+			Image imageTemp;
+			constructionsPossibles = selectedCase.infoConstruct(selectedCase);
+			imagesConstructions = new ArrayList<Image>();
+			
+			for (int i=0; i<constructionsPossibles.size(); i++) {
+				try{
+					imageTemp = new Image("res/images/constructions/"+constructionsPossibles.get(i)+".png");
+					imagesConstructions.add( imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ); // on met toutes les images à la même taille (et carrées)
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		if (selectedCase != null) {
 			if(selectedCase.getConstruction()==null) {
@@ -190,5 +195,33 @@ public class Ground {
 		else {
 			return (cases[(x - (x_origin+padding))/renderedSize][(y - (y_origin+padding))/renderedSize]);}
 	}
+	
+	
+
+	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) { // Affiche le menu des constructions
+
+		Image img;
+		for(int i=0; i<imagesConstructions.size(); i++) {
+			img = imagesConstructions.get(i);
+			context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize);
+		}
+	}
+	
+	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
+		if (number<constructionsPossibles.size()) {
+			return constructionsPossibles.get(number);
+		}
+		return "";
+	}
+	
+	public Image getConstructImage(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
+		if (number<imagesConstructions.size()) {
+			return imagesConstructions.get(number);
+		}
+		return null;
+	}
+	
+	
+	
 
 }

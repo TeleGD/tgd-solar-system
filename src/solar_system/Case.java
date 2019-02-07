@@ -1,6 +1,7 @@
 package solar_system;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -17,6 +18,7 @@ public class Case {
 	private Construction construction;
 	private int x, y, size;
 	private Image backgroundImg;
+	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	
 	public Case(int x, int y, int size){
 		this.x = x;
@@ -25,6 +27,8 @@ public class Case {
 		resource = null;
 		resourceQuantity = 0;
 		construction = null;
+		imageConstructSize = 150;
+		
 	}
 
 	
@@ -65,6 +69,7 @@ public class Case {
 		}
 	}
 
+	
 	public void renderHighlighted (GameContainer container, StateBasedGame game, Graphics context) {
 		context.setColor(new Color(127, 0, 0, 127));
 		context.drawRect(x, y, size, size);
@@ -94,10 +99,7 @@ public class Case {
 		
 		ArrayList<String> construPossible = new ArrayList<>();
 		
-		//Pour chaque nouvelle construction, ajouter un if comme ci-dessous
-		if(Mine.constructPossible(tile)){
-			construPossible.add("Mine");
-		}
+		construPossible.add("Mine");
 		
 		return construPossible;
 	}

@@ -61,7 +61,7 @@ public class Player {
 	}
 	
 	public Resource getResource(String name) {
-		return resources.get("Fer");
+		return resources.get(name);
 	}
 	
 	public void initRessources(){
