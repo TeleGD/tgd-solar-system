@@ -14,7 +14,7 @@ public abstract class Construction {
 	protected int posY;
 	protected String description;
 	protected String name;
-	protected int cout;
+	protected HashMap<String, Double> cout;
 	protected Map<String,Double> debits;
 	protected boolean destructed;
 	protected Case tile;
@@ -24,7 +24,7 @@ public abstract class Construction {
 	public Construction(Case tile) {
 		this.lifeMax = 100;
 		this.life = lifeMax;
-		this.cout = 50; // Utile ?
+		this.cout = new HashMap<String, Double>(); // Utile ?
 		this.name = "";
 		destructed = false;
 		
@@ -51,6 +51,15 @@ public abstract class Construction {
 			}
 			res.modifQuantite(qtiteAjoutee);
 		}
+	}
+	
+	public boolean playerCanConstruct(Player player){
+		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
+			if(player.getResource(costEntry.getKey()).getQuantite() < costEntry.getValue()){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void isDead() {

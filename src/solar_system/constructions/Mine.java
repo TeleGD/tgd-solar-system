@@ -29,6 +29,9 @@ public class Mine extends Construction {
 		this.life=lifeMax;
 		this.debits.put("Fer", 0.2);
 		this.name = "Mine";
+		
+		//Ajout des coûts de la Mine
+		this.cout.put("Fer", 999.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

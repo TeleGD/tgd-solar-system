@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
+import solar_system.constructions.Ferme;
 
 public class Case {
 	private Resource resource;
@@ -97,6 +98,10 @@ public class Case {
 		//Pour chaque nouvelle construction, ajouter un if comme ci-dessous
 		if(Mine.constructPossible(tile)){
 			construPossible.add("Mine");
+		}
+		
+		if(Ferme.constructPossible(tile)){
+			construPossible.add("Ferme");
 		}
 		
 		return construPossible;

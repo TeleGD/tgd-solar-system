@@ -30,6 +30,9 @@ public class Ferme extends Construction {
 		this.life=lifeMax;
 		this.debits.put("Fer", 0.5);
 		this.name = "Ferme super extra bien";
+		
+		//Ajout des coûts de la Ferme
+		this.cout.put("Fer", 1000.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
