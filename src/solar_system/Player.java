@@ -83,6 +83,7 @@ public class Player {
 	}
 	
 	public boolean mousePressed(int arg0,int x ,int y){
+		//Aled les commentaires ???
 		return (x<world.getWidth() && x>world.getWidth()*resources.size()/(resources.size()+1) && y<world.getHeight()/20 && y>0);
 	}
 }
