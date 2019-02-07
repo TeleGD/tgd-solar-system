@@ -21,9 +21,6 @@ public abstract class Construction {
 	protected HashMap<String, Resource> resourcesProduced;
 	public static HashMap<String, Resource> resourcesExploitable;
 	
-	static{
-		resourcesExploitable = new HashMap<>();
-	}
 	
 	public Construction(Case tile) {
 		this.lifeMax = 100;
@@ -33,13 +30,11 @@ public abstract class Construction {
 		destructed = false;
 		
 		this.tile = tile;
-		
 		resourcesProduced = new HashMap<String, Resource>();
 		
 		Resource resOfCase = tile.getResource() ;
 		resourcesProduced.put(resOfCase.getName(), resOfCase);
 		debits = new HashMap<String,Double >();
-
 	}
 	
 	public void takeDamage(int damage) {	
@@ -50,8 +45,8 @@ public abstract class Construction {
 		for( Map.Entry<String , Resource> resource : resourcesProduced.entrySet())
 		{
 			Resource res = (Resource) resource.getValue();
-			double qtiteAjoutee = (double)delta*debits.get(res.getName());			
-
+			double qtiteAjoutee = (double)delta*debits.get(res.getName());
+			
 			if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
 				qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
 			}

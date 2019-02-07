@@ -58,7 +58,10 @@ public class Player {
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		
-		
+	}
+	
+	public Resource getResource(String name) {
+		return resources.get("Fer");
 	}
 	
 	public void initRessources(){

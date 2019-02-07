@@ -128,8 +128,8 @@ public class Ground {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		//TODO : prendre une ressource aléatoire dans une liste
 		
-		Resource resource = new Resource("Fer");
-		int resourceQuantity = 0;
+		Resource resource = world.getPlayer().getResource("Fer");
+		int resourceQuantity = 3000;
 		
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
@@ -150,7 +150,7 @@ public class Ground {
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
 			
 			if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY && y<coinMenuY+200) { // Clic sur la Mine
-				// selectedCase.setConstruction( new Mine(selectedCase) );
+				selectedCase.setConstruction( new Mine(selectedCase) );
 				selectedCase.setBackground(imagesConstructions.get(0));  // Actuellement, on peut changer l'image sur une case.
 				// TODO : il faudra intégrer le changement d'image à la construction du bâtiment. Cela n'a pas été fait ici car la construction du bâtiment est Bugée.
 			}
