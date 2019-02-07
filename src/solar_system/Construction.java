@@ -21,10 +21,6 @@ public abstract class Construction {
 	protected HashMap<String, Resource> resourcesProduced;
 	public static HashMap<String, Resource> resourcesExploitable;
 	
-	static{
-		resourcesExploitable = new HashMap<>();
-	}
-	
 	public Construction(Case tile) {
 		this.lifeMax = 100;
 		this.life = lifeMax;

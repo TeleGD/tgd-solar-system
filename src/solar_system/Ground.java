@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 
 public class Ground {
@@ -101,17 +102,18 @@ public class Ground {
 		}
 		// Affichage du Menu des constructions
 		if (menuConstruction) {
-			coinMenuX = (int)(0.8*world.getWidth());
-			coinMenuY = (int)(0.1*world.getHeight());
-			int N_image = 1;
-			for(Image img : imagesConstructions) {
-				taille_x = img.getWidth()-1;
-				taille_y = img.getHeight()-1;
-				context.drawImage(img, coinMenuX, coinMenuY+(N_image-1)*200, coinMenuX+200, coinMenuY+N_image*200, 0, 0, taille_x, taille_y);
-				N_image++;
+			if (selectedCase.getConstruction() == null) {
+				coinMenuX = (int)(0.8*world.getWidth());
+				coinMenuY = (int)(0.1*world.getHeight());
+				int N_image = 1;
+				for(Image img : imagesConstructions) {
+					taille_x = img.getWidth()-1;
+					taille_y = img.getHeight()-1;
+					context.drawImage(img, coinMenuX, coinMenuY+(N_image-1)*200, coinMenuX+200, coinMenuY+N_image*200, 0, 0, taille_x, taille_y);
+					N_image++;
+				}
 			}
 		}
-		
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -150,13 +152,12 @@ public class Ground {
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
 			
 			if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY && y<coinMenuY+200) { // Clic sur la Mine
-				// selectedCase.setConstruction( new Mine(selectedCase) );
+				selectedCase.setConstruction( new Mine(selectedCase) );
 				selectedCase.setBackground(imagesConstructions.get(0));  // Actuellement, on peut changer l'image sur une case.
 				// TODO : il faudra intégrer le changement d'image à la construction du bâtiment. Cela n'a pas été fait ici car la construction du bâtiment est Bugée.
 			}
-			if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY+200 && y<coinMenuY+400) { // Clic sur la deuxième construction
-				//TODO : penser à IMPORTER la classe de la construction voulue.
-				// selectedCase.setConstruction( new Ferme(selectedCase) );
+			else if (x>=coinMenuX && x<=coinMenuX+200 && y>=coinMenuY+200 && y<coinMenuY+400) { // Clic sur la deuxième construction
+				selectedCase.setConstruction( new Ferme(selectedCase) );
 				selectedCase.setBackground(imagesConstructions.get(1));
 			}
 		}
