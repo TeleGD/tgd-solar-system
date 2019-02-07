@@ -138,14 +138,17 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		Ground tempGround = null;
-		if (ground == null) {
-			tempGround = solsys.planetTouched(x, y);
+		Ground tempGround = null; // Variable qui doit recevoir l'objet cliqué sur le systeme
+		if (ground == null) {  // Sur le systeme , gère le clique sur une planète
+			tempGround = solsys.planetTouched(x, y); // recoit le ground de la planete cliquée
+			// null sinon
 		}
-		if(tempGround!= null)
-			ground = tempGround;
-		if (ground!=null) {
-			if (ground.mousePressed(arg0,x,y)) {
+		if(tempGround!= null) // on a cliqué sur une planète
+			ground = tempGround; // on affiche le ground
+			
+		else if (ground!=null) { // Gère l'interraction avec le ground: Construction + Selection de case + Retour
+			
+			if (ground.mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
 				ground=null;
 			}
 		}
