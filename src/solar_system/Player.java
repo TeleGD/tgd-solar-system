@@ -68,6 +68,8 @@ public class Player {
 			resources.put("Bois",new Resource("Bois"));
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));
+			resources.put("Cailloux",new Resource("Cailloux"));
+			resources.put("Nourriture", new Resource("Nourriture"));
 		}
 	
 	public String resourcesToString(){

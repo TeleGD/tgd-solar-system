@@ -127,6 +127,7 @@ public class Ground {
 	
 	
 	public void generateCases() {
+		
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		//TODO : prendre une ressource aléatoire dans une liste
 		
@@ -141,12 +142,16 @@ public class Ground {
 		padding = (int)( (radius*2-n*sizeCase)*facteur_magique/2 );
 		
 		for (int i = 0; i < cases.length ; i++) {
-			if (i%2==0){
-				resource = world.getPlayer().getResource("Fer");
-			} else {
-				resource = world.getPlayer().getResource("Bois");
-			}
 			for (int j = 0; j < cases.length; j++ ) {
+				if ((i+j)%4==0){
+					resource = world.getPlayer().getResource("Fer");
+				} else if ((i+j)%4==1) {
+					resource = world.getPlayer().getResource("Bois");
+				} else if ((i+j)%4==2) {
+					resource = world.getPlayer().getResource("Cailloux");
+				} else {
+					resource = world.getPlayer().getResource("Nourriture");
+				}
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
 		}
@@ -232,12 +237,19 @@ public class Ground {
 	
 	
 
-	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) { // Affiche le menu des constructions
+	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
+		// Affiche le menu des constructions
 
-		Image img;
-		for(int i=0; i<imagesConstructions.size(); i++) {
-			img = imagesConstructions.get(i);
-			context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize);
+		if (imagesConstructions.size()!=0) {
+			Image img;
+			for(int i=0; i<imagesConstructions.size(); i++) {
+				img = imagesConstructions.get(i);
+				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize);
+			}
+		} else {
+			context.setColor(Color.white);
+			context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
+			context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
 		}
 	}
 	
