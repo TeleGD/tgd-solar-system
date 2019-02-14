@@ -61,6 +61,8 @@ public class Resource {
 				break;
 			case "Nourriture": path = "res/images/resources/Nourriture.png";
 			break;
+			case "Noyau Linux": path = "res/images/resources/noyo.png";
+			break;
 			default : path = "res/images/resources/cailloux.png";
 			//case "Noyaux Linux": path = "res/resources/";
 		}
