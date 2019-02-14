@@ -32,7 +32,7 @@ public abstract class Construction {
 		
 		Resource resOfCase = tile.getResource() ;
 		resourcesProduced.put(resOfCase.getName(), resOfCase);
-		debits = new HashMap<String,Double >();
+		debits = new HashMap<String,Double>();
 	}
 	
 	public void takeDamage(int damage) {	

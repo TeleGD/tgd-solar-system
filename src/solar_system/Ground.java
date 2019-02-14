@@ -50,7 +50,6 @@ public class Ground {
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
 		imageConstructSize = 150;
-		
 		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
@@ -131,7 +130,7 @@ public class Ground {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		//TODO : prendre une ressource aléatoire dans une liste
 		
-		Resource resource = world.getPlayer().getResource("Fer");
+		Resource resource;
 		int resourceQuantity = 3000;
 		
 		// Nombre de cases en longueur :
@@ -142,6 +141,11 @@ public class Ground {
 		padding = (int)( (radius*2-n*sizeCase)*facteur_magique/2 );
 		
 		for (int i = 0; i < cases.length ; i++) {
+			if (i%2==0){
+				resource = world.getPlayer().getResource("Fer");
+			} else {
+				resource = world.getPlayer().getResource("Bois");
+			}
 			for (int j = 0; j < cases.length; j++ ) {
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
@@ -161,6 +165,9 @@ public class Ground {
 	public boolean mousePressed(int arg0,int x ,int y) { 
 		// Gère les clics sur le Ground.
 		
+		
+		// Construction d'un bâtiment :
+		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
 
 			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
@@ -168,15 +175,19 @@ public class Ground {
 				int number = (y-coinMenuY)/imageConstructSize;
 				String construct = construcRequested(number);
 				if (construct != "") {
-					selectedCase.setConstruction( nameToConst(construct, selectedCase) );
-					selectedCase.setBackground(getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+					if (constructionsPossibles.contains(construct)) {
+						selectedCase.setConstruction( nameToConst(construct, selectedCase) );
+						selectedCase.setBackground(getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+					}
 				}
 			}
 		}
 
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
-        
-		if(selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
+		
+		// Modification de la liste des constructions à afficher dans le menu des constructions :
+		
+		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
 			Image imageTemp;
 			constructionsPossibles = selectedCase.infoConstruct(selectedCase);
 			imagesConstructions = new ArrayList<Image>();

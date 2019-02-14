@@ -147,8 +147,11 @@ public class World extends BasicGameState {
 			tempGround = solsys.planetTouched(x, y); // recoit le ground de la planete cliquée
 			// null sinon
 		}
-		if(tempGround!= null) // on a cliqué sur une planète
+		if(tempGround!= null) { // on a cliqué sur une planète
 			ground = tempGround; // on affiche le ground
+			mouv = false;
+			planetTouched = false;
+		}
 			
 		else if (ground!=null) { // Gère l'interraction avec le ground: Construction + Selection de case + Retour
 			
@@ -167,8 +170,10 @@ public class World extends BasicGameState {
 	}
 
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
-		mouv = false;
-		planetTouched = solsys.planetTouched(newX, newY) != null;
+		if(ground==null) {
+			mouv = false;
+			planetTouched = solsys.planetTouched(newX, newY) != null;
+		}
 	}
 
 	public Ground getGround() {//pour récupérer les infos du ground dans le player

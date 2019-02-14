@@ -19,7 +19,7 @@ public class Ferme extends Construction {
 	static 
 	{
 		resourcesExploitable = new HashMap<String, Resource>();
-        resourcesExploitable.put("Fer",new Resource("Fer"));
+        resourcesExploitable.put("Bois",new Resource("Bois"));
 	}
 	
 	public Ferme (Case tile){
@@ -28,7 +28,7 @@ public class Ferme extends Construction {
 		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Fer", 0.5);
+		this.debits.put("Bois", 0.5);
 		this.name = "Ferme super extra bien";
 		
 		//Ajout des coûts de la Ferme

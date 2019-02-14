@@ -100,7 +100,9 @@ public class Case {
 		
 		ArrayList<String> construPossible = new ArrayList<>();
 		
-		construPossible.add("Mine");
+		if(Mine.constructPossible(tile)) {
+			construPossible.add("Mine");
+		}
 		
 		if(Ferme.constructPossible(tile)){
 			construPossible.add("Ferme");
