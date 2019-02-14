@@ -1,5 +1,6 @@
 package solar_system;
 
+
 import java.util.*;
 import java.util.Random;
 import org.newdawn.slick.GameContainer;
@@ -25,7 +26,7 @@ public class Solsys {
 			addPlanet(new Planet(1+k,(float)0.5*r.nextFloat()*2f*(float)Math.PI ,200+100*k ,"description",world));
 		}
 		try{
-			this.imageSun = new Image("res/images/Sun.png");
+			this.imageSun = new Image("res/images/planets/soleil.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
