@@ -88,4 +88,5 @@ public class Planet {
 	public Ground getGround() {
 		return ground;
 	}
+	
 }
