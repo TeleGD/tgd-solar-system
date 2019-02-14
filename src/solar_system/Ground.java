@@ -14,6 +14,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Ground {
 	
 	private int sizeCase = 80;
@@ -143,15 +145,8 @@ public class Ground {
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				if ((i+j)%4==0){
-					resource = world.getPlayer().getResource("Fer");
-				} else if ((i+j)%4==1) {
-					resource = world.getPlayer().getResource("Bois");
-				} else if ((i+j)%4==2) {
-					resource = world.getPlayer().getResource("Cailloux");
-				} else {
-					resource = world.getPlayer().getResource("Nourriture");
-				}
+				
+				resource = world.getPlayer().getResource(randomResourceName());
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
 		}
@@ -165,6 +160,24 @@ public class Ground {
 			return new Ferme(tile);
 		}
 		return null;
+	}
+	
+	public String randomResourceName() {
+		
+		String resource;
+		int rand = ThreadLocalRandom.current().nextInt(0, 5);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
+		
+		if (rand%4==0){
+			resource = "Fer";
+		} else if (rand%4==1) {
+			resource = "Bois";
+		} else if (rand%4==2) {
+			resource = "Cailloux";
+		} else {
+			resource = "Nourriture";
+		}
+		
+		return resource;
 	}
 	
 	public boolean mousePressed(int arg0,int x ,int y) { 
