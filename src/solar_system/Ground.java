@@ -165,9 +165,11 @@ public class Ground {
 	public String randomResourceName() {
 		
 		String resource;
-		int rand = ThreadLocalRandom.current().nextInt(0, 5);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
+		int rand = ThreadLocalRandom.current().nextInt(0, 17);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
 		
-		if (rand%4==0){
+		/* Pour le noyau Linux : if (rand==0) {
+			resource = "";
+		} else */ if (rand%4==0){
 			resource = "Fer";
 		} else if (rand%4==1) {
 			resource = "Bois";
@@ -176,7 +178,6 @@ public class Ground {
 		} else {
 			resource = "Nourriture";
 		}
-		
 		return resource;
 	}
 	
