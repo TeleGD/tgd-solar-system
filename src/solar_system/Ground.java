@@ -209,7 +209,7 @@ public class Ground {
 				info = "Cabane Bucheron : 50 Bois";
 				break;
 			default :
-				info = "erreur";
+				info = "éreure";
 				break;
 		}
 		return info;
@@ -294,10 +294,15 @@ public class Ground {
 		if (imagesConstructions.size()!=0) {
 			Image img;
 			for(int i=0; i<imagesConstructions.size(); i++) {
+				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
 				img = imagesConstructions.get(i);
 				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize+i*hauteurTextMenuConstruct);
 				context.setColor(Color.white);
-				context.drawString( getInfoConstruct(constructionsPossibles.get(i)), coinMenuX, coinMenuY+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct);
+				context.drawString(
+						c.getName() + "\n" +
+						"Coût : " + c.cout + "\n" +
+						"Débit : " + c.debits,
+						coinMenuX+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct, coinMenuY);
 			}
 		} else {
 			context.setColor(Color.white);
