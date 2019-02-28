@@ -15,7 +15,7 @@ public class Satellite extends Orbital{
 		if ( (arrierePlan && Math.sin(angle)>0)  ||   (!(arrierePlan) && !(Math.sin(angle)>0)) ) {
 			context.setColor(Color.blue);
 			context.fillOval(get_x()*1f-size, get_y()*1f-size, size * 2, size * 2);
-			System.out.println("Je suis un satellite de position "+get_x()+","+get_y());
+			//System.out.println("Je suis un satellite de position "+get_x()+","+get_y());
 		}
 	}
 	/*
