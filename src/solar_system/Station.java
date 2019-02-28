@@ -7,10 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Station extends Orbital {
 	private int nbVaisseaux;
-	private double angle;
-	private  int posX;
-	private int posY;
-	private float size;
 	
 	public Station(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource) {
 		super(lifeMax, cout, posX, posY, size, distance, resource);
