@@ -11,13 +11,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public abstract class Orbital {
 	private double speed;
-	private float size;
-	private double angle;
+	protected float size;
+	protected double angle;
 	private int distance;
 	private Image backgroundImg;
 	private Resource resource;
 	private int x;
 	private int y;
+	protected Case tile;
 	
 	
 	public Orbital(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource) {

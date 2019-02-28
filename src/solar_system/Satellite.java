@@ -7,10 +7,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Satellite extends Orbital{
 	
-	private Case cas;
-	private double angle;
-	private float size;
-	
 	public Satellite(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource) {
 		super(lifeMax, cout, posX, posY, size, distance, resource);
 	}
