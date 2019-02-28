@@ -28,7 +28,7 @@ public class Ferme extends Construction {
 		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Nourriture", 0.005);
+		this.debits.put("Nourriture", 0.02);
 		this.name = "Ferme super extra bien";
 		
 		//Ajout des coûts de la Ferme

@@ -11,6 +11,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
+import solar_system.constructions.Mine2;
+import solar_system.constructions.TNCY;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.CabaneBucheron;
@@ -31,7 +33,6 @@ public class Case {
 		resourceQuantity = 0;
 		construction = null;
 		imageConstructSize = 150;
-		
 	}
 
 	
@@ -54,8 +55,8 @@ public class Case {
 		}
 	}
 	
-	public void setConstruction(Construction construction){
-		this.construction = construction;
+	public void setConstruction(Construction constr){
+		this.construction = constr;
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
@@ -110,8 +111,13 @@ public class Case {
 			if(CabaneBucheron.constructPossible(tile)){
 				construPossible.add("CabaneBucheron");
 			}
+			if(TNCY.constructPossible(tile)){
+				construPossible.add("TNCY");
+			}
 		} else {
-			// évolutions de constructions
+			if (construction instanceof Mine) {
+				construPossible.add("Mine2");
+			}
 		}
 		return construPossible;
 	}
