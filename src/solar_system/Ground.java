@@ -13,6 +13,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
+import solar_system.constructions.Scierie;
+import solar_system.constructions.CabaneBucheron;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -36,6 +38,7 @@ public class Ground {
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private List<String> constructionsPossibles;
 	private List<Image> imagesConstructions;
+	private int hauteurTextMenuConstruct;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -52,6 +55,7 @@ public class Ground {
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
 		imageConstructSize = 150;
+		hauteurTextMenuConstruct = 26;
 		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
@@ -90,14 +94,17 @@ public class Ground {
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);
 		}
-		// Affichage du Menu des constructions
 
 		if (selectedCase != null) {
-			if (selectedCase.getConstruction() == null) {
-				coinMenuX = (int)(0.8*world.getWidth());
-				coinMenuY = (int)(0.1*world.getHeight());
-				renderMenuConstruct(container, game, context);
-			} else {
+			
+			// Affichage du Menu des constructions :
+			coinMenuX = (int)(0.8*world.getWidth());
+			coinMenuY = (int)(0.1*world.getHeight());
+			renderMenuConstruct(container, game, context);
+			
+			if (selectedCase.getConstruction() != null) {
+				// Affichage des informations sur la construction :
+				
 				coinMenuY = world.getHeight()-24*3;
 				Construction c = selectedCase.getConstruction();
 				context.setColor(Color.white);
@@ -129,9 +136,7 @@ public class Ground {
 	
 	
 	public void generateCases() {
-		
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
-		//TODO : prendre une ressource aléatoire dans une liste
 		
 		Resource resource;
 		int resourceQuantity = 3000;
@@ -159,6 +164,12 @@ public class Ground {
 		if(name=="Ferme"){
 			return new Ferme(tile);
 		}
+		if(name=="Scierie"){
+			return new Scierie(tile);
+		}
+		if(name=="CabaneBucheron"){
+			return new CabaneBucheron(tile);
+		}
 		return null;
 	}
 	
@@ -167,9 +178,10 @@ public class Ground {
 		String resource;
 		int rand = ThreadLocalRandom.current().nextInt(0, 17);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
 		
-		/* Pour le noyau Linux : if (rand==0) {
-			resource = "";
-		} else */ if (rand%4==0){
+		// Pour le noyau Linux :
+		if (rand==0) {
+			resource = "Noyau Linux";
+		} else if (rand%4==0){
 			resource = "Fer";
 		} else if (rand%4==1) {
 			resource = "Bois";
@@ -179,6 +191,28 @@ public class Ground {
 			resource = "Nourriture";
 		}
 		return resource;
+	}
+	
+	public String getInfoConstruct(String construct_name) {
+		String info = "";
+		switch (construct_name) {
+			case "Mine":
+				info = "Mine : 1000 Fer";
+				break;
+			case "Ferme":
+				info = "Ferme : 500 Bois";
+				break;
+			case "Scierie":
+				info = "Scierie : 200 Bois";
+				break;
+			case "Cabane Bucheron":
+				info = "Cabane Bucheron : 50 Bois";
+				break;
+			default :
+				info = "erreur";
+				break;
+		}
+		return info;
 	}
 	
 	public boolean mousePressed(int arg0,int x ,int y) { 
@@ -191,12 +225,15 @@ public class Ground {
 
 			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
 				
-				int number = (y-coinMenuY)/imageConstructSize;
-				String construct = construcRequested(number);
-				if (construct != "") {
-					if (constructionsPossibles.contains(construct)) {
-						selectedCase.setConstruction( nameToConst(construct, selectedCase) );
-						selectedCase.setBackground(getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+				// Il faut cliquer sur l'image, et non pas le texte écrit en-dessous :
+				int number = (y-coinMenuY)/(imageConstructSize+hauteurTextMenuConstruct);
+				if ( y <= coinMenuY+(number+1)*(imageConstructSize+hauteurTextMenuConstruct)-hauteurTextMenuConstruct) {
+					String construct = construcRequested(number);
+					if (construct != "") {
+						if (constructionsPossibles.contains(construct)) {
+							selectedCase.setConstruction( nameToConst(construct, selectedCase) );
+							selectedCase.setBackground( getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+						}
 					}
 				}
 			}
@@ -258,7 +295,9 @@ public class Ground {
 			Image img;
 			for(int i=0; i<imagesConstructions.size(); i++) {
 				img = imagesConstructions.get(i);
-				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize);
+				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize+i*hauteurTextMenuConstruct);
+				context.setColor(Color.white);
+				context.drawString( getInfoConstruct(constructionsPossibles.get(i)), coinMenuX, coinMenuY+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct);
 			}
 		} else {
 			context.setColor(Color.white);

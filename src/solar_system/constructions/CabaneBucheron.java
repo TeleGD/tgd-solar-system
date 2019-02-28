@@ -13,26 +13,24 @@ import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
 
-public class Ferme extends Construction {
+public class CabaneBucheron extends Construction {
 
 	private static HashMap<String, Resource> resourcesExploitable ; //TODO Initialiser la HashMap (la même que dans Construction) avec la liste des ressources exploitables par une mine
 	static 
 	{
 		resourcesExploitable = new HashMap<String, Resource>();
-        resourcesExploitable.put("Nourriture",new Resource("Nourriture"));
+        resourcesExploitable.put("Bois",new Resource("Bois"));
 	}
 	
-	public Ferme (Case tile){
+	public CabaneBucheron (Case tile){
 		super(tile);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Nourriture", 0.005);
-		this.name = "Ferme super extra bien";
-		
-		//Ajout des coûts de la Ferme
-		this.cout.put("Bois", 500.0);
+		this.debits.put("Bois", 0.0001);
+		this.name = "Attention au bucheron !";
+		this.cout.put("Bois", 50.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

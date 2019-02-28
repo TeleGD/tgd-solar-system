@@ -12,6 +12,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
 import solar_system.constructions.Ferme;
+import solar_system.constructions.Scierie;
+import solar_system.constructions.CabaneBucheron;
 
 public class Case {
 	private Resource resource;
@@ -53,12 +55,7 @@ public class Case {
 	}
 	
 	public void setConstruction(Construction construction){
-		if(this.construction == null){
-			this.construction = construction;
-		}
-		else{
-			System.out.println("Case déjà ocupé");
-		}
+		this.construction = construction;
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
@@ -100,14 +97,22 @@ public class Case {
 		
 		ArrayList<String> construPossible = new ArrayList<>();
 		
-		if(Mine.constructPossible(tile)) {
-			construPossible.add("Mine");
+		if (construction==null) {
+			if(Mine.constructPossible(tile)) {
+				construPossible.add("Mine");
+			}
+			if(Ferme.constructPossible(tile)){
+				construPossible.add("Ferme");
+			}
+			if(Scierie.constructPossible(tile)){
+				construPossible.add("Scierie");
+			}
+			if(CabaneBucheron.constructPossible(tile)){
+				construPossible.add("CabaneBucheron");
+			}
+		} else {
+			// évolutions de constructions
 		}
-		
-		if(Ferme.constructPossible(tile)){
-			construPossible.add("Ferme");
-		}
-		
 		return construPossible;
 	}
 	
