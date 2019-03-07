@@ -70,7 +70,7 @@ public class Case {
 		context.setColor(new Color(0, 0, 0, 127));
 		context.drawRect(x, y, size, size);
 		if(backgroundImg != null){
-			context.drawImage(backgroundImg.getScaledCopy(size,size),x,y);
+			context.drawImage(backgroundImg.getScaledCopy(size-1,size-1),x+1,y+1);
 		}
 	}
 

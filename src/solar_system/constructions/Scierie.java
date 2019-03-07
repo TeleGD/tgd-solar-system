@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Case;
+import solar_system.Player;
 import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
@@ -22,8 +23,8 @@ public class Scierie extends Construction {
         resourcesExploitable.put("Bois",new Resource("Bois"));
 	}
 	
-	public Scierie (Case tile){
-		super(tile);
+	public Scierie (Case tile, Player player){
+		super(tile, player);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=80;

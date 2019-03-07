@@ -13,13 +13,16 @@ public class Resource {
 		this.name=name;
 		this.quantite=0;
 		
+		if (name == "Bois") {
+			quantite = 100;
+		}
+		
 		try {
 			image = new Image(imagePath(name));
 		} catch(SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public boolean modifQuantite (double qtite) {  
 		/* Ajoute ou prélève (si qtite<0)
