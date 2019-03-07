@@ -64,4 +64,7 @@ public abstract class Orbital {
 	public double getSpeed() {
 		return(this.speed);
 	}
+	public float get_size(){
+		return this.size;
+	}
 }
