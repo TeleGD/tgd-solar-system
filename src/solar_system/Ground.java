@@ -43,6 +43,7 @@ public class Ground {
 	private List<String> constructionsPossibles;
 	private List<Image> imagesConstructions;
 	private int hauteurTextMenuConstruct;
+	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -243,7 +244,7 @@ public class Ground {
 		return info;
 	}
 	
-	public boolean mousePressed(int arg0,int x ,int y) { 
+	public boolean mousePressed(int arg0, int x, int y) { 
 		// Gère les clics sur le Ground.
 		
 		// Construction d'un bâtiment :
@@ -265,6 +266,16 @@ public class Ground {
 						}
 					}
 				}
+			}
+			
+			// Pour détruire un batiment :
+			if ( selectedCase.getConstruction() != null &&
+				 x >= coinMenuX + 40 && x < coinMenuX + 90 &&
+				 y >= coinBoutonDestruct && y < coinBoutonDestruct + 50 ) {
+				
+				selectedCase.setConstruction(null);
+				selectedCase.setBackground(null);
+				selectedCase.setBackgroundAsResource();
 			}
 		}
 
@@ -318,6 +329,7 @@ public class Ground {
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		// Affiche le menu des constructions
 
+		coinBoutonDestruct = -100;
 		if (imagesConstructions.size()!=0) {
 			Image img;
 			int currentHeight = coinMenuY;
@@ -367,10 +379,16 @@ public class Ground {
 					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 				}
 			}
+			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
 		} else {
 			context.setColor(Color.white);
 			context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
 			context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
+			coinBoutonDestruct = coinMenuY + 200;
+		}
+		if (selectedCase.getConstruction() != null) {
+			context.setColor(Color.red);
+			context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
 		}
 	}
 	
