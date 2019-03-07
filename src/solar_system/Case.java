@@ -44,11 +44,17 @@ public class Case {
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
 		
+		setBackgroundAsResource();
+		
+	}
+	
+	public void setBackgroundAsResource() { // Permet de placer en arrière-plan de la case l'image de la ressource de la case
+		
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
 			try{
-				this.backgroundImg = new Image(resource.imagePath(resource.getName()));
+				this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
