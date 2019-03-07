@@ -320,16 +320,52 @@ public class Ground {
 
 		if (imagesConstructions.size()!=0) {
 			Image img;
+			int currentHeight = coinMenuY;
+			int mX = 24;	// mX pour marginX, la marge à droite
 			for(int i=0; i<imagesConstructions.size(); i++) {
 				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
+				
+				/** Affichage de l'image **/
 				img = imagesConstructions.get(i);
-				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize+i*hauteurTextMenuConstruct);
+				context.drawImage(img, world.getWidth()-img.getWidth()-mX, currentHeight);
+				currentHeight += imageConstructSize;
 				context.setColor(Color.white);
-				context.drawString(
-						c.getName() + "\n" +
-						"Coût : " + c.cout + "\n" +
-						"Débit : " + c.debits,
-						coinMenuX+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct, coinMenuY);
+				
+				/** Affichage du nom **/
+				int largeur = context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				
+				/** Affichage des coûts **/
+				largeur = context.getFont().getWidth("Coûts :");
+				context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				int currentWidth = world.getWidth()-24;
+				for (String k : c.cout.keySet()) {
+					try{
+						img = new Image(Resource.imagePath(k));
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
+					currentWidth -= 48;
+					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+				}
+				currentHeight += 64;
+				
+				/** Affichage des débits **/
+				largeur = context.getFont().getWidth("Gains :");
+				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				currentWidth = world.getWidth()-24;
+				for (String k : c.debits.keySet()) {
+					try{
+						img = new Image(Resource.imagePath(k));
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
+					currentWidth -= 48;
+					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+				}
 			}
 		} else {
 			context.setColor(Color.white);
