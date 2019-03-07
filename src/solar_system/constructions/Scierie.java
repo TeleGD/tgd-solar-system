@@ -28,8 +28,8 @@ public class Scierie extends Construction {
 		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Bois", 0.005);
-		this.name = "Scierie - recherche stagiaire";
+		this.debits.put("Bois", 0.05);
+		this.name = "Scierie (recherche activement un stagiaire)";
 		this.cout.put("Bois", 200.0);
 	}
 	

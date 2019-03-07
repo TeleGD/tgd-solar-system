@@ -13,6 +13,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
+import solar_system.constructions.Mine2;
+import solar_system.constructions.TNCY;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.CabaneBucheron;
 
@@ -33,8 +35,10 @@ public class Ground {
 	private int padding; // Décalage des cases par rapport au point supérieur gauche de l'image de la planère (global car nécessaire pour la sélection des cases).
 	private float facteur_magique;
 	private boolean menuConstruction;
-	private int coinMenuX;
+	private int coinMenuX; // Pour le menu des constructions
 	private int coinMenuY;
+	private int coinInfoX; // Pour les informations sur les constructions
+	private int coinInfoY;
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private List<String> constructionsPossibles;
 	private List<Image> imagesConstructions;
@@ -105,23 +109,22 @@ public class Ground {
 			if (selectedCase.getConstruction() != null) {
 				// Affichage des informations sur la construction :
 				
-				coinMenuY = world.getHeight()-24*3;
+				coinInfoY = world.getHeight()-24*3;
 				Construction c = selectedCase.getConstruction();
 				context.setColor(Color.white);
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
-				context.drawString(c.getName(), coinMenuX, coinMenuY);
-				coinMenuY += 24;
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
-				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinMenuX, coinMenuY);
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), coinInfoX, coinInfoY);
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
+				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinInfoX, coinInfoY);
 				String les_debits = "";
 				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
 					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
 				}
-				coinMenuY += 24;
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
-				context.drawString(les_debits, coinMenuX, coinMenuY);
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
+				context.drawString(les_debits, coinInfoX, coinInfoY);
 			}
-
 		}
 	}
 	
@@ -139,7 +142,7 @@ public class Ground {
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
 		
 		Resource resource;
-		int resourceQuantity = 3000;
+		int resourceQuantity;
 		
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
@@ -150,8 +153,10 @@ public class Ground {
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				
+				// Choix aléatoire d'une ressource :
 				resource = world.getPlayer().getResource(randomResourceName());
+				resourceQuantity = resourceQuantity( resource.getName() );
+				
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
 		}
@@ -160,6 +165,12 @@ public class Ground {
 	public Construction nameToConst (String name, Case tile) {
 		if(name=="Mine"){
 			return new Mine(tile);
+		}
+		if(name=="Mine2"){
+			return new Mine2(tile);
+		}
+		if(name=="TNCY"){
+			return new TNCY(tile);
 		}
 		if(name=="Ferme"){
 			return new Ferme(tile);
@@ -193,6 +204,23 @@ public class Ground {
 		return resource;
 	}
 	
+	public int resourceQuantity(String res) {
+		switch (res) {
+			case "Fer" :
+				return 500;
+			case "Bois" :
+				return 1500;
+			case "Cailloux" :
+				return 3000;
+			case "Nourriture" :
+				return 2000;
+			case "Noyau Linux" :
+				return 10;
+			default :
+				return 0;
+		}
+	}
+	
 	public String getInfoConstruct(String construct_name) {
 		String info = "";
 		switch (construct_name) {
@@ -209,7 +237,7 @@ public class Ground {
 				info = "Cabane Bucheron : 50 Bois";
 				break;
 			default :
-				info = "éreure";
+				info = "Pas défini";
 				break;
 		}
 		return info;
@@ -218,17 +246,18 @@ public class Ground {
 	public boolean mousePressed(int arg0,int x ,int y) { 
 		// Gère les clics sur le Ground.
 		
-		
 		// Construction d'un bâtiment :
 		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
-
-			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
+			
+			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*(imageConstructSize+hauteurTextMenuConstruct)) {
 				
 				// Il faut cliquer sur l'image, et non pas le texte écrit en-dessous :
 				int number = (y-coinMenuY)/(imageConstructSize+hauteurTextMenuConstruct);
+				
 				if ( y <= coinMenuY+(number+1)*(imageConstructSize+hauteurTextMenuConstruct)-hauteurTextMenuConstruct) {
 					String construct = construcRequested(number);
+					
 					if (construct != "") {
 						if (constructionsPossibles.contains(construct)) {
 							selectedCase.setConstruction( nameToConst(construct, selectedCase) );
@@ -259,9 +288,7 @@ public class Ground {
 		}
 		
 		if (selectedCase != null) {
-			if(selectedCase.getConstruction()==null) {
-				menuConstruction = true;
-			}
+			menuConstruction = true;
 		} else {
 			menuConstruction = false;
 		}
