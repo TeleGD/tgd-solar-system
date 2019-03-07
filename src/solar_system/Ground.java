@@ -13,6 +13,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
+import solar_system.constructions.Mine2;
+import solar_system.constructions.TNCY;
+import solar_system.constructions.Scierie;
+import solar_system.constructions.CabaneBucheron;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -31,11 +35,15 @@ public class Ground {
 	private int padding; // Décalage des cases par rapport au point supérieur gauche de l'image de la planère (global car nécessaire pour la sélection des cases).
 	private float facteur_magique;
 	private boolean menuConstruction;
-	private int coinMenuX;
+	private int coinMenuX; // Pour le menu des constructions
 	private int coinMenuY;
+	private int coinInfoX; // Pour les informations sur les constructions
+	private int coinInfoY;
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private List<String> constructionsPossibles;
 	private List<Image> imagesConstructions;
+	private int hauteurTextMenuConstruct;
+	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -52,6 +60,7 @@ public class Ground {
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
 		imageConstructSize = 150;
+		hauteurTextMenuConstruct = 26;
 		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
@@ -90,31 +99,33 @@ public class Ground {
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);
 		}
-		// Affichage du Menu des constructions
 
 		if (selectedCase != null) {
-			if (selectedCase.getConstruction() == null) {
-				coinMenuX = (int)(0.8*world.getWidth());
-				coinMenuY = (int)(0.1*world.getHeight());
-				renderMenuConstruct(container, game, context);
-			} else {
-				coinMenuY = world.getHeight()-24*3;
+			
+			// Affichage du Menu des constructions :
+			coinMenuX = (int)(0.8*world.getWidth());
+			coinMenuY = (int)(0.1*world.getHeight());
+			renderMenuConstruct(container, game, context);
+			
+			if (selectedCase.getConstruction() != null) {
+				// Affichage des informations sur la construction :
+				
+				coinInfoY = world.getHeight()-24*3;
 				Construction c = selectedCase.getConstruction();
 				context.setColor(Color.white);
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
-				context.drawString(c.getName(), coinMenuX, coinMenuY);
-				coinMenuY += 24;
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
-				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinMenuX, coinMenuY);
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), coinInfoX, coinInfoY);
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
+				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinInfoX, coinInfoY);
 				String les_debits = "";
 				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
 					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
 				}
-				coinMenuY += 24;
-				coinMenuX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
-				context.drawString(les_debits, coinMenuX, coinMenuY);
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
+				context.drawString(les_debits, coinInfoX, coinInfoY);
 			}
-
 		}
 	}
 	
@@ -129,12 +140,10 @@ public class Ground {
 	
 	
 	public void generateCases() {
-		
 		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
-		//TODO : prendre une ressource aléatoire dans une liste
 		
 		Resource resource;
-		int resourceQuantity = 3000;
+		int resourceQuantity;
 		
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
@@ -145,8 +154,10 @@ public class Ground {
 		
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
-				
+				// Choix aléatoire d'une ressource :
 				resource = world.getPlayer().getResource(randomResourceName());
+				resourceQuantity = resourceQuantity( resource.getName() );
+				
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
 		}
@@ -156,8 +167,20 @@ public class Ground {
 		if(name=="Mine"){
 			return new Mine(tile);
 		}
+		if(name=="Mine2"){
+			return new Mine2(tile);
+		}
+		if(name=="TNCY"){
+			return new TNCY(tile);
+		}
 		if(name=="Ferme"){
 			return new Ferme(tile);
+		}
+		if(name=="Scierie"){
+			return new Scierie(tile);
+		}
+		if(name=="CabaneBucheron"){
+			return new CabaneBucheron(tile);
 		}
 		return null;
 	}
@@ -167,9 +190,10 @@ public class Ground {
 		String resource;
 		int rand = ThreadLocalRandom.current().nextInt(0, 17);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
 		
-		/* Pour le noyau Linux : if (rand==0) {
-			resource = "";
-		} else */ if (rand%4==0){
+		// Pour le noyau Linux :
+		if (rand==0) {
+			resource = "Noyau Linux";
+		} else if (rand%4==0){
 			resource = "Fer";
 		} else if (rand%4==1) {
 			resource = "Bois";
@@ -181,24 +205,77 @@ public class Ground {
 		return resource;
 	}
 	
-	public boolean mousePressed(int arg0,int x ,int y) { 
+	public int resourceQuantity(String res) {
+		switch (res) {
+			case "Fer" :
+				return 500;
+			case "Bois" :
+				return 1500;
+			case "Cailloux" :
+				return 3000;
+			case "Nourriture" :
+				return 2000;
+			case "Noyau Linux" :
+				return 10;
+			default :
+				return 0;
+		}
+	}
+	
+	public String getInfoConstruct(String construct_name) {
+		String info = "";
+		switch (construct_name) {
+			case "Mine":
+				info = "Mine : 1000 Fer";
+				break;
+			case "Ferme":
+				info = "Ferme : 500 Bois";
+				break;
+			case "Scierie":
+				info = "Scierie : 200 Bois";
+				break;
+			case "Cabane Bucheron":
+				info = "Cabane Bucheron : 50 Bois";
+				break;
+			default :
+				info = "Pas défini";
+				break;
+		}
+		return info;
+	}
+	
+	public boolean mousePressed(int arg0, int x, int y) { 
 		// Gère les clics sur le Ground.
-		
 		
 		// Construction d'un bâtiment :
 		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
-
-			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*imageConstructSize) { // Clic sur la Mine
+			
+			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*(imageConstructSize+hauteurTextMenuConstruct)) {
 				
-				int number = (y-coinMenuY)/imageConstructSize;
-				String construct = construcRequested(number);
-				if (construct != "") {
-					if (constructionsPossibles.contains(construct)) {
-						selectedCase.setConstruction( nameToConst(construct, selectedCase) );
-						selectedCase.setBackground(getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+				// Il faut cliquer sur l'image, et non pas le texte écrit en-dessous :
+				int number = (y-coinMenuY)/(imageConstructSize+hauteurTextMenuConstruct);
+				
+				if ( y <= coinMenuY+(number+1)*(imageConstructSize+hauteurTextMenuConstruct)-hauteurTextMenuConstruct) {
+					String construct = construcRequested(number);
+					
+					if (construct != "") {
+						if (constructionsPossibles.contains(construct)) {
+							selectedCase.setConstruction( nameToConst(construct, selectedCase) );
+							selectedCase.setBackground( getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+						}
 					}
 				}
+			}
+			
+			// Pour détruire un batiment :
+			if ( selectedCase.getConstruction() != null &&
+				 x >= coinMenuX + 40 && x < coinMenuX + 90 &&
+				 y >= coinBoutonDestruct && y < coinBoutonDestruct + 50 ) {
+				
+				selectedCase.setConstruction(null);
+				selectedCase.setBackground(null);
+				selectedCase.setBackgroundAsResource();
 			}
 		}
 
@@ -222,9 +299,7 @@ public class Ground {
 		}
 		
 		if (selectedCase != null) {
-			if(selectedCase.getConstruction()==null) {
-				menuConstruction = true;
-			}
+			menuConstruction = true;
 		} else {
 			menuConstruction = false;
 		}
@@ -254,16 +329,30 @@ public class Ground {
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		// Affiche le menu des constructions
 
+		coinBoutonDestruct = -100;
 		if (imagesConstructions.size()!=0) {
 			Image img;
 			for(int i=0; i<imagesConstructions.size(); i++) {
+				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
 				img = imagesConstructions.get(i);
-				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize);
+				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize+i*hauteurTextMenuConstruct);
+				context.setColor(Color.white);
+				context.drawString(
+						c.getName() + "\n" +
+						"Coût : " + c.cout + "\n" +
+						"Débit : " + c.debits,
+						coinMenuX+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct, coinMenuY);
 			}
+			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
 		} else {
 			context.setColor(Color.white);
 			context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
 			context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
+			coinBoutonDestruct = coinMenuY + 200;
+		}
+		if (selectedCase.getConstruction() != null) {
+			context.setColor(Color.red);
+			context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
 		}
 	}
 	

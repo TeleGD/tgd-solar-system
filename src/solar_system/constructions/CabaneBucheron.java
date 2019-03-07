@@ -1,7 +1,6 @@
 package solar_system.constructions;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
@@ -14,25 +13,24 @@ import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
 
-public class Mine extends Construction {
+public class CabaneBucheron extends Construction {
 
 	private static HashMap<String, Resource> resourcesExploitable ; //TODO Initialiser la HashMap (la même que dans Construction) avec la liste des ressources exploitables par une mine
 	static 
 	{
-		resourcesExploitable = new HashMap<>();
-        resourcesExploitable.put("Fer",new Resource("Fer"));
+		resourcesExploitable = new HashMap<String, Resource>();
+        resourcesExploitable.put("Bois",new Resource("Bois"));
 	}
 	
-	public Mine (Case tile){
+	public CabaneBucheron (Case tile){
 		super(tile);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
-		this.lifeMax=100;
+		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Fer", 0.005);
-		this.name = "Mine";
-		
-		this.cout.put("Fer", 1000.0);
+		this.debits.put("Bois", 0.005);
+		this.name = "Cabane de bucheron";
+		this.cout.put("Bois", 50.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
@@ -42,5 +40,4 @@ public class Mine extends Construction {
 	public static boolean constructPossible(Case tileConstructLocation) {
 		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 	}
-	
 }

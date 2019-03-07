@@ -14,25 +14,27 @@ import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
 
-public class Mine extends Construction {
+public class TNCY extends Construction {
 
-	private static HashMap<String, Resource> resourcesExploitable ; //TODO Initialiser la HashMap (la même que dans Construction) avec la liste des ressources exploitables par une mine
+	private static HashMap<String, Resource> resourcesExploitable ;
 	static 
 	{
 		resourcesExploitable = new HashMap<>();
-        resourcesExploitable.put("Fer",new Resource("Fer"));
+        resourcesExploitable.put("Noyau Linux",new Resource("Noyau Linux"));
 	}
 	
-	public Mine (Case tile){
+	public TNCY (Case tile){
 		super(tile);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=100;
 		this.life=lifeMax;
-		this.debits.put("Fer", 0.005);
-		this.name = "Mine";
+		this.debits.put("Noyau Linux", 0.0005);
+		this.name = "Télécom Nancy";
 		
-		this.cout.put("Fer", 1000.0);
+		this.cout.put("Fer", 5000.0);
+		this.cout.put("Bois", 500.0);
+		this.cout.put("Nourriture", 10000.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

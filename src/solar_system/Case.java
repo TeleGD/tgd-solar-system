@@ -11,7 +11,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.constructions.Mine;
+import solar_system.constructions.Mine2;
+import solar_system.constructions.TNCY;
 import solar_system.constructions.Ferme;
+import solar_system.constructions.Scierie;
+import solar_system.constructions.CabaneBucheron;
 
 public class Case {
 	private Resource resource;
@@ -29,7 +33,6 @@ public class Case {
 		resourceQuantity = 0;
 		construction = null;
 		imageConstructSize = 150;
-		
 	}
 
 	
@@ -41,24 +44,25 @@ public class Case {
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
 		
+		setBackgroundAsResource();
+		
+	}
+	
+	public void setBackgroundAsResource() { // Permet de placer en arrière-plan de la case l'image de la ressource de la case
+		
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
 			try{
-				this.backgroundImg = new Image(resource.imagePath(resource.getName()));
+				this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void setConstruction(Construction construction){
-		if(this.construction == null){
-			this.construction = construction;
-		}
-		else{
-			System.out.println("Case déjà ocupé");
-		}
+	public void setConstruction(Construction constr){
+		this.construction = constr;
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
@@ -100,14 +104,27 @@ public class Case {
 		
 		ArrayList<String> construPossible = new ArrayList<>();
 		
-		if(Mine.constructPossible(tile)) {
-			construPossible.add("Mine");
+		if (construction==null) {
+			if(Mine.constructPossible(tile)) {
+				construPossible.add("Mine");
+			}
+			if(Ferme.constructPossible(tile)){
+				construPossible.add("Ferme");
+			}
+			if(Scierie.constructPossible(tile)){
+				construPossible.add("Scierie");
+			}
+			if(CabaneBucheron.constructPossible(tile)){
+				construPossible.add("CabaneBucheron");
+			}
+			if(TNCY.constructPossible(tile)){
+				construPossible.add("TNCY");
+			}
+		} else {
+			if (construction instanceof Mine) {
+				construPossible.add("Mine2");
+			}
 		}
-		
-		if(Ferme.constructPossible(tile)){
-			construPossible.add("Ferme");
-		}
-		
 		return construPossible;
 	}
 	

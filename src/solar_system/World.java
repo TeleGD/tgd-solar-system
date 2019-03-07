@@ -153,7 +153,7 @@ public class World extends BasicGameState {
 			planetTouched = false;
 		}
 			
-		else if (ground!=null) { // Gère l'interraction avec le ground: Construction + Selection de case + Retour
+		else if (ground!=null) { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
 			
 			if (ground.mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
 				ground=null;

@@ -14,7 +14,7 @@ import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
 
-public class Mine extends Construction {
+public class Mine2 extends Construction {
 
 	private static HashMap<String, Resource> resourcesExploitable ; //TODO Initialiser la HashMap (la même que dans Construction) avec la liste des ressources exploitables par une mine
 	static 
@@ -23,20 +23,20 @@ public class Mine extends Construction {
         resourcesExploitable.put("Fer",new Resource("Fer"));
 	}
 	
-	public Mine (Case tile){
+	public Mine2 (Case tile){
 		super(tile);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=100;
 		this.life=lifeMax;
-		this.debits.put("Fer", 0.005);
-		this.name = "Mine";
+		this.debits.put("Fer", 0.05);
+		this.name = "Mine B-)";
 		
-		this.cout.put("Fer", 1000.0);
+		//Ajout des coûts de la Mine
+		this.cout.put("Fer", 2000.0);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		
 	}
 	
 	public static boolean constructPossible(Case tileConstructLocation) {
