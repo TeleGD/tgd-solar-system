@@ -361,6 +361,9 @@ public class Ground {
 					}
 					currentWidth -= 48;
 					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
+					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
 				currentHeight += 64;
 				
@@ -377,6 +380,9 @@ public class Ground {
 					}
 					currentWidth -= 48;
 					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
+					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
 			}
 			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
