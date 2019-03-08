@@ -53,7 +53,7 @@ public class Resource {
 		//TODO wtf non !
 	}
 	
-	public String imagePath(String name) {
+	public static String imagePath(String name) {
 		String path = null;
 		switch (name) {
 			case "Fer": path = "res/images/resources/fer_minerai.png";

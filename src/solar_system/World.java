@@ -15,13 +15,12 @@ public class World extends BasicGameState {
 
 	private int ID;
 	private int state;
-	private Ground ground;
 	private int width;
 	private int height;
 	private Solsys solsys;
 	private Player player;
 	private boolean mouv;
-	private boolean planetTouched;
+	private Planet planetSelected;
 	private Image image;
 	private boolean dispRessources;
 	
@@ -75,11 +74,8 @@ public class World extends BasicGameState {
 		}
 		if (!mouv) {
 			mouv = true;
-		} else if (!planetTouched) {
-			if(ground == null)
-				solsys.update(container, game, delta);
-			else
-				this.ground.update(container, game, delta);
+		} else {
+			solsys.update(container, game, delta);
 			player.update(container, game, delta);
 		}
 	}
@@ -87,10 +83,12 @@ public class World extends BasicGameState {
 	@Override
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		if(ground == null)
+		if(planetSelected == null){//Si aucune planète n'est sélectionnée
 			solsys.render(container, game, context);
-		else
-			this.ground.render(container, game, context);
+		}
+		else{//Si une planète est sélectionnée, on affiche le render de son ground.
+			planetSelected.getGround().render(container, game, context);
+		}
 		player.render(container, game, context);
 	}
 
@@ -98,9 +96,8 @@ public class World extends BasicGameState {
 		/* Méthode exécutée une unique fois au début du jeu */
 		this.player= new Player(this);
 		this.solsys= new Solsys(5,this);
-		this.ground = null;
 		this.mouv = true;
-		this.planetTouched = false;
+		this.planetSelected = null;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
@@ -142,24 +139,13 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		Ground tempGround = null; // Variable qui doit recevoir l'objet cliqué sur le systeme
-		if (ground == null) {  // Sur le systeme , gère le clique sur une planète
-			tempGround = solsys.planetTouched(x, y); // recoit le ground de la planete cliquée
+		if (planetSelected == null) {  // Sur le systeme , gère le clique sur une planète
+			planetSelected = solsys.planetTouched(x, y); // planetSelected recoit la planète touchée
+			mouv = false;
 			// null sinon
 		}
-		if(tempGround!= null) { // on a cliqué sur une planète
-			ground = tempGround; // on affiche le ground
-			mouv = false;
-			planetTouched = false;
-		}
 			
-		else if (ground!=null) { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
-			
-			if (ground.mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
-				ground=null;
-			}
-		}
-		if (player.mousePressed(arg0,x,y)){
+		else if (player.mousePressed(arg0,x,y)){//Si le joueur clique sur "Autres ressources"
 			if(dispRessources){
 				dispRessources=false;
 			}
@@ -167,17 +153,21 @@ public class World extends BasicGameState {
 				dispRessources=true;
 			}
 		}
-	}
-
-	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
-		if(ground==null) {
-			mouv = false;
-			planetTouched = solsys.planetTouched(newX, newY) != null;
+		
+		else { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
+			
+			if (planetSelected.getGround().mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
+				planetSelected=null;
+			}
+			//else if()
 		}
 	}
 
-	public Ground getGround() {//pour récupérer les infos du ground dans le player
-		return ground;
+	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
+		if(planetSelected==null) {
+			mouv = false;
+		}
 	}
+
 }
 

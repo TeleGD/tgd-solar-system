@@ -350,16 +350,58 @@ public class Ground {
 		coinBoutonDestruct = -100;
 		if (imagesConstructions.size()!=0) {
 			Image img;
+			int currentHeight = coinMenuY;
+			int mX = 24;	// mX pour marginX, la marge à droite
 			for(int i=0; i<imagesConstructions.size(); i++) {
 				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
+				
+				/** Affichage de l'image **/
 				img = imagesConstructions.get(i);
-				context.drawImage(img, coinMenuX, coinMenuY+i*imageConstructSize+i*hauteurTextMenuConstruct);
+				context.drawImage(img, world.getWidth()-img.getWidth()-mX, currentHeight);
+				currentHeight += imageConstructSize;
 				context.setColor(Color.white);
-				context.drawString(
-						c.getName() + "\n" +
-						"Coût : " + c.cout + "\n" +
-						"Débit : " + c.debits,
-						coinMenuX+(i+1)*imageConstructSize+i*hauteurTextMenuConstruct, coinMenuY);
+				
+				/** Affichage du nom **/
+				int largeur = context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				
+				/** Affichage des coûts **/
+				largeur = context.getFont().getWidth("Coûts :");
+				context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				int currentWidth = world.getWidth()-24;
+				for (String k : c.cout.keySet()) {
+					try{
+						img = new Image(Resource.imagePath(k));
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
+					currentWidth -= 48;
+					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
+					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
+				}
+				currentHeight += 64;
+				
+				/** Affichage des débits **/
+				largeur = context.getFont().getWidth("Gains :");
+				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
+				currentHeight += hauteurTextMenuConstruct;
+				currentWidth = world.getWidth()-24;
+				for (String k : c.debits.keySet()) {
+					try{
+						img = new Image(Resource.imagePath(k));
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
+					currentWidth -= 48;
+					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
+					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
+				}
 			}
 			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
 		} else {
