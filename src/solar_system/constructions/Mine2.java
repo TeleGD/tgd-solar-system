@@ -35,6 +35,7 @@ public class Mine2 extends Construction {
 		
 		//Ajout des coûts de la Mine
 		this.cout.put("Fer", 2000.0);
+		this.cout.put("Nourriture", 5000.0);
 		this.coutPerpetuel.put("Nourriture", 0.04);
 	}
 	

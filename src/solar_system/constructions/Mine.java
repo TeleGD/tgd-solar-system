@@ -34,6 +34,7 @@ public class Mine extends Construction {
 		this.name = "Mine";
 		
 		this.cout.put("Bois", 2000.0);
+		this.cout.put("Nourriture", 2000.0);
 		this.coutPerpetuel.put("Nourriture", 0.02);
 	}
 	

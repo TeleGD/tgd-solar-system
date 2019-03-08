@@ -28,6 +28,7 @@ public abstract class Construction {
 		this.life = lifeMax;
 		this.cout = new HashMap<String, Double>();
 		this.name = "";
+		this.player = player;
 		destructed = false;
 		
 		this.tile = tile;
@@ -52,7 +53,8 @@ public abstract class Construction {
 		{
 			String resource_name = entry.getKey();
 			double qtite_a_prelever = entry.getValue();
-			if ( player.getResource( resource_name ).modifQuantite( qtite_a_prelever ) == false ) {
+			
+			if ( player.getResource( resource_name ).modifQuantite( - qtite_a_prelever ) == false ) {
 				
 				prelevementReussi = false;
 			}
