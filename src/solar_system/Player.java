@@ -61,6 +61,7 @@ public class Player {
 	}
 	
 	public void initRessources(){
+		
 			resources.put("Bois",new Resource("Bois"));
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));

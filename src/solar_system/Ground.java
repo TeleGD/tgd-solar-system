@@ -29,6 +29,7 @@ public class Ground {
 	private int x_origin;	//Abscisse du coin supérieur gauche
 	private int y_origin;	//Ordonnée du coin supérieur gauche
 	private Image image;
+	private Image imageBack; // image du bouton pour retourner au système
 	private int radius;
 	private Air air;
 	private Case selectedCase;
@@ -71,6 +72,7 @@ public class Ground {
 		
 		try{  // désormais, image correspond à l'image de la planète en arrière plan.
 			this.image = new Image(planet.getNomImage());
+			this.imageBack = new Image("res/images/retour.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -92,12 +94,14 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
-		// carre rouge pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
 
 		// Affichage du 'Air'
 		air.render(container, game, context, false);
+
+		// imageBack pour revenir
+		context.drawImage(imageBack.getScaledCopy(48, 48), 0, 50);
 		
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);
@@ -149,7 +153,7 @@ public class Ground {
 	
 	
 	public void generateCases() {
-		// Génère le tableau de dimension 2 "Cases" et le remplit de "Case"
+		// Génère le tableau de dimension 2 "heightCases" et le remplit de "Case"
 		
 		Resource resource;
 		int resourceQuantity;
@@ -323,7 +327,7 @@ public class Ground {
 			menuConstruction = false;
 		}
 		
-		if (x<20 && x>0 && y<70 && y>50) { // Clic sur le carré de retour.
+		if (x<48 && x>0 && y<98 && y>50) { // Clic sur l'image de retour.
 			selectedCase = null; // On désélectionne la case.
 			menuConstruction = false;
 			return(true);
