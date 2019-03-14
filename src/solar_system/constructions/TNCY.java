@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Case;
+import solar_system.Player;
 import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
@@ -23,8 +24,8 @@ public class TNCY extends Construction {
         resourcesExploitable.put("Noyau Linux",new Resource("Noyau Linux"));
 	}
 	
-	public TNCY (Case tile){
-		super(tile);
+	public TNCY (Case tile, Player player){
+		super(tile, player);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=100;
@@ -35,6 +36,7 @@ public class TNCY extends Construction {
 		this.cout.put("Fer", 5000.0);
 		this.cout.put("Bois", 500.0);
 		this.cout.put("Nourriture", 10000.0);
+		this.coutPerpetuel.put("Nourriture", 0.1);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

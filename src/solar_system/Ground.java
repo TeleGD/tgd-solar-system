@@ -45,6 +45,7 @@ public class Ground {
 	private List<Image> imagesConstructions;
 	private int hauteurTextMenuConstruct;
 	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
+	protected boolean constructionFailed; // Vaut true si le joueur a demandé la construction d'un batiment pour lequel il n'a pas assez de ressources
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -62,6 +63,7 @@ public class Ground {
 		coinMenuY = 10000;
 		imageConstructSize = 150;
 		hauteurTextMenuConstruct = 26;
+		constructionFailed = false;
 		generateCases();
 		
 		this.air = new Air(2,(int)(5.0/4)*radius);
@@ -130,6 +132,12 @@ public class Ground {
 				context.drawString(les_debits, coinInfoX, coinInfoY);
 			}
 		}
+		
+		if (constructionFailed) {
+			context.setColor(Color.red);
+			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
+			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
+		}
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -168,22 +176,22 @@ public class Ground {
 	
 	public Construction nameToConst (String name, Case tile) {
 		if(name=="Mine"){
-			return new Mine(tile);
+			return new Mine(tile, world.getPlayer());
 		}
 		if(name=="Mine2"){
-			return new Mine2(tile);
+			return new Mine2(tile, world.getPlayer());
 		}
 		if(name=="TNCY"){
-			return new TNCY(tile);
+			return new TNCY(tile, world.getPlayer());
 		}
 		if(name=="Ferme"){
-			return new Ferme(tile);
+			return new Ferme(tile, world.getPlayer());
 		}
 		if(name=="Scierie"){
-			return new Scierie(tile);
+			return new Scierie(tile, world.getPlayer());
 		}
 		if(name=="CabaneBucheron"){
-			return new CabaneBucheron(tile);
+			return new CabaneBucheron(tile, world.getPlayer());
 		}
 		return null;
 	}
@@ -250,6 +258,10 @@ public class Ground {
 	public boolean mousePressed(int arg0, int x, int y) { 
 		// Gère les clics sur le Ground.
 		
+		if (constructionFailed) { // pour faire disparaitre le message, le joueur doit cliquer n'importe où.
+			constructionFailed = false;
+		}
+		
 		// Construction d'un bâtiment :
 		
 		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
@@ -264,8 +276,14 @@ public class Ground {
 					
 					if (construct != "") {
 						if (constructionsPossibles.contains(construct)) {
-							selectedCase.setConstruction( nameToConst(construct, selectedCase) );
-							selectedCase.setBackground( getConstructImage(number));  // Actuellement, on peut changer l'image sur une case.
+							Player player = this.world.getPlayer();
+							Construction constr = nameToConst(construct, selectedCase);
+							if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
+								selectedCase.setConstruction( constr );
+								selectedCase.setBackground( getConstructImage(number));
+							} else {
+								constructionFailed = true;
+							}
 						}
 					}
 				}
@@ -364,6 +382,9 @@ public class Ground {
 					}
 					currentWidth -= 48;
 					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
+					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
 				currentHeight += 64;
 				
@@ -380,6 +401,9 @@ public class Ground {
 					}
 					currentWidth -= 48;
 					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+					// Tout ce qui suit sert à afficher la valeur sur la droite :
+					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
+					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
 			}
 			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);

@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Case;
+import solar_system.Player;
 import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
@@ -23,8 +24,8 @@ public class Mine2 extends Construction {
         resourcesExploitable.put("Fer",new Resource("Fer"));
 	}
 	
-	public Mine2 (Case tile){
-		super(tile);
+	public Mine2 (Case tile, Player player){
+		super(tile, player);
 		this.posX=tile.getX();
 		this.posY=tile.getY();
 		this.lifeMax=100;
@@ -34,6 +35,8 @@ public class Mine2 extends Construction {
 		
 		//Ajout des coûts de la Mine
 		this.cout.put("Fer", 2000.0);
+		this.cout.put("Nourriture", 5000.0);
+		this.coutPerpetuel.put("Nourriture", 0.04);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
