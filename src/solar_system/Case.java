@@ -87,6 +87,13 @@ public class Case {
 		}
 	}
 	
+	public boolean mousePressed(int arg0,int x ,int y){
+		if(x>this.x && x<this.x+size && y>this.y && y<this.y+size){
+			return true;
+		}
+		return false;
+	}
+	
 
 	public double preleveResource(double quantiteAPrelever) {
 		if(quantiteAPrelever <= resourceQuantity){

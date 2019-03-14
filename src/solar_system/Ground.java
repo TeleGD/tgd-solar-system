@@ -66,9 +66,9 @@ public class Ground {
 		constructionFailed = false;
 		generateCases();
 		
-		this.air = new Air(2,(int)(5.0/4)*radius);
+		this.air = new Air(2,(int)(5.0/4)*radius,this.world);
 		Resource resource = new Resource("Fer"); // TODO : à changer
-		air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource));
+		air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
 		
 		try{  // désormais, image correspond à l'image de la planète en arrière plan.
 			this.image = new Image(planet.getNomImage());
@@ -431,6 +431,10 @@ public class Ground {
 			return imagesConstructions.get(number);
 		}
 		return null;
+	}
+	
+	public Air getAir(){
+		return this.air;
 	}
 	
 	

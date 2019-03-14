@@ -8,8 +8,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Station extends Orbital {
 	private int nbVaisseaux;
 	
-	public Station(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource) {
-		super(lifeMax, cout, posX, posY, size, distance, resource);
+	public Station(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource,World world) {
+		super(lifeMax, cout, posX, posY, size, distance, resource,world);
 		this.nbVaisseaux = 0;
 	}
 	
@@ -32,6 +32,7 @@ public class Station extends Orbital {
 		context.setColor(Color.red);
 		context.fillOval(get_x()*1f-size, get_y()*1f-size, size * 2, size * 2);
 		System.out.println("Je suis une station de position "+get_x()+","+get_y());
+		super.render(container, game, context, arrierePlan);
 		}
 	}
 	@Override
