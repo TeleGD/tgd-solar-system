@@ -94,11 +94,13 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
-		// Affichage du 'Air'
-		air.render(container, game, context, false);
-		// imageBack pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
+
+		// Affichage du 'Air'
+		air.render(container, game, context, false);
+
+		// imageBack pour revenir
 		context.drawImage(imageBack.getScaledCopy(48, 48), 0, 50);
 		
 		if (selectedCase != null) {
