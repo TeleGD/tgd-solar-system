@@ -89,7 +89,7 @@ public class World extends BasicGameState {
 			solsys.render(container, game, context);
 		}
 		else{//Si une planète est sélectionnée, on affiche le render de son ground.
-			planetSelected.getGround().render(container, game, context);
+			planetSelected.render(container, game, context);
 		}
 		player.render(container, game, context);
 	}
@@ -150,7 +150,8 @@ public class World extends BasicGameState {
 		}
 		//else if
 			
-		else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
+		//else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
+		else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
 			System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");
 		}
 		

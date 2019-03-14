@@ -8,6 +8,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import java.util.List;
+import java.util.ArrayList;
 
 import solar_system.util.Images;
 
@@ -19,6 +21,7 @@ public class Planet {
 	private String description;
 	private Ground ground;
 	private int radius;
+	private int radius2;
 	private float angle,distance,posx,posy;
 	private World world;
 	private Color color;
@@ -26,12 +29,15 @@ public class Planet {
 	private String nomImage;
 	private Image image;
 	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
+	private Air air;
 	
 	public Planet(int type,float distance, String description, World world) {
 		this(type,distance,(r.nextInt(50)+50)/2,description, world);
 	}
 	
 	public Planet(int type, float distance ,int radius, String description, World world) {
+		this.radius2 = (int) Math.floor(radius*8.1);
+		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
 		this.angle=(float) (r.nextDouble()*Math.PI*2);
 		this.distance=distance;
 		this.type = type;
@@ -59,18 +65,27 @@ public class Planet {
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		angle+=(float)delta/periode;
-		posx=(float)Math.cos((double)angle)*distance;
-		posy=(float)Math.sin((double)angle)*distance;
+		
 		ground.update(container, game, delta);
+		air.update(container, game, delta);
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		context.drawImage(image,posx+world.getWidth()/2-radius,posy+world.getHeight()/2-radius);
-		//context.setColor(color);
-		//context.fillOval(posx+world.getWidth()/2-radius, posy+world.getHeight()/2-radius, radius * 2, radius * 2);
+		
+		//air.render(container, game, context, true);
+		List<Orbital> listFront= new ArrayList<Orbital>();//Liste des orbitales devant la planète
+		List<Orbital> listBack= new ArrayList<Orbital>();//Orbitales derrières la planète
+		air.filterOrbitals(listFront, listBack);
+		for(Orbital orbital : listBack){//On affihe les orbitales derrières la planète
+			orbital.render(container, game, context);
 		}
+		ground.render(container, game, context);//Affichage planète
+		for(Orbital orbital : listFront){//Affichage orbitales devant
+			orbital.render(container, game, context);
+		
+		}
+	}
 	
 	public String getNomImage() {
 		return nomImage;
@@ -78,6 +93,10 @@ public class Planet {
 	
 	public int getRadius() {
 		return radius;
+	}
+	
+	public int getRadius2() {
+		return radius2;
 	}
 	
 	public float getPosX() {
@@ -88,8 +107,41 @@ public class Planet {
 		return posy;
 	}
 	
+	public void setPosX(float x){
+		this.posx=x;
+	}
+	
+	public void setPosY(float y){
+		this.posy=y;
+	}
+	
+	public float getDistance(){
+		return distance;
+	}
+	
+	public float getPeriode(){
+		return periode;
+	}
+	
+	public float getAngle(){
+		return this.angle;
+	}
+	
+	public void setAngle(float angle){
+		this.angle=angle;
+	}
+	
+	public Image getImage(){
+		return this.image;
+	}
+	
 	public Ground getGround() {
 		return ground;
 	}
+	
+	public Air getAir(){
+		return air;
+	}
+	
 	
 }

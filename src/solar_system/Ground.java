@@ -66,9 +66,9 @@ public class Ground {
 		constructionFailed = false;
 		generateCases();
 		
-		this.air = new Air(2,(int)(5.0/4)*radius,this.world);
+		//this.air = new Air(5,(int)(5.0/4)*radius,this.world,planet);
 		Resource resource = new Resource("Fer"); // TODO : à changer
-		air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
+		/////air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
 		
 		try{  // désormais, image correspond à l'image de la planète en arrière plan.
 			this.image = new Image(planet.getNomImage());
@@ -81,7 +81,7 @@ public class Ground {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
 		// Cette fonction contient deux fois "air.render()" : c'est normal (cf définition de air.render())
-		air.render(container, game, context, true);
+		//air.render(container, game, context, true);
 		int x_bas_droite = this.x_origin+(int)(2*radius*facteur_magique);
 		int y_bas_droite = this.y_origin+(int)(2*radius*facteur_magique);
 		int taille_x = image.getWidth()-1;
@@ -98,7 +98,7 @@ public class Ground {
 		context.fillRect(0,50,20,20);
 
 		// Affichage du 'Air'
-		air.render(container, game, context, false);
+		//air.render(container, game, context, false);
 
 		// imageBack pour revenir
 		context.drawImage(imageBack.getScaledCopy(48, 48), 0, 50);
@@ -148,7 +148,6 @@ public class Ground {
 				c.update(container, game, delta);
 			}
 		}
-		air.update(container, game, delta);
 	}
 	
 	

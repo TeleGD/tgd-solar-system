@@ -42,13 +42,20 @@ public class Solsys {
 
 		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		for (Planet p: planets) {
-			p.render(container, game, context);
+			int radius =p.getRadius();
+			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
 		}
-		planets.get(0).render(container, game, context);
+		//planets.get(0).render(container, game, context);
+		
 	}
 		
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		for (Planet p : planets) {
+			float angle=p.getAngle()+(float)delta/p.getPeriode();
+			p.setAngle(angle);
+			float distance=p.getDistance();
+			p.setPosX((float)Math.cos((double)angle)*distance);
+			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
 		}
 	}

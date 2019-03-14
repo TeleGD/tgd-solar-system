@@ -23,13 +23,11 @@ public abstract class Orbital {
 	private int sizeCase;
 	
 	
-	public Orbital(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource,World world) {
-		this.x = posX;
-		this.y = posY;
+	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world) {
 		this.speed=0.001;
 		this.size = (float) size;
 		this.angle = 0;
-		this.distance = distance+(int)size;
+		this.distance = distance+size;
 		
 		if (this.resource==null){
 			this.backgroundImg = null;
@@ -42,21 +40,21 @@ public abstract class Orbital {
 		}
 		this.sizeCase= (int)(80*world.getFacteurMagique());
 		this.tile=new Case(0,0,sizeCase);
-		tile.setX((int)(x+size-this.sizeCase/2));
-		tile.setY((int)(y+size-this.sizeCase/2));
+		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
+		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
 		this.world=world;		
 	}
 	
-	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan){
+	public void render (GameContainer container, StateBasedGame game, Graphics context){
 		this.tile.render(container, game, context);
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta  /* , int orbitals_size, int i */ ) {
 		angle = ( angle + delta*this.getSpeed() ) % (2*Math.PI);
-		this.x=(int)(container.getWidth()/2+distance*Math.cos(angle));
-		this.y=(int)(container.getHeight()/2-distance*Math.sin(angle)/2);
-		tile.setX((int)(x-this.sizeCase/2));
-		tile.setY((int)(y-this.sizeCase/2));
+		this.x=(int)(distance*Math.cos(angle));
+		this.y=(int)(distance*Math.sin(angle));
+		tile.setX((int)(container.getWidth()/2+x-this.sizeCase/2));
+		tile.setY((int)(container.getHeight()/2-y/2-this.sizeCase/2));
 		
 		//System.out.println("X : "+ posX + " Y : "+ posY);
 	}
@@ -82,5 +80,9 @@ public abstract class Orbital {
 	
 	public Case getCase(){
 		return this.tile;
+	}
+	
+	public double getAngle(){
+		return this.angle;
 	}
 }

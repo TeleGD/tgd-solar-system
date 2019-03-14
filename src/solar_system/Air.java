@@ -9,21 +9,38 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Air {
 	private int nbOrbitaux;
 	private int distance;
 	private World world;
 	private int sizeCase;
+	private int nbSatelite;
+	private int nbStation;
+	private int radius;
+	private Planet planet;
+	//private Resource resource;
 	
 	private List<Orbital> orbitals;
 	
-	public Air(int nbOrbitaux, int distance,World world) {
+	public Air(int nbOrbitaux, int distance,World world,Planet planet) {
+		this.planet=planet;
+		this.radius=planet.getRadius2();
 		this.nbOrbitaux = nbOrbitaux;
 		this.distance = distance;
 		this.orbitals = new ArrayList<Orbital>();
 		this.world=world;
 		this.sizeCase= (int)(80*world.getFacteurMagique());
+		this.nbSatelite=ThreadLocalRandom.current().nextInt(1, 4);
+		this.nbStation=ThreadLocalRandom.current().nextInt(0, 3);//Générer int aléatoire.
+		Resource resource = new Resource("Fer");
+		for(int i=0;i<this.nbSatelite;i++){
+			orbitals.add(new Satellite(20,0,0, 50,(int)(5.0/4*radius),resource,this.world));
+		}
+		for(int j=0;j<this.nbStation;j++){
+			orbitals.add(new Station(20,0,0, 50,(int)(5.0/4*radius),resource,this.world));
+		}
 	
 	}
 	
@@ -42,10 +59,23 @@ public class Air {
 			//System.out.println(coin_x+" "+coin_y+" "+orbital.get_size()+" "+this.sizeCase);
 		}
 		System.out.println("Oh non, tu as cliqué à côté du satellite...");
+		//System.out.println(this.nbSatelite+" "+this.nbStation);
 		return null;
 
 		
 	}
+	
+	public void filterOrbitals(List<Orbital> listFront,List<Orbital> listBack){
+		for (Orbital orbital : orbitals){
+			if(Math.sin(orbital.getAngle())>0){
+				listBack.add(orbital);
+			}
+			else{
+				listFront.add(orbital);
+			}
+		}
+	}
+	
 	
 	
 	
@@ -62,14 +92,6 @@ public class Air {
 		for (Orbital o : orbitals) {
 			o.update(container, game, delta);
 			//i++;
-		}
-	}
-	
-	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan) {
-		for (Orbital o : orbitals) {
-			o.render(container, game, context, arrierePlan);
-			//context.setColor(Red);
-			//context.
 		}
 	}
 	
