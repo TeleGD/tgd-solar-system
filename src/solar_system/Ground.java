@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.ui.ButtonV2;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
@@ -43,6 +44,7 @@ public class Ground {
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private List<String> constructionsPossibles;
 	private List<Image> imagesConstructions;
+	private List<ButtonV2> boutonsConstructions = new ArrayList<>();
 	private int hauteurTextMenuConstruct;
 	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
 	protected boolean constructionFailed; // Vaut true si le joueur a demandé la construction d'un batiment pour lequel il n'a pas assez de ressources
@@ -233,28 +235,6 @@ public class Ground {
 		}
 	}
 	
-	public String getInfoConstruct(String construct_name) {
-		String info = "";
-		switch (construct_name) {
-			case "Mine":
-				info = "Mine : 1000 Fer";
-				break;
-			case "Ferme":
-				info = "Ferme : 500 Bois";
-				break;
-			case "Scierie":
-				info = "Scierie : 200 Bois";
-				break;
-			case "Cabane Bucheron":
-				info = "Cabane Bucheron : 50 Bois";
-				break;
-			default :
-				info = "Pas défini";
-				break;
-		}
-		return info;
-	}
-	
 	public boolean mousePressed(int arg0, int x, int y) { 
 		// Gère les clics sur le Ground.
 		
@@ -306,7 +286,7 @@ public class Ground {
 		
 		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
 			Image imageTemp;
-			constructionsPossibles = selectedCase.infoConstruct(selectedCase);
+			constructionsPossibles = selectedCase.infoConstruct();
 			imagesConstructions = new ArrayList<Image>();
 			
 			for (int i=0; i<constructionsPossibles.size(); i++) {
@@ -353,40 +333,48 @@ public class Ground {
 		coinBoutonDestruct = -100;
 		if (imagesConstructions.size()!=0) {
 			Image img;
+			int tailleImg = 128;
 			int currentHeight = coinMenuY;
+			int largeur, initialHeight;
 			int mX = 24;	// mX pour marginX, la marge à droite
-			for(int i=0; i<imagesConstructions.size(); i++) {
+			for(int i=0; i<constructionsPossibles.size(); i++) {
 				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
 				
-				/** Affichage de l'image **/
-				img = imagesConstructions.get(i);
-				context.drawImage(img, world.getWidth()-img.getWidth()-mX, currentHeight);
-				currentHeight += imageConstructSize;
-				context.setColor(Color.white);
-				
 				/** Affichage du nom **/
-				int largeur = context.getFont().getWidth(c.getName());
+				largeur = context.getFont().getWidth(c.getName());
+				context.setColor(Color.white);
 				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
 				currentHeight += hauteurTextMenuConstruct;
+				initialHeight = currentHeight;
+				
+				/** Affichage de l'image **/
+				try {
+					img = new Image("res/images/constructions/"+constructionsPossibles.get(i)+".png");
+					boutonsConstructions.add(new ButtonV2(img, world.getWidth()-tailleImg-mX-50, currentHeight, tailleImg, tailleImg));
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+				currentHeight += imageConstructSize;
 				
 				/** Affichage des coûts **/
-				largeur = context.getFont().getWidth("Coûts :");
-				context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				int currentWidth = world.getWidth()-24;
+				currentHeight = initialHeight;
+				//largeur = context.getFont().getWidth("Coûts :");
+				//context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
+				//currentHeight += hauteurTextMenuConstruct;
+				int currentWidth = world.getWidth()-mX-50;
 				for (String k : c.cout.keySet()) {
 					try{
 						img = new Image(Resource.imagePath(k));
+						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					} catch (SlickException e) {
 						e.printStackTrace();
 					}
-					currentWidth -= 48;
-					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					// Tout ce qui suit sert à afficher la valeur sur la droite :
 					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
 					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
+					currentHeight += 50;
 				}
-				currentHeight += 64;
+				currentHeight = Math.max(currentHeight+10,initialHeight+imageConstructSize+10);
 				
 				/** Affichage des débits **/
 				largeur = context.getFont().getWidth("Gains :");
@@ -396,15 +384,16 @@ public class Ground {
 				for (String k : c.debits.keySet()) {
 					try{
 						img = new Image(Resource.imagePath(k));
+						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					} catch (SlickException e) {
 						e.printStackTrace();
 					}
 					currentWidth -= 48;
-					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					// Tout ce qui suit sert à afficher la valeur sur la droite :
 					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
 					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
+				currentHeight += 64;
 			}
 			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
 		} else {

@@ -99,25 +99,25 @@ public class Case {
 		}
 	}
 	
-	public ArrayList<String> infoConstruct(Case tile){
+	public ArrayList<String> infoConstruct(){
 		//Retourne les constructions faisables sur la case cliquée
 		
 		ArrayList<String> construPossible = new ArrayList<>();
 		
 		if (construction==null) {
-			if(Mine.constructPossible(tile)) {
+			if(Mine.constructPossible(this)) {
 				construPossible.add("Mine");
 			}
-			if(Ferme.constructPossible(tile)){
+			if(Ferme.constructPossible(this)){
 				construPossible.add("Ferme");
 			}
-			if(Scierie.constructPossible(tile)){
+			if(Scierie.constructPossible(this)){
 				construPossible.add("Scierie");
 			}
-			if(CabaneBucheron.constructPossible(tile)){
+			if(CabaneBucheron.constructPossible(this)){
 				construPossible.add("CabaneBucheron");
 			}
-			if(TNCY.constructPossible(tile)){
+			if(TNCY.constructPossible(this)){
 				construPossible.add("TNCY");
 			}
 		} else {
