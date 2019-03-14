@@ -54,7 +54,12 @@ public class Case {
 			this.backgroundImg = null;
 		} else {
 			try{
-				this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
+				if (this.resource.getName() == "Bois"){
+					this.backgroundImg = new Image("res/images/resources/foret.png");
+				}
+				else {
+					this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
+				}
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
