@@ -25,12 +25,13 @@ public class Planet {
 	private float mass,periode;
 	private String nomImage;
 	private Image image;
+	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
 	
-	public Planet(int type,float angle,float distance, String description, World world) {
-		this(type,angle,distance,(r.nextInt(50)+50)/2,description, world);
+	public Planet(int type,float distance, String description, World world) {
+		this(type,distance,(r.nextInt(50)+50)/2,description, world);
 	}
 	
-	public Planet(int type,float angle, float distance ,int radius, String description, World world) {
+	public Planet(int type, float distance ,int radius, String description, World world) {
 		this.angle=(float) (r.nextDouble()*Math.PI*2);
 		this.distance=distance;
 		this.type = type;
@@ -39,9 +40,11 @@ public class Planet {
 		this.world=world;
 		this.mass=(4f/3f)*(float)Math.PI*(float)Math.pow((double)radius,3)*type;
 		this.periode=(float)Math.sqrt(Math.pow((double)radius, 3));
+		this.coeffSpeed = 10f;
+		periode *= coeffSpeed;
 		this.color=new Color(type*120,0,255/type);
-		posx=(float)Math.cos((double)angle)*distance;
-		posy=(float)Math.sin((double)angle)*distance;
+		posx=(float)Math.cos((double)this.angle)*this.distance;
+		posy=(float)Math.sin((double)this.angle)*this.distance;
 		
 		Random rnd = new Random();
 		this.nomImage = "res/images/planets/"+rnd.nextInt(6)+".png";

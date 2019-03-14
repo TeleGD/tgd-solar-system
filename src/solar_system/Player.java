@@ -27,6 +27,7 @@ public class Player {
 	
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
+		
 		int size;
 		int comp=0;
 		size=resources.size()+1;//taille du hashmap

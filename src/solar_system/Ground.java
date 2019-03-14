@@ -92,11 +92,12 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
-		// Affichage du 'Air'
-		air.render(container, game, context, false);
 		// carre rouge pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
+
+		// Affichage du 'Air'
+		air.render(container, game, context, false);
 		
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);

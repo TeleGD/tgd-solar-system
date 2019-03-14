@@ -27,7 +27,6 @@ public class World extends BasicGameState {
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
-		this.dispRessources = false;
 	}
 
 	@Override
@@ -72,12 +71,14 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		if (!mouv) {
+		/*if (!mouv) {
 			mouv = true;
 		} else {
 			solsys.update(container, game, delta);
 			player.update(container, game, delta);
-		}
+		}*/
+		solsys.update(container, game, delta);
+		player.update(container, game, delta);
 	}
 
 	@Override
@@ -98,6 +99,7 @@ public class World extends BasicGameState {
 		this.solsys= new Solsys(5,this);
 		this.mouv = true;
 		this.planetSelected = null;
+		this.dispRessources = false;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
