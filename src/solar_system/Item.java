@@ -1,5 +1,7 @@
 package solar_system;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -26,12 +28,14 @@ public class Item {
 		this.tile = tile;
 		this.name = name;
 		Image img = null;
+		ArrayList<Integer, Integer, Image, Integer> myliste = new ArrayList<>();
 		try {
 			img = new Image("res/images/constructions/"+name+".png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		this.button = new ButtonV2(img, x, y, 48, 48);
+		
 		//TODO: Positionnement des coûts et des débits
 	}
 	
