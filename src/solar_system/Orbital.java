@@ -26,7 +26,7 @@ public abstract class Orbital {
 	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world) {
 		this.speed=0.001;
 		this.size = (float) size;
-		this.angle = 0;
+		this.angle = angle;
 		this.distance = distance+size;
 		
 		if (this.resource==null){

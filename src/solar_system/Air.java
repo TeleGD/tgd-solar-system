@@ -26,20 +26,22 @@ public class Air {
 	
 	public Air(int nbOrbitaux, int distance,World world,Planet planet) {
 		this.planet=planet;
-		this.radius=planet.getRadius2();
+		this.radius=planet.getRadius2 ();
 		this.nbOrbitaux = nbOrbitaux;
 		this.distance = distance;
 		this.orbitals = new ArrayList<Orbital>();
 		this.world=world;
 		this.sizeCase= (int)(80*world.getFacteurMagique());
-		this.nbSatelite=ThreadLocalRandom.current().nextInt(1, 4);
-		this.nbStation=ThreadLocalRandom.current().nextInt(0, 3);//Générer int aléatoire.
+		this.nbSatelite=(int) (Math.random()*4);
+		this.nbStation=(int) (Math.random()*3);//Générer int aléatoire.
+		System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
 		Resource resource = new Resource("Fer");
+		int nbOrbitals = this.nbSatelite+this.nbStation;
 		for(int i=0;i<this.nbSatelite;i++){
-			orbitals.add(new Satellite(20,0,0, 50,(int)(5.0/4*radius),resource,this.world));
+			orbitals.add(new Satellite(20,0,(float)(Math.PI*i*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,this.world));
 		}
 		for(int j=0;j<this.nbStation;j++){
-			orbitals.add(new Station(20,0,0, 50,(int)(5.0/4*radius),resource,this.world));
+			orbitals.add(new Station(20,0,(float)(Math.PI*(j+this.nbSatelite)*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,this.world));
 		}
 	
 	}
