@@ -69,7 +69,10 @@ public class Case {
 
 		context.setColor(new Color(0, 0, 0, 127));
 		context.drawRect(x, y, size, size);
-		if(backgroundImg != null){
+		if(construction != null) {
+			construction.render(container, game, context, x, y);
+		}
+		else if(backgroundImg != null){
 			context.drawImage(backgroundImg.getScaledCopy(size-1,size-1),x+1,y+1);
 		}
 	}
@@ -162,5 +165,9 @@ public class Case {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getSize() {
+		return this.size;
 	}
 }

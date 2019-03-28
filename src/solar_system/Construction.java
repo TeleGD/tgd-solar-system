@@ -5,7 +5,10 @@ import java.util.*;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import app.AppLoader;
 
 public abstract class Construction {
 	
@@ -22,6 +25,7 @@ public abstract class Construction {
 	protected HashMap<String, Double> cout;
 	protected HashMap<String, Double> coutPerpetuel;
 	protected Player player;
+	protected Image imgConstruction;
 	
 	public Construction(Case tile, Player player) {
 		this.lifeMax = 100;
@@ -38,6 +42,10 @@ public abstract class Construction {
 		
 		debits = new HashMap<String,Double>();
 		coutPerpetuel = new HashMap<String, Double>();
+		
+		Image imageTemp = AppLoader.loadImage("/images/constructions/"+this.getClass().getName()+".png"); // L'image doit avoir le même nom que la classe
+		imgConstruction = imageTemp.getScaledCopy(tile.getSize(),tile.getSize()) ;
+		
 	}
 	
 	public void takeDamage(int damage) {
@@ -110,6 +118,9 @@ public abstract class Construction {
 		return name;
 	}
 	
+	public void render (GameContainer container, StateBasedGame game, Graphics context, int x, int y) {
+		context.drawImage(imgConstruction, x, y);
+	}
 	
 }
 
