@@ -158,6 +158,11 @@ public class Case {
 	
 	public void setResource(Resource r){
 		resource = r;
+		setBackgroundAsResource();
+	}
+
+	public void setRessourceQuantity(double quantity){
+		resourceQuantity=quantity;
 	}
 
 	public int getX() {

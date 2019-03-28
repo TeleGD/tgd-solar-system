@@ -37,7 +37,6 @@ public class Planet {
 	
 	public Planet(int type, float distance ,int radius, String description, World world) {
 		this.radius2 = (int) Math.floor(radius*8.1);
-		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
 		this.angle=(float) (r.nextDouble()*Math.PI*2);
 		this.distance=distance;
 		this.type = type;
@@ -61,6 +60,8 @@ public class Planet {
 		}
 		this.image=image.getScaledCopy(radius*2,radius*2);
 		this.ground = new Ground(this, world);
+		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
+		
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
