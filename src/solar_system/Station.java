@@ -36,9 +36,9 @@ public class Station extends Orbital {
 		context.fillOval(container.getWidth()/2+get_x()*1f-size, container.getHeight()/2-get_y()/2*1f-size, size * 2, size * 2);
 		super.render(container, game, context);
 	}
-	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) {
-		// TODO Auto-generated method stub
-		
-	}
+	//@Override
+//	public void update(GameContainer container, StateBasedGame game, int delta) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }
