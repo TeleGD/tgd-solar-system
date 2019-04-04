@@ -86,6 +86,7 @@ public class Planet {
 			orbital.render(container, game, context);
 		
 		}
+		ground.renderMenuConstruct(container, game, context);
 	}
 	
 	public String getNomImage() {

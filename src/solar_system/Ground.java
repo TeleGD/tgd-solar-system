@@ -112,34 +112,9 @@ public class Ground {
 			// Affichage du Menu des constructions :
 			coinMenuX = (int)(0.8*world.getWidth());
 			coinMenuY = (int)(0.1*world.getHeight());
-			renderMenuConstruct(container, game, context);
 			
-			if (selectedCase.getConstruction() != null) {
-				// Affichage des informations sur la construction :
-				
-				coinInfoY = world.getHeight()-24*3;
-				Construction c = selectedCase.getConstruction();
-				context.setColor(Color.white);
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
-				context.drawString(c.getName(), coinInfoX, coinInfoY);
-				coinInfoY += 24;
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
-				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinInfoX, coinInfoY);
-				String les_debits = "";
-				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
-					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
-				}
-				coinInfoY += 24;
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
-				context.drawString(les_debits, coinInfoX, coinInfoY);
-			}
 		}
 		
-		if (constructionFailed) {
-			context.setColor(Color.red);
-			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
-			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
-		}
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -277,7 +252,6 @@ public class Ground {
 					
 					if (construct != "") {
 						if (constructionsPossibles.contains(construct)) {
-							Player player = this.world.getPlayer();
 							Construction constr = nameToConst(construct, selectedCase);
 							if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
 								selectedCase.setConstruction( constr );
@@ -351,73 +325,106 @@ public class Ground {
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		// Affiche le menu des constructions
 
-		coinBoutonDestruct = -100;
-		if (imagesConstructions.size()!=0) {
-			Image img;
-			int currentHeight = coinMenuY;
-			int mX = 24;	// mX pour marginX, la marge à droite
-			for(int i=0; i<imagesConstructions.size(); i++) {
-				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
-				
-				/** Affichage de l'image **/
-				img = imagesConstructions.get(i);
-				context.drawImage(img, world.getWidth()-img.getWidth()-mX, currentHeight);
-				currentHeight += imageConstructSize;
+		if (selectedCase != null) {
+			
+			coinMenuX = (int)(0.8*world.getWidth());
+			coinMenuY = (int)(0.1*world.getHeight());
+			
+			coinBoutonDestruct = -100;
+			if (imagesConstructions.size()!=0) {
+				Image img;
+				int currentHeight = coinMenuY;
+				int mX = 24;	// mX pour marginX, la marge à droite
+				for(int i=0; i<imagesConstructions.size(); i++) {
+					Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
+					
+					/** Affichage de l'image **/
+					img = imagesConstructions.get(i);
+					context.drawImage(img, world.getWidth()-img.getWidth()-mX, currentHeight);
+					currentHeight += imageConstructSize;
+					context.setColor(Color.white);
+					
+					/** Affichage du nom **/
+					int largeur = context.getFont().getWidth(c.getName());
+					context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
+					currentHeight += hauteurTextMenuConstruct;
+					
+					/** Affichage des coûts **/
+					largeur = context.getFont().getWidth("Coûts :");
+					context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
+					currentHeight += hauteurTextMenuConstruct;
+					int currentWidth = world.getWidth()-24;
+					for (String k : c.cout.keySet()) {
+						try{
+							img = new Image(Resource.imagePath(k));
+						} catch (SlickException e) {
+							e.printStackTrace();
+						}
+						currentWidth -= 48;
+						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+						// Tout ce qui suit sert à afficher la valeur sur la droite :
+						largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
+						context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
+					}
+					currentHeight += 64;
+					
+					/** Affichage des débits **/
+					largeur = context.getFont().getWidth("Gains :");
+					context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
+					currentHeight += hauteurTextMenuConstruct;
+					currentWidth = world.getWidth()-24;
+					for (String k : c.debits.keySet()) {
+						try{
+							img = new Image(Resource.imagePath(k));
+						} catch (SlickException e) {
+							e.printStackTrace();
+						}
+						currentWidth -= 48;
+						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
+						// Tout ce qui suit sert à afficher la valeur sur la droite :
+						largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
+						context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
+					}
+				}
+				coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
+			} else {
 				context.setColor(Color.white);
-				
-				/** Affichage du nom **/
-				int largeur = context.getFont().getWidth(c.getName());
-				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				
-				/** Affichage des coûts **/
-				largeur = context.getFont().getWidth("Coûts :");
-				context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				int currentWidth = world.getWidth()-24;
-				for (String k : c.cout.keySet()) {
-					try{
-						img = new Image(Resource.imagePath(k));
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					currentWidth -= 48;
-					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
-					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-				}
-				currentHeight += 64;
-				
-				/** Affichage des débits **/
-				largeur = context.getFont().getWidth("Gains :");
-				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				currentWidth = world.getWidth()-24;
-				for (String k : c.debits.keySet()) {
-					try{
-						img = new Image(Resource.imagePath(k));
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					currentWidth -= 48;
-					context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
-					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-				}
+				context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
+				context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
+				coinBoutonDestruct = coinMenuY + 200;
 			}
-			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
-		} else {
-			context.setColor(Color.white);
-			context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
-			context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
-			coinBoutonDestruct = coinMenuY + 200;
+			if (selectedCase.getConstruction() != null) {
+				context.setColor(Color.red);
+				context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
+			}
+
+			if (selectedCase.getConstruction() != null) {
+				// Affichage des informations sur la construction :
+				
+				coinInfoY = world.getHeight()-24*3;
+				Construction c = selectedCase.getConstruction();
+				context.setColor(Color.white);
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
+				context.drawString(c.getName(), coinInfoX, coinInfoY);
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
+				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinInfoX, coinInfoY);
+				String les_debits = "";
+				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
+					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
+				}
+				coinInfoY += 24;
+				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
+				context.drawString(les_debits, coinInfoX, coinInfoY);
+			}
 		}
-		if (selectedCase.getConstruction() != null) {
+		
+		if (constructionFailed) {
 			context.setColor(Color.red);
-			context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
+			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
+			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
 		}
+		
 	}
 	
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
