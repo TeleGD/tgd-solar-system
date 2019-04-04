@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
 import app.ui.ButtonV2;
 
 public class MenuConstruction {
@@ -38,6 +39,11 @@ public class MenuConstruction {
 				item = new Item(world, selectedCase, name, x, yItem);
 				listItems.add(item);
 				yItem += item.getHeight();
+			}
+			if (selectedCase.getConstruction() != null) {
+				// TODO: Charger une image de bouton de destruction
+				Image imgBoule = AppLoader.loadImage("/images/constructions/destruction.jpeg");
+				ButtonV2 suppr = new ButtonV2(imgBoule, x, yItem, 48, 48); 
 			}
 		}
 	}
