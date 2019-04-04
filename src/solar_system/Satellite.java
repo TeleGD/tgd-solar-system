@@ -7,16 +7,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Satellite extends Orbital{
 	
-	public Satellite(int lifeMax, int cout,int posX,int posY, int size, int distance, Resource resource) {
-		super(lifeMax, cout, posX, posY, size, distance, resource);
+	public Satellite(int lifeMax, int cout,float angle, int size, int distance, Resource resource,World world) {
+		super(lifeMax, cout, angle, size, distance, resource,world);
 	}
 
-	public void render (GameContainer container, StateBasedGame game, Graphics context, boolean arrierePlan){
-		if ( (arrierePlan && Math.sin(angle)>0)  ||   (!(arrierePlan) && !(Math.sin(angle)>0)) ) {
-			context.setColor(Color.blue);
-			context.fillOval(get_x()*1f-size, get_y()*1f-size, size * 2, size * 2);
-			//System.out.println("Je suis un satellite de position "+get_x()+","+get_y());
-		}
+	public void render (GameContainer container, StateBasedGame game, Graphics context){
+		context.setColor(Color.blue);
+		context.fillOval(container.getWidth()/2+get_x()*1f-size, container.getHeight()/2-get_y()/2*1f-size, size * 2, size * 2);
+		super.render(container, game, context);
+		//System.out.println("Je suis un satellite de position "+get_x()+","+get_y());
 	}
 	/*
 	@Override

@@ -55,7 +55,12 @@ public class Case {
 		} else {
 			// TODO: Utiliser le getImage de Resource
 			try{
-				this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
+				if (this.resource.getName() == "Bois"){
+					this.backgroundImg = new Image("res/images/resources/foret.png");
+				}
+				else {
+					this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
+				}
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -89,6 +94,13 @@ public class Case {
 		if (construction != null) {
 			construction.update(container, game, delta);
 		}
+	}
+	
+	public boolean mousePressed(int arg0,int x ,int y){
+		if(x>this.x && x<this.x+size && y>this.y && y<this.y+size){
+			return true;
+		}
+		return false;
 	}
 	
 
@@ -150,6 +162,11 @@ public class Case {
 	
 	public void setResource(Resource r){
 		resource = r;
+		setBackgroundAsResource();
+	}
+
+	public void setRessourceQuantity(double quantity){
+		resourceQuantity=quantity;
 	}
 
 	public int getX() {

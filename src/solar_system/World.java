@@ -23,11 +23,11 @@ public class World extends BasicGameState {
 	private Planet planetSelected;
 	private Image image;
 	private boolean dispRessources;
+	private float facteur_magique;
 	
 	public World (int ID) {
 		this.ID = ID;
 		this.state = -1;
-		this.dispRessources = false;
 	}
 
 	@Override
@@ -72,12 +72,14 @@ public class World extends BasicGameState {
 			this.setState (1);
 			game.enterState (2, new FadeOutTransition (), new FadeInTransition ());
 		}
-		if (!mouv) {
+		/*if (!mouv) {
 			mouv = true;
 		} else {
 			solsys.update(container, game, delta);
 			player.update(container, game, delta);
-		}
+		}*/
+		solsys.update(container, game, delta);
+		player.update(container, game, delta);
 	}
 
 	@Override
@@ -87,17 +89,19 @@ public class World extends BasicGameState {
 			solsys.render(container, game, context);
 		}
 		else{//Si une planète est sélectionnée, on affiche le render de son ground.
-			planetSelected.getGround().render(container, game, context);
+			planetSelected.render(container, game, context);
 		}
 		player.render(container, game, context);
 	}
 
 	public void play (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée une unique fois au début du jeu */
+		this.facteur_magique=(float)(this.height)/1080;
 		this.player= new Player(this);
 		this.solsys= new Solsys(5,this);
 		this.mouv = true;
 		this.planetSelected = null;
+		this.dispRessources = false;
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
@@ -144,14 +148,11 @@ public class World extends BasicGameState {
 			mouv = false;
 			// null sinon
 		}
+		//else if
 			
-		else if (player.mousePressed(arg0,x,y)){//Si le joueur clique sur "Autres ressources"
-			if(dispRessources){
-				dispRessources=false;
-			}
-			else{
-				dispRessources=true;
-			}
+		//else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
+		else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
+			System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");
 		}
 		
 		else { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
@@ -161,12 +162,24 @@ public class World extends BasicGameState {
 			}
 			//else if()
 		}
+		if(player.mousePressed(arg0,x,y)){//Si le joueur clique sur "Autres ressources"
+			if(dispRessources){
+				dispRessources=false;
+			}
+			else{
+				dispRessources=true;
+			}
+		}
 	}
 
 	public void mouseMoved(int oldX, int oldY,int newX, int newY) {
 		if(planetSelected==null) {
 			mouv = false;
 		}
+	}
+	
+	public float getFacteurMagique(){
+		return this.facteur_magique;
 	}
 
 }

@@ -32,7 +32,6 @@ public class Ground {
 	private Image image;
 	private Image imageBack; // image du bouton pour retourner au système
 	private int radius;
-	private Air air;
 	private Case selectedCase;
 	private int padding; // Décalage des cases par rapport au point supérieur gauche de l'image de la planère (global car nécessaire pour la sélection des cases).
 	private float facteur_magique;
@@ -74,9 +73,9 @@ public class Ground {
 		constructionFailed = false;
 		generateCases();
 		
-		this.air = new Air(2,(int)(5.0/4)*radius);
+		//this.air = new Air(5,(int)(5.0/4)*radius,this.world,planet);
 		Resource resource = new Resource("Fer"); // TODO : à changer
-		air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource));
+		/////air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
 		
 		try{  // désormais, image correspond à l'image de la planète en arrière plan.
 			this.image = new Image(planet.getNomImage());
@@ -89,7 +88,7 @@ public class Ground {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
 		// Cette fonction contient deux fois "air.render()" : c'est normal (cf définition de air.render())
-		air.render(container, game, context, true);
+		//air.render(container, game, context, true);
 		int x_bas_droite = this.x_origin+(int)(2*radius*facteur_magique);
 		int y_bas_droite = this.y_origin+(int)(2*radius*facteur_magique);
 		int taille_x = image.getWidth()-1;
@@ -102,51 +101,19 @@ public class Ground {
 				c.render(container, game, context);
 			}
 		}
-		// Affichage du 'Air'
-		air.render(container, game, context, false);
-		// imageBack pour revenir 
 		context.setColor(Color.red);
 		context.fillRect(0,50,20,20);
+
+		// Affichage du 'Air'
+		//air.render(container, game, context, false);
+
+		// imageBack pour revenir
 		context.drawImage(imageBack.getScaledCopy(48, 48), 0, 50);
 		
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);
 		}
-
-		if (selectedCase != null) {
-			
-			// Affichage du Menu des constructions :
-			coinMenuX = (int)(0.8*world.getWidth());
-			coinMenuY = (int)(0.1*world.getHeight());
-			//renderMenuConstruct(container, game, context);
-			menuConstruction.render(container, game, context);
-			
-			if (selectedCase.getConstruction() != null) {
-				// Affichage des informations sur la construction :
-				
-				coinInfoY = world.getHeight()-24*3;
-				Construction c = selectedCase.getConstruction();
-				context.setColor(Color.white);
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(c.getName());
-				context.drawString(c.getName(), coinInfoX, coinInfoY);
-				coinInfoY += 24;
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth("Vie : "+c.life + "/" + c.lifeMax);
-				context.drawString("Vie : "+c.life + "/" + c.lifeMax, coinInfoX, coinInfoY);
-				String les_debits = "";
-				for (Map.Entry<String , Double> debit : c.debits.entrySet()) {
-					les_debits += ("\t" + debit.getKey() + " : " + debit.getValue());
-				}
-				coinInfoY += 24;
-				coinInfoX = world.getWidth() - 16 - context.getFont().getWidth(les_debits);
-				context.drawString(les_debits, coinInfoX, coinInfoY);
-			}
-		}
 		
-		if (constructionFailed) {
-			context.setColor(Color.red);
-			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
-			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
-		}
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -155,7 +122,6 @@ public class Ground {
 				c.update(container, game, delta);
 			}
 		}
-		air.update(container, game, delta);
 	}
 	
 	
@@ -263,7 +229,6 @@ public class Ground {
 					
 					if (construct != "") {
 						if (constructionsPossibles.contains(construct)) {
-							Player player = this.world.getPlayer();
 							Construction constr = nameToConst(construct, selectedCase);
 							if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
 								selectedCase.setConstruction( constr );
@@ -287,8 +252,15 @@ public class Ground {
 			}
 		}
 
+		
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
 		menuConstruction.casePressed(selectedCase);
+		Air air = planet.getAir();
+		if(air.mousePressed(arg0,x, y)!=null){
+			selectedCase = air.mousePressed(arg0, x, y).getCase();
+			
+		}
+		//Mettre le selected case = mousepressed de air.
 		
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
 		
@@ -335,6 +307,9 @@ public class Ground {
 			return (cases[(x - (x_origin+padding))/renderedSize][(y - (y_origin+padding))/renderedSize]);}
 	}
 	
+	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
+		menuConstruction.render(container, game, context);
+	}
 	
 
 	 /*public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
@@ -405,17 +380,14 @@ public class Ground {
 					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
 				}
 				currentHeight += 64;
+
 			}
-			coinBoutonDestruct = coinMenuY + 15 + imagesConstructions.size() * (imageConstructSize + hauteurTextMenuConstruct);
-		} else {
-			context.setColor(Color.white);
-			context.drawString( "Pas de construction possible", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()) );
-			context.drawString( "sur cette case", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight())+24 );
-			coinBoutonDestruct = coinMenuY + 200;
 		}
-		if (selectedCase.getConstruction() != null) {
+		
+		if (constructionFailed) {
 			context.setColor(Color.red);
-			context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
+			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
+			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
 		}
 	}*/
 	
@@ -432,6 +404,8 @@ public class Ground {
 		}
 		return null;
 	}
+	
+
 	
 	
 	
