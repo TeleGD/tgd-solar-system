@@ -36,7 +36,7 @@ public class Ground {
 	private Case selectedCase;
 	private int padding; // Décalage des cases par rapport au point supérieur gauche de l'image de la planère (global car nécessaire pour la sélection des cases).
 	private float facteur_magique;
-	private boolean menuConstruction;
+	private boolean menuConstructionBoolean;
 	private int coinMenuX; // Pour le menu des constructions
 	private int coinMenuY;
 	private int coinInfoX; // Pour les informations sur les constructions
@@ -48,6 +48,7 @@ public class Ground {
 	private int hauteurTextMenuConstruct;
 	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
 	protected boolean constructionFailed; // Vaut true si le joueur a demandé la construction d'un batiment pour lequel il n'a pas assez de ressources
+	private MenuConstruction menuConstruction;
 	
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
@@ -60,7 +61,12 @@ public class Ground {
 		this.facteur_magique = (float)(world.getHeight())/1080;
 		this.x_origin = world.getWidth()/2 - (int)(radius*facteur_magique);
 		this.y_origin = world.getHeight()/2 - (int)(radius*facteur_magique);
-		menuConstruction = false;
+		menuConstructionBoolean = false;
+
+		coinMenuX = (int)(0.8*world.getWidth());
+		coinMenuY = (int)(0.1*world.getHeight());
+		menuConstruction = new MenuConstruction(world, coinMenuX, coinMenuY);
+		
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
 		imageConstructSize = 150;
@@ -112,7 +118,8 @@ public class Ground {
 			// Affichage du Menu des constructions :
 			coinMenuX = (int)(0.8*world.getWidth());
 			coinMenuY = (int)(0.1*world.getHeight());
-			renderMenuConstruct(container, game, context);
+			//renderMenuConstruct(container, game, context);
+			menuConstruction.render(container, game, context);
 			
 			if (selectedCase.getConstruction() != null) {
 				// Affichage des informations sur la construction :
@@ -243,10 +250,10 @@ public class Ground {
 		}
 		
 		// Construction d'un bâtiment :
-		
-		if (menuConstruction && selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
+		menuConstruction.mousePressed(arg0, x, y);
+		if (selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
 			
-			if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*(imageConstructSize+hauteurTextMenuConstruct)) {
+			/*if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*(imageConstructSize+hauteurTextMenuConstruct)) {
 				
 				// Il faut cliquer sur l'image, et non pas le texte écrit en-dessous :
 				int number = (y-coinMenuY)/(imageConstructSize+hauteurTextMenuConstruct);
@@ -267,7 +274,7 @@ public class Ground {
 						}
 					}
 				}
-			}
+			}*/
 			
 			// Pour détruire un batiment :
 			if ( selectedCase.getConstruction() != null &&
@@ -281,10 +288,13 @@ public class Ground {
 		}
 
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
+		menuConstruction.casePressed(selectedCase);
 		
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
 		
-		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
+		
+		
+/*		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
 			Image imageTemp;
 			constructionsPossibles = selectedCase.infoConstruct();
 			imagesConstructions = new ArrayList<Image>();
@@ -300,14 +310,14 @@ public class Ground {
 		}
 		
 		if (selectedCase != null) {
-			menuConstruction = true;
+			menuConstructionBoolean = true;
 		} else {
-			menuConstruction = false;
-		}
+			menuConstructionBoolean = false;
+		}*/
 		
 		if (x<48 && x>0 && y<98 && y>50) { // Clic sur l'image de retour.
 			selectedCase = null; // On désélectionne la case.
-			menuConstruction = false;
+			menuConstructionBoolean = false;
 			return(true);
 		}
 
@@ -327,7 +337,8 @@ public class Ground {
 	
 	
 
-	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
+	 /*public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
+		
 		// Affiche le menu des constructions
 
 		coinBoutonDestruct = -100;
@@ -340,14 +351,14 @@ public class Ground {
 			for(int i=0; i<constructionsPossibles.size(); i++) {
 				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
 				
-				/** Affichage du nom **/
+				*//** Affichage du nom **//*
 				largeur = context.getFont().getWidth(c.getName());
 				context.setColor(Color.white);
 				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
 				currentHeight += hauteurTextMenuConstruct;
 				initialHeight = currentHeight;
 				
-				/** Affichage de l'image **/
+				*//** Affichage de l'image **//*
 				try {
 					img = new Image("res/images/constructions/"+constructionsPossibles.get(i)+".png");
 					boutonsConstructions.add(new ButtonV2(img, world.getWidth()-tailleImg-mX-50, currentHeight, tailleImg, tailleImg));
@@ -356,7 +367,7 @@ public class Ground {
 				}
 				currentHeight += imageConstructSize;
 				
-				/** Affichage des coûts **/
+				*//** Affichage des coûts **//*
 				currentHeight = initialHeight;
 				//largeur = context.getFont().getWidth("Coûts :");
 				//context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
@@ -376,7 +387,7 @@ public class Ground {
 				}
 				currentHeight = Math.max(currentHeight+10,initialHeight+imageConstructSize+10);
 				
-				/** Affichage des débits **/
+				*//** Affichage des débits **//*
 				largeur = context.getFont().getWidth("Gains :");
 				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
 				currentHeight += hauteurTextMenuConstruct;
@@ -406,7 +417,7 @@ public class Ground {
 			context.setColor(Color.red);
 			context.drawRect(coinMenuX+40, coinBoutonDestruct, 50, 50);
 		}
-	}
+	}*/
 	
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<constructionsPossibles.size()) {

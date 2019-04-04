@@ -30,13 +30,15 @@ public class MenuConstruction {
 	public void casePressed(Case selectedCase){
 		listItems.clear();
 		this.selectedCase = selectedCase;
-		this.constructionsPossibles = selectedCase.infoConstruct();
-		int yItem = this.y;
-		Item item;
-		for (String name : constructionsPossibles) {
-			item = new Item(world, selectedCase, name, x, yItem);
-			listItems.add(item);
-			yItem += item.getHeight();
+		if (selectedCase != null) {
+			this.constructionsPossibles = selectedCase.infoConstruct();
+			int yItem = this.y;
+			Item item;
+			for (String name : constructionsPossibles) {
+				item = new Item(world, selectedCase, name, x, yItem);
+				listItems.add(item);
+				yItem += item.getHeight();
+			}
 		}
 	}
 	

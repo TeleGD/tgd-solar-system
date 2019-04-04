@@ -29,9 +29,6 @@ public class Item {
 	private int xName, yName;
 	private int imageConstructSize;
 	
-	static Font font = AppLoader.loadFont ("/fonts/press-start-2p.ttf", java.awt.Font.BOLD, 40);
-
-	
 	public Item(World world, Case tile, String name, int x, int y) {
 		
 		this.world = world;
@@ -43,12 +40,10 @@ public class Item {
 		iconCostDebit = new ArrayList<>();
 		Image imageTemp = AppLoader.loadImage("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
-		this.button = new ButtonV2(imgConstruction, x, y, 48, 48);
+		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
 		
-		//TODO: Positionnement des coûts et des débits
-		int largeur = font.getWidth(name);
-		xName = x + imgConstruction.getWidth() - largeur;
-		yName = y + imgConstruction.getHeight() + 8;
+		xName = x + imageConstructSize;
+		yName = y + imageConstructSize + 8;
 
 		// Définition de variables temporaires nous indiquant notre position actuelle
 		// (on se déplace pour positionner des objets uns par uns).
@@ -115,7 +110,8 @@ public class Item {
 		for (ResourceIcon ri : iconCostDebit) {
 			ri.render(container, game, context);
 		}
-		context.drawString(name, this.xName, this.yName);
+		int largeur = context.getFont().getWidth(name);
+		context.drawString(name, this.xName-largeur, this.yName);
 	}
 	
 	public boolean mousePressed(int arg0, int x, int y) {

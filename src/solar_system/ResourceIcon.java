@@ -20,7 +20,7 @@ public class ResourceIcon {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		context.drawImage(img, x, y);
+		context.drawImage(img, x, y, x+48, y+48, 0, 0, img.getWidth(), img.getHeight());
 		
 		// Placement du coût en bas à droite
 		context.setColor(Color.white);

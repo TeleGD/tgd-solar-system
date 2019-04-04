@@ -53,6 +53,7 @@ public class Case {
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
+			// TODO: Utiliser le getImage de Resource
 			try{
 				this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
 			} catch (SlickException e) {

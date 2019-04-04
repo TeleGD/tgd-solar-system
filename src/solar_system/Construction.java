@@ -43,7 +43,7 @@ public abstract class Construction {
 		debits = new HashMap<String,Double>();
 		coutPerpetuel = new HashMap<String, Double>();
 		
-		Image imageTemp = AppLoader.loadImage("/images/constructions/"+this.getClass().getName()+".png"); // L'image doit avoir le même nom que la classe
+		Image imageTemp = AppLoader.loadImage("/images/constructions/"+this.getClass().getSimpleName()+".png"); // L'image doit avoir le même nom que la classe
 		imgConstruction = imageTemp.getScaledCopy(tile.getSize(),tile.getSize()) ;
 		
 	}
