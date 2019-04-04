@@ -31,7 +31,6 @@ public class Ground {
 	private Image image;
 	private Image imageBack; // image du bouton pour retourner au système
 	private int radius;
-	private Air air;
 	private Case selectedCase;
 	private int padding; // Décalage des cases par rapport au point supérieur gauche de l'image de la planère (global car nécessaire pour la sélection des cases).
 	private float facteur_magique;
@@ -275,7 +274,14 @@ public class Ground {
 			}
 		}
 
+		
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
+		Air air = planet.getAir();
+		if(air.mousePressed(arg0,x, y)!=null){
+			selectedCase = air.mousePressed(arg0, x, y).getCase();
+			
+		}
+		//Mettre le selected case = mousepressed de air.
 		
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
 		
@@ -441,9 +447,7 @@ public class Ground {
 		return null;
 	}
 	
-	public Air getAir(){
-		return this.air;
-	}
+
 	
 	
 	

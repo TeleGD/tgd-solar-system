@@ -59,13 +59,16 @@ public class Air {
 			//Correspond aux coordonnées du coin en haut à gauche de la case sur le satellite ou la station.
 //			int coin_x = (int)(orbital.get_x()+orbital.get_size()-this.sizeCase/2);//Math.round(orbital.get_x()+orbital.get_size()-sizeCase);
 //			int coin_y = (int)(orbital.get_y()+orbital.get_size()-this.sizeCase/2);//Math.round(orbital.get_y()+orbital.get_size()-sizeCase);
-			if(orbital.getCase().mousePressed(arg0,x ,y)){
-				System.out.println("Tu as cliqué sur le satellite !");
-				return orbital;				
+			if(planet.getPosY()>orbital.get_y() || planet.getRadius()>orbital.get_distance()){
+				if(orbital.getCase().mousePressed(arg0,x ,y)){
+					//System.out.println("Tu as cliqué sur le satellite !");
+					return orbital;				
+				}
 			}
+			
 			//System.out.println(coin_x+" "+coin_y+" "+orbital.get_size()+" "+this.sizeCase);
 		}
-		System.out.println("Oh non, tu as cliqué à côté du satellite...");
+		//System.out.println("Oh non, tu as cliqué à côté du satellite...");
 		//System.out.println(this.nbSatelite+" "+this.nbStation);
 		return null;
 
@@ -101,5 +104,10 @@ public class Air {
 			//i++;
 		}
 	}
+	
+	public List<Orbital> getOrbitals(){
+		return orbitals;
+	}
+	
 	
 }

@@ -85,4 +85,8 @@ public abstract class Orbital {
 	public double getAngle(){
 		return this.angle;
 	}
+	
+	public int get_distance(){
+		return this.distance;
+	}
 }

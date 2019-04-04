@@ -30,6 +30,7 @@ public class Planet {
 	private Image image;
 	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
 	private Air air;
+	private List<Orbital> orbitals;
 	
 	public Planet(int type,float distance, String description, World world) {
 		this(type,distance,(r.nextInt(50)+50)/2,description, world);
@@ -61,6 +62,8 @@ public class Planet {
 		this.image=image.getScaledCopy(radius*2,radius*2);
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
+		this.orbitals=air.getOrbitals();
+		
 		
 	}
 	
@@ -144,6 +147,7 @@ public class Planet {
 	public Air getAir(){
 		return air;
 	}
+	
 	
 	
 }
