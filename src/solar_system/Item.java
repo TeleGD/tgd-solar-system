@@ -25,7 +25,7 @@ public class Item {
 	private String name;
 	private ButtonV2 button;
 	private int height;
-	private ArrayList<ResourceIcon> iconCostDebit;
+	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
 	private int imageConstructSize;
 	
@@ -37,7 +37,7 @@ public class Item {
 		imageConstructSize = 150;
 		
 		Image imgConstruction = null;
-		iconCostDebit = new ArrayList<>();
+		iconCostProduc = new ArrayList<>();
 		Image imageTemp = AppLoader.loadImage("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
@@ -55,7 +55,7 @@ public class Item {
 		for (String k : construction.cout.keySet()) {
 			try{
 				img = new Image(Resource.imagePath(k));
-				iconCostDebit.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -69,7 +69,10 @@ public class Item {
 		for (String k : construction.debits.keySet()) {
 			try{
 				img = new Image(Resource.imagePath(k));
-				iconCostDebit.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+				// Pour l'instant, seule une ressource est produite,
+				// on n'affiche donc pas le débit mais la quantité max disponible :
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -107,7 +110,7 @@ public class Item {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		this.button.render(container, game, context);
-		for (ResourceIcon ri : iconCostDebit) {
+		for (ResourceIcon ri : iconCostProduc) {
 			ri.render(container, game, context);
 		}
 		int largeur = context.getFont().getWidth(name);
