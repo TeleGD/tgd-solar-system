@@ -119,11 +119,9 @@ public class Item {
 			Construction constr = nameToConst(name, tile);
 			if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
 				tile.setConstruction( constr );
-				// TODO : Retirer les ressources du joueur (ce que la construction a coûté)
 			}
 			return true;
 		}
-		// TODO : Gérer la destruction du bâtiment
 		return false;
 	}
 	
