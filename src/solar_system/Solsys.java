@@ -67,7 +67,6 @@ public class Solsys {
 				return p;
 			}
 		}
-		System.out.println("");
 		return null;
 	}
 	
