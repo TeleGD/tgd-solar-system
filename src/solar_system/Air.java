@@ -34,7 +34,7 @@ public class Air {
 		this.sizeCase= (int)(80*world.getFacteurMagique());
 		this.nbSatelite=(int) (Math.random()*4);
 		this.nbStation=(int) (Math.random()*3);//Générer int aléatoire.
-		System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
+		//System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
 		Resource resource = new Resource("Fer");
 		int nbOrbitals = this.nbSatelite+this.nbStation;
 		Resource resource2;

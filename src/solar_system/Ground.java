@@ -300,8 +300,17 @@ public class Ground {
 	public Case selectCase(int x , int y){     // TODO : Correction à faire : pour les cases vers le bas ou vers la gauche, il y a un débordement de la 'hitbox' sur les cases d'à côté
 		// Retourne la case dans laquelle le point (x,y) est contenu. 
 		int renderedSize = sizeCase * world.getHeight()/1080;
-		if (y - (y_origin+padding) < 0 || (y - (y_origin+padding))/renderedSize >= cases.length || x - (x_origin+padding) < 0 || (x - (x_origin+padding))/renderedSize >= cases.length){
-			return (null); // Aucune case ne contient (x,y) !
+		if (y - (y_origin+padding) < 0 || (y - (y_origin+padding))/renderedSize >= cases.length || x - (x_origin+padding) < 0 || (x - (x_origin+padding))/renderedSize >= cases.length){//Si le clic est hors de la grille de la planète
+			//System.out.println("On a pas cliqué sur la grille visiblement...");
+			if(planet.getAir().mousePressed(0,x,y)==null){//
+				//System.out.println("C'est très null tout ça...");
+				return (null); // Aucune case ne contient (x,y) !
+			}
+			else{//Sinon retourner la case sur l'orbitale cliquée
+				Orbital orbital = planet.getAir().mousePressed(0,x,y);
+				//System.out.println("Hey, la case est renvoyée, j'en fais quoi ?");
+				return(orbital.getCase());
+			}
 		}
 		else {
 			return (cases[(x - (x_origin+padding))/renderedSize][(y - (y_origin+padding))/renderedSize]);}
