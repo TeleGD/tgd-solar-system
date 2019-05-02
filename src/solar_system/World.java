@@ -151,9 +151,9 @@ public class World extends BasicGameState {
 		//else if
 			
 		//else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
-		else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
-			System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");//Est ce que ça ne serait pas ici qu'il faudrait récupérer la case sur l'orbitale, 
-		}
+//		else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
+//			System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");//Est ce que ça ne serait pas ici qu'il faudrait récupérer la case sur l'orbitale, 
+//		}
 		
 		else { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
 			

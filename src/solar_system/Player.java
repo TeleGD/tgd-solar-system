@@ -32,7 +32,7 @@ public class Player {
 		int comp=0;
 		size=resources.size()+1;//taille du hashmap
 		context.setColor(Color.black);
-		context.fillRect(0, 0,world.getWidth(),world.getHeight()/20);
+		context.fillRect(0, 0,world.getWidth(),world.getHeight()/50+40);
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 			context.setColor(Color.white);
 			//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));

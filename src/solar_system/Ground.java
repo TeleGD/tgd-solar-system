@@ -221,12 +221,7 @@ public class Ground {
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
 		menuConstruction.casePressed(selectedCase);
 		
-		Air air = planet.getAir();
-		if(air.mousePressed(arg0,x, y)!=null){
-			selectedCase = air.mousePressed(arg0, x, y).getCase();
-			
-		}
-		//Mettre le selected case = mousepressed de air.
+		
 		
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
 		
@@ -274,7 +269,7 @@ public class Ground {
 			}
 			else{//Sinon retourner la case sur l'orbitale cliquée
 				Orbital orbital = planet.getAir().mousePressed(0,x,y);
-				//System.out.println("Hey, la case est renvoyée, j'en fais quoi ?");
+				System.out.println("Hey, la case est renvoyée, j'en fais quoi ?");
 				return(orbital.getCase());
 			}
 		}
