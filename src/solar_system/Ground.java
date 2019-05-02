@@ -216,45 +216,11 @@ public class Ground {
 		}
 		
 		// Construction d'un bâtiment :
-		menuConstruction.mousePressed(arg0, x, y);
-		if (selectedCase != null) {  // On vérifie si le joueur veut construire un bâtiment.
-			
-			/*if (x>=coinMenuX && x<=coinMenuX+imageConstructSize && y>=coinMenuY && y<coinMenuY+4*(imageConstructSize+hauteurTextMenuConstruct)) {
-				
-				// Il faut cliquer sur l'image, et non pas le texte écrit en-dessous :
-				int number = (y-coinMenuY)/(imageConstructSize+hauteurTextMenuConstruct);
-				
-				if ( y <= coinMenuY+(number+1)*(imageConstructSize+hauteurTextMenuConstruct)-hauteurTextMenuConstruct) {
-					String construct = construcRequested(number);
-					
-					if (construct != "") {
-						if (constructionsPossibles.contains(construct)) {
-							Construction constr = nameToConst(construct, selectedCase);
-							if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
-								selectedCase.setConstruction( constr );
-								selectedCase.setBackground( getConstructImage(number));
-							} else {
-								constructionFailed = true;
-							}
-						}
-					}
-				}
-			}*/
-			
-			// Pour détruire un batiment :
-			if ( selectedCase.getConstruction() != null &&
-				 x >= coinMenuX + 40 && x < coinMenuX + 90 &&
-				 y >= coinBoutonDestruct && y < coinBoutonDestruct + 50 ) {
-				
-				selectedCase.setConstruction(null);
-				selectedCase.setBackground(null);
-				selectedCase.setBackgroundAsResource();
-			}
-		}
-
+		if (menuConstruction.mousePressed(arg0, x, y)) return false;
 		
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
 		menuConstruction.casePressed(selectedCase);
+		
 		Air air = planet.getAir();
 		if(air.mousePressed(arg0,x, y)!=null){
 			selectedCase = air.mousePressed(arg0, x, y).getCase();

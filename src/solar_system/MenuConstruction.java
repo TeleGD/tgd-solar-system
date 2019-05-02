@@ -20,17 +20,20 @@ public class MenuConstruction {
 	private World world;
 	private int x;
 	private int y;
+	private ButtonV2 suppr;
 	
 	public MenuConstruction(World world, int x, int y) {
 		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.listItems = new ArrayList<>();
+		this.suppr = null;
 	}
 	
 	public void casePressed(Case selectedCase){
 		listItems.clear();
 		this.selectedCase = selectedCase;
+		suppr = null;
 		if (selectedCase != null) {
 			this.constructionsPossibles = selectedCase.infoConstruct();
 			int yItem = this.y;
@@ -41,16 +44,26 @@ public class MenuConstruction {
 				yItem += item.getHeight();
 			}
 			if (selectedCase.getConstruction() != null) {
-				// TODO: Charger une image de bouton de destruction
 				Image imgBoule = AppLoader.loadImage("/images/constructions/destruction.jpeg");
-				ButtonV2 suppr = new ButtonV2(imgBoule, x, yItem, 48, 48); 
+				suppr = new ButtonV2(imgBoule, x, yItem, 48, 48); //TODO: Gérer sa position en fonction des constructions (améliorations possibles)
 			}
 		}
 	}
 	
 	public boolean mousePressed(int arg0, int x, int y) {
 		for (Item item : listItems) {
-			if (item.mousePressed(arg0, x, y)) { return true; }
+			if (item.mousePressed(arg0, x, y)) { 
+				casePressed(selectedCase); // On rafraîchit le menu de construction pour tenir compte du fait qu'on ait peut-être construit
+				return true; 
+			}
+		}
+		if (suppr != null && suppr.isPressed(x, y)) { // Destruction
+			selectedCase.setConstruction(null);
+			/*selectedCase.setBackground(null);
+			selectedCase.setBackgroundAsResource();*/
+			suppr = null;
+			casePressed(selectedCase);
+			return true;
 		}
 		return false;
 	}
@@ -58,6 +71,9 @@ public class MenuConstruction {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for (Item item : listItems) {
 			item.render(container, game, context);
+		}
+		if (suppr != null) {
+			suppr.render(container, game, context);
 		}
 	}
 	
