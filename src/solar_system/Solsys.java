@@ -34,7 +34,7 @@ public class Solsys {
 	}
 	
 	public void addPlanet(Planet p) {
-		if (planets.size()<nbPlanet)
+		if (planets.size() < nbPlanet)
 			planets.add(p);
 	}
 		
@@ -68,6 +68,12 @@ public class Solsys {
 			}
 		}
 		return null;
+	}
+	
+	public void mouseWheelMoved(int change) {
+		for (Planet p : planets) {
+			p.mouseWheelMoved(change);
+		}
 	}
 	
 }

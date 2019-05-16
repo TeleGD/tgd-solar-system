@@ -208,7 +208,7 @@ public class Ground {
 		}
 	}
 	
-	public boolean mousePressed(int arg0, int x, int y) { 
+	public boolean mousePressed(int arg0, int x, int y) {
 		// Gère les clics sur le Ground.
 		
 		if (constructionFailed) { // pour faire disparaitre le message, le joueur doit cliquer n'importe où.
@@ -256,6 +256,10 @@ public class Ground {
 
 		return (false);
 		
+	}
+	
+	public void mouseWheelMoved(int change) {
+		menuConstruction.moveY(change);
 	}
 	
 	public Case selectCase(int x , int y){     // TODO : Correction à faire : pour les cases vers le bas ou vers la gauche, il y a un débordement de la 'hitbox' sur les cases d'à côté

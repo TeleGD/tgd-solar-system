@@ -178,6 +178,10 @@ public class World extends BasicGameState {
 		}
 	}
 	
+	public void mouseWheelMoved(int change) {
+		solsys.mouseWheelMoved(change);
+	}
+	
 	public float getFacteurMagique(){
 		return this.facteur_magique;
 	}
