@@ -21,10 +21,12 @@ public class Air {
 	private int radius;
 	private Planet planet;
 	//private Resource resource;
+	private float facteur_magique;
 	
 	private List<Orbital> orbitals;
 	
 	public Air(int nbOrbitaux, int distance,World world,Planet planet) {
+		this.facteur_magique = (float)(world.getHeight())/1080;
 		this.planet=planet;
 		this.radius=planet.getRadius2 ();
 		this.nbOrbitaux = nbOrbitaux;
@@ -53,15 +55,17 @@ public class Air {
 	
 	public Orbital mousePressed(int arg0,int x ,int y) {//Retourne l'orbitale sur laquelle on a clique, null si on ne clique sur aucune orbitale.
 		// padding = marge intérieure (distance entre la grille et le bord de l'image)
-		
+		double distance;
 		for (Orbital orbital : orbitals){
 			//if(orbital.getCase()!=)
 			//Correspond aux coordonnées du coin en haut à gauche de la case sur le satellite ou la station.
 //			int coin_x = (int)(orbital.get_x()+orbital.get_size()-this.sizeCase/2);//Math.round(orbital.get_x()+orbital.get_size()-sizeCase);
 //			int coin_y = (int)(orbital.get_y()+orbital.get_size()-this.sizeCase/2);//Math.round(orbital.get_y()+orbital.get_size()-sizeCase);
-			if(planet.getPosY()>orbital.get_y() || planet.getRadius()>orbital.get_distance()){
+			distance=Math.sqrt(Math.pow((x-world.getWidth()/2),2)+Math.pow((y-world.getHeight()/2),2));
+			//System.out.println(distance+" : "+);
+			if(planet.getPosY()>orbital.get_y() || distance>this.radius*this.facteur_magique){//planet.getRadius()>orbital.get_distance()){
 				if(orbital.getCase().mousePressed(arg0,x ,y)){
-					//System.out.println("Tu as cliqué sur le satellite !");
+					
 					return orbital;				
 				}
 			}
