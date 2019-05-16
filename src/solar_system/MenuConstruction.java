@@ -20,12 +20,14 @@ public class MenuConstruction {
 	private World world;
 	private int x;
 	private int y;
+	private int y0; // ordonnée initiale, si jamais on doit reset la postion y
 	private ButtonV2 suppr;
 	
 	public MenuConstruction(World world, int x, int y) {
 		this.world = world;
 		this.x = x;
 		this.y = y;
+		this.y0 = y;
 		this.listItems = new ArrayList<>();
 		this.suppr = null;
 	}
@@ -66,6 +68,11 @@ public class MenuConstruction {
 			return true;
 		}
 		return false;
+	}
+	
+	public void moveY(int incr) {
+		this.y -= incr/5;
+		// TODO: update affichage
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

@@ -149,6 +149,8 @@ public class Planet {
 		return air;
 	}
 	
-	
+	public void mouseWheelMoved(int change) {
+		ground.mouseWheelMoved(change);
+	}
 	
 }
