@@ -3,6 +3,7 @@ package solar_system;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -34,6 +35,7 @@ public class MenuConstruction {
 	
 	public void casePressed(Case selectedCase){
 		listItems.clear();
+		this.y = this.y0;
 		this.selectedCase = selectedCase;
 		suppr = null;
 		if (selectedCase != null) {
@@ -70,9 +72,14 @@ public class MenuConstruction {
 		return false;
 	}
 	
-	public void moveY(int incr) {
-		this.y -= incr/5;
-		// TODO: update affichage
+	public void moveY(int dY) {
+		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= this.y0) {
+			this.y += dY/5;
+			for (Item item : listItems) {
+				item.moveY(dY/5);
+			}
+			if (this.suppr != null) this.suppr.moveY(dY/5);
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

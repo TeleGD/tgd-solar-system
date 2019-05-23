@@ -108,6 +108,14 @@ public class Item {
 		return this.height;
 	}
 	
+	public void moveY(int dY) {
+		this.button.moveY(dY);
+		for (ResourceIcon ri : iconCostProduc) {
+			ri.moveY(dY);
+		}
+		this.yName += dY;
+	}
+	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		this.button.render(container, game, context);
 		for (ResourceIcon ri : iconCostProduc) {

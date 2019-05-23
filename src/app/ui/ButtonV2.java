@@ -15,9 +15,15 @@ public class ButtonV2 {
 		this.xsize = xsize;
 		this.ysize = ysize;
 	}
+	
 	public boolean isPressed(int xmouse, int ymouse) {
 		return (xpos <= xmouse && xmouse <= xpos+xsize && ypos <= ymouse && ymouse <= ypos+ysize);
 	}
+	
+	public void moveY(int dY) {
+		this.ypos += dY;
+	}
+	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		context.drawImage(img, xpos, ypos, xpos+xsize, ypos+ysize, 0, 0, img.getWidth(), img.getHeight());
 	}

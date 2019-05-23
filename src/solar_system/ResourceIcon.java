@@ -28,4 +28,8 @@ public class ResourceIcon {
 		context.drawString(this.cost, x+48-largeur, y+32);
 		
 	}
+	
+	public void moveY(int dY) {
+		this.y += dY;
+	}
 }
