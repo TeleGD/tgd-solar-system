@@ -14,6 +14,8 @@ public class Player {
 	private int [] technologie = new int[2];
 	private List<Planet> knownPlanets;
 	private int DiscoveredPlanet;
+
+	private int yMinUI;
 	
 	private World world;
 	
@@ -23,6 +25,15 @@ public class Player {
 	public Player(World world) {
 		initRessources();
 		this.world=world;
+		initUI();
+	}
+
+	/**
+	 * Initialise les attributs de l'affichage des ressources en haut de l'écran
+	 */
+	public void initUI(){
+		yMinUI = world.getHeight()/50+40;
+		//TODO : initialiser ici plus de trucs pour l'affichage du menu, plutôt que de les calculer dans render()
 	}
 	
 
@@ -32,7 +43,7 @@ public class Player {
 		int comp=0;
 		size=resources.size()+1;//taille du hashmap
 		context.setColor(Color.black);
-		context.fillRect(0, 0,world.getWidth(),world.getHeight()/50+40);
+		context.fillRect(0, 0,world.getWidth(),yMinUI);
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 			context.setColor(Color.white);
 			//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
@@ -84,5 +95,9 @@ public class Player {
 	public boolean mousePressed(int arg0,int x ,int y){
 		//Aled les commentaires ???
 		return (x<world.getWidth() && x>world.getWidth()*resources.size()/(resources.size()+1) && y<world.getHeight()/20 && y>0);
+	}
+
+	public int getyMinUI() {
+		return yMinUI;
 	}
 }

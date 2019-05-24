@@ -73,7 +73,7 @@ public class MenuConstruction {
 	}
 	
 	public void moveY(int dY) {
-		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= this.y0) {
+		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= world.getPlayer().getyMinUI()) {
 			this.y += dY/5;
 			for (Item item : listItems) {
 				item.moveY(dY/5);
