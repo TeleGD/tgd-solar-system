@@ -15,6 +15,7 @@ public class Solsys {
 	private Random r;
 	private World world;
 	private Image imageSun;
+	private Spaceship spaceship;
 		
 	public Solsys(int nbPlanet, World world) {
 		r= new Random();
@@ -31,6 +32,7 @@ public class Solsys {
 			e.printStackTrace();
 		}
 		this.imageSun=imageSun.getScaledCopy(300,300);
+		this.spaceship = new Spaceship(900, 600, 0.1, -0.3, world);
 	}
 	
 	public void addPlanet(Planet p) {
@@ -46,7 +48,7 @@ public class Solsys {
 			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
 		}
 		//planets.get(0).render(container, game, context);
-		
+		this.spaceship.render(container, game, context);
 	}
 		
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -58,6 +60,7 @@ public class Solsys {
 			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
 		}
+		this.spaceship.update(container, game, delta);
 	}
 	
 	public Planet planetTouched(int x, int y) 
