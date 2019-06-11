@@ -16,6 +16,7 @@ import solar_system.constructions.TNCY;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.CabaneBucheron;
+import solar_system.constructions.ISS;
 
 public class Case {
 	private Resource resource;
@@ -148,8 +149,10 @@ public class Case {
 		}
 		if (orbital instanceof Station){
 			//resource = ;
-			System.out.println("Je suis une station toute mignonne.");
+			//if (ISS.constructPossible(this)){
 			construPossible.add("ISS");
+			//}//TODO : Construire Station seulement si  on a les ressources necessaires,mais c'et pas ici, ca doit etre dans item...
+			
 		}
 		return construPossible;
 		

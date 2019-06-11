@@ -150,12 +150,14 @@ public class Item {
 				
 			}
 			if(constr!=null){
-				System.out.println("La construction est construite.");
-				tile.setConstruction(constr);
-				System.out.println(constr.getName());
-				tile.getConstruction();
-				tile.getConstruction().getName();
-				System.out.println(tile.getConstruction().getName());
+				if(tile.getOrbital() instanceof Station){
+					System.out.println(constr.getName());
+					if ( constr.playerCanConstruct( world.getPlayer() ) ) {
+						tile.setConstruction( constr );
+					}
+					
+					//System.out.println(tile.getConstruction().getName());
+				}
 			}
 			
 		}

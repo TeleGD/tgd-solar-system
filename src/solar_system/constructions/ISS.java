@@ -23,6 +23,7 @@ public class ISS extends Construction {
 		this.life=lifeMax;
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
+		this.player=player;
 		
 		this.cout.put("Noyo Linux", 3.0);
 		
@@ -33,6 +34,13 @@ public class ISS extends Construction {
 	}
 //	public static boolean constructPossible(Case tileConstructLocation) {
 //		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
+//	}
+
+//	//public static boolean constructPossible(Case tileConstructLocation) {
+//		if (player.getResource(costEntry.getKey()).getQuantite()<costEntry.getValue()){
+//			return false;
+//		}
+//		return true;
 //	}
 
 }
