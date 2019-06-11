@@ -39,7 +39,7 @@ public abstract class Orbital {
 			}
 		}
 		this.sizeCase= (int)(80*world.getFacteurMagique());
-		this.tile=new Case(0,0,sizeCase);
+		this.tile=new Case(0,0,sizeCase,this);
 		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
 		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
 		this.world=world;		

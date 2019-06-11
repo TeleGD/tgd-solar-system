@@ -18,6 +18,7 @@ import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.TNCY;
+import solar_system.constructions.ISS;
 
 public class Item {
 	private World world;
@@ -28,13 +29,15 @@ public class Item {
 	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
 	private int imageConstructSize;
+	private Orbital orbital;
 	
-	public Item(World world, Case tile, String name, int x, int y) {
+	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
 		
 		this.world = world;
 		this.tile = tile;
 		this.name = name;
 		imageConstructSize = 150;
+		this.orbital = orbital;
 		
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
@@ -52,32 +55,39 @@ public class Item {
 		Construction construction = nameToConst(name, tile);
 		Image img;
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
-		for (String k : construction.cout.keySet()) {
-			try{
-				img = new Image(Resource.imagePath(k));
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
-			} catch (SlickException e) {
-				e.printStackTrace();
+		if(this.orbital == null || this.orbital instanceof Satellite){
+			for (String k : construction.cout.keySet()) {
+				try{
+					img = new Image(Resource.imagePath(k));
+					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
+				currentY += 50;  // On se positionne une ligne en dessous
 			}
-			// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
-			currentY += 50;  // On se positionne une ligne en dessous
+			for (String k : construction.debits.keySet()) {
+				try{
+					img = new Image(Resource.imagePath(k));
+					// Pour l'instant, seule une ressource est produite,
+					// on n'affiche donc pas le débit mais la quantité max disponible :
+					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+				currentX -= 48;
+			}
 		}
+		if(orbital instanceof Station){
+			System.out.println("Hey c'est encore moi la station ;) ");
+		}
+		
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
 		
 		currentY += 24;
-		for (String k : construction.debits.keySet()) {
-			try{
-				img = new Image(Resource.imagePath(k));
-				// Pour l'instant, seule une ressource est produite,
-				// on n'affiche donc pas le débit mais la quantité max disponible :
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
-			currentX -= 48;
-		}
+		
 		currentY += 50; // On se positionne une ligne en dessous
 		this.height = currentY - y;
 	}
@@ -100,6 +110,9 @@ public class Item {
 		}
 		if(name=="CabaneBucheron"){
 			return new CabaneBucheron(tile, world.getPlayer());
+		}
+		if(name=="ISS"){
+			return new ISS(tile, world.getPlayer());			
 		}
 		return null;
 	}
@@ -128,10 +141,23 @@ public class Item {
 	public boolean mousePressed(int arg0, int x, int y) {
 		if (button.isPressed(x, y)) {
 			Construction constr = nameToConst(name, tile);
-			if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
-				tile.setConstruction( constr );
+			System.out.println(name);
+			if(tile.getOrbital()==null){
+				if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
+					tile.setConstruction( constr );
+				}
+				return true;
+				
 			}
-			return true;
+			if(constr!=null){
+				System.out.println("La construction est construite.");
+				tile.setConstruction(constr);
+				System.out.println(constr.getName());
+				tile.getConstruction();
+				tile.getConstruction().getName();
+				System.out.println(tile.getConstruction().getName());
+			}
+			
 		}
 		return false;
 	}

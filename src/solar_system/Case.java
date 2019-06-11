@@ -24,8 +24,9 @@ public class Case {
 	private int x, y, size;
 	private Image backgroundImg;
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
+	private Orbital orbital;
 	
-	public Case(int x, int y, int size){
+	public Case(int x, int y, int size,Orbital orbital){
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -33,6 +34,7 @@ public class Case {
 		resourceQuantity = 0;
 		construction = null;
 		imageConstructSize = 150;
+		this.orbital = orbital;
 	}
 
 	
@@ -43,6 +45,7 @@ public class Case {
 		this.resource = resource;
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
+		this.orbital = null;
 		
 		setBackgroundAsResource();
 		
@@ -119,29 +122,37 @@ public class Case {
 		//Retourne les constructions faisables sur la case cliquée
 		
 		ArrayList<String> construPossible = new ArrayList<>();
-		
-		if (construction==null) {
-			if(Mine.constructPossible(this)) {
-				construPossible.add("Mine");
+		if(orbital == null || orbital instanceof Satellite ){
+			if (construction==null) {
+				if(Mine.constructPossible(this)) {
+					construPossible.add("Mine");
+				}
+				if(Ferme.constructPossible(this)){
+					construPossible.add("Ferme");
+				}
+				if(Scierie.constructPossible(this)){
+					construPossible.add("Scierie");
+				}
+				if(CabaneBucheron.constructPossible(this)){
+					construPossible.add("CabaneBucheron");
+				}
+				if(TNCY.constructPossible(this)){
+					construPossible.add("TNCY");
+				}
+			} else {
+				if (construction instanceof Mine) {
+					construPossible.add("Mine2");
+				}
 			}
-			if(Ferme.constructPossible(this)){
-				construPossible.add("Ferme");
-			}
-			if(Scierie.constructPossible(this)){
-				construPossible.add("Scierie");
-			}
-			if(CabaneBucheron.constructPossible(this)){
-				construPossible.add("CabaneBucheron");
-			}
-			if(TNCY.constructPossible(this)){
-				construPossible.add("TNCY");
-			}
-		} else {
-			if (construction instanceof Mine) {
-				construPossible.add("Mine2");
-			}
+			
+		}
+		if (orbital instanceof Station){
+			//resource = ;
+			System.out.println("Je suis une station toute mignonne.");
+			construPossible.add("ISS");
 		}
 		return construPossible;
+		
 	}
 	
 	public void setBackground(Image img) {
@@ -187,5 +198,9 @@ public class Case {
 	
 	public int getSize() {
 		return this.size;
+	}
+	
+	public Orbital getOrbital(){
+		return this.orbital;
 	}
 }
