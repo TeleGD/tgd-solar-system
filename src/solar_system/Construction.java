@@ -38,7 +38,10 @@ public abstract class Construction {
 		this.tile = tile;
 		resourcesProduced = new HashMap<String, Resource>();
 		Resource resOfCase = tile.getResource() ;
-		resourcesProduced.put(resOfCase.getName(), resOfCase);
+		if((tile.getOrbital() instanceof Station) == false){
+			resourcesProduced.put(resOfCase.getName(), resOfCase);
+		}
+		
 		
 		debits = new HashMap<String,Double>();
 		coutPerpetuel = new HashMap<String, Double>();

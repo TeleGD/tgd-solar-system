@@ -23,14 +23,18 @@ public class MenuConstruction {
 	private int y;
 	private int y0; // ordonnée initiale, si jamais on doit reset la postion y
 	private ButtonV2 suppr;
+	//private Orbital orbital;
+	private boolean orbital;//vaut 1 si c'est une orbitale
 	
-	public MenuConstruction(World world, int x, int y) {
+	public MenuConstruction(World world, int x, int y) {//,boolean orbital
 		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.y0 = y;
 		this.listItems = new ArrayList<>();
 		this.suppr = null;
+		//this.orbital=orbital;
+		//this.orbital=orbital;
 	}
 	
 	public void casePressed(Case selectedCase){
@@ -38,12 +42,31 @@ public class MenuConstruction {
 		this.y = this.y0;
 		this.selectedCase = selectedCase;
 		suppr = null;
+//		for (String k : construction.cout.keySet()) {
+//			try{
+//				img = new Image(Resource.imagePath(k));
+//				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+//			} catch (SlickException e) {for (String k : construction.cout.keySet()) {
+//				try{
+//					img = new Image(Resource.imagePath(k));
+//					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+//				} catch (SlickException e) {
+//					e.printStackTrace();
+//				}
+//				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
+//				currentY += 50;  // On se positionne une ligne en dessous
+//			}
+//				e.printStackTrace();
+//			}
+//			// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
+//			currentY += 50;  // On se positionne une ligne en dessous
+//		}
 		if (selectedCase != null) {
 			this.constructionsPossibles = selectedCase.infoConstruct();
 			int yItem = this.y;
 			Item item;
 			for (String name : constructionsPossibles) {
-				item = new Item(world, selectedCase, name, x, yItem);
+				item = new Item(world, selectedCase, name, x, yItem,selectedCase.getOrbital());//orbital
 				listItems.add(item);
 				yItem += item.getHeight();
 			}
