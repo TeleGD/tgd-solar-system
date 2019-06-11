@@ -143,31 +143,42 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		if (planetSelected == null) {  // Sur le systeme , gère le clique sur une planète
-			planetSelected = solsys.planetTouched(x, y); // planetSelected recoit la planète touchée
-			mouv = false;
-			// null sinon
-		}
-		//else if
-			
-		//else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
-//		else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
-//			System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");//Est ce que ça ne serait pas ici qu'il faudrait récupérer la case sur l'orbitale, 
-//		}
-		
-		else { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
-			
-			if (planetSelected.getGround().mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
-				planetSelected=null;
+		if (arg0 == 0) {
+			if (planetSelected == null) {  // Sur le systeme, gère le clic sur une planète
+				planetSelected = solsys.planetTouched(x, y); // planetSelected recoit la planète touchée
+				mouv = false;
+				// null sinon
 			}
-			//else if()
-		}
-		if(player.mousePressed(arg0,x,y)){//Si le joueur clique sur "Autres ressources"
-			if(dispRessources){
-				dispRessources=false;
+			//else if
+				
+			//else if (planetSelected.getGround().getAir().mousePressed(arg0,x,y)!=null){
+//			else if (planetSelected.getAir().mousePressed(arg0,x,y)!=null){
+//				System.out.println("Je suis une orbitale, et j'ai été cliquée !!!");//Est ce que ça ne serait pas ici qu'il faudrait récupérer la case sur l'orbitale, 
+//			}
+			
+			else { // Gère l'interaction avec le ground: Construction + Selection de case + Retour
+				
+				if (planetSelected.getGround().mousePressed(arg0,x,y)) { // A t on cliqué sur le carré rouge ?
+					planetSelected=null;
+				}
+				//else if()
 			}
-			else{
-				dispRessources=true;
+			if(player.mousePressed(arg0,x,y)){//Si le joueur clique sur "Autres ressources"
+				if(dispRessources){
+					dispRessources=false;
+				}
+				else{
+					dispRessources=true;
+				}
+			}
+		}
+		if (arg0 == 1) {
+			if (planetSelected == null) {
+				planetSelected = solsys.planetTouched(x, y);
+				if (planetSelected != null) {
+					solsys.setVelocityVector(planetSelected, new Velocity(0.3, 2));
+				}
+				planetSelected = null;
 			}
 		}
 	}

@@ -15,7 +15,9 @@ public class Solsys {
 	private Random r;
 	private World world;
 	private Image imageSun;
-	private Spaceship spaceship;
+	private Velocity velocity;
+	private Planet refPlanet;
+	//private Spaceship spaceship;
 		
 	public Solsys(int nbPlanet, World world) {
 		r= new Random();
@@ -32,35 +34,12 @@ public class Solsys {
 			e.printStackTrace();
 		}
 		this.imageSun=imageSun.getScaledCopy(300,300);
-		this.spaceship = new Spaceship(900, 600, 0.1, -0.3, world);
+		//this.spaceship = new Spaceship(900, 600, 0.1, -0.3, world);
 	}
 	
 	public void addPlanet(Planet p) {
 		if (planets.size() < nbPlanet)
 			planets.add(p);
-	}
-		
-	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-
-		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
-		for (Planet p: planets) {
-			int radius =p.getRadius();
-			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
-		}
-		//planets.get(0).render(container, game, context);
-		this.spaceship.render(container, game, context);
-	}
-		
-	public void update(GameContainer container, StateBasedGame game, int delta) {
-		for (Planet p : planets) {
-			float angle=p.getAngle()+(float)delta/p.getPeriode();
-			p.setAngle(angle);
-			float distance=p.getDistance();
-			p.setPosX((float)Math.cos((double)angle)*distance);
-			p.setPosY((float)Math.sin((double)angle)*distance);
-			p.update(container, game, delta);
-		}
-		this.spaceship.update(container, game, delta);
 	}
 	
 	public Planet planetTouched(int x, int y) 
@@ -73,10 +52,46 @@ public class Solsys {
 		return null;
 	}
 	
+  	public void setVelocityVector(Planet p, Velocity v) {
+  		this.refPlanet = p;
+  		this.velocity = v;
+ 	}
+	
 	public void mouseWheelMoved(int change) {
 		for (Planet p : planets) {
 			p.mouseWheelMoved(change);
 		}
+	}
+	
+	//TODO : Commandes contrôlant velocity
+		
+	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+
+		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
+		for (Planet p: planets) {
+			int radius =p.getRadius();
+			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
+		}
+		if (this.velocity != null) this.velocity.render(container, game, context);
+		//planets.get(0).render(container, game, context);
+		//this.spaceship.render(container, game, context);
+	}
+
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		for (Planet p : planets) {
+			float angle=p.getAngle()+(float)delta/p.getPeriode();
+			p.setAngle(angle);
+			float distance=p.getDistance();
+			p.setPosX((float)Math.cos((double)angle)*distance);
+			p.setPosY((float)Math.sin((double)angle)*distance);
+			p.update(container, game, delta);
+		}
+		if (this.velocity != null) {
+			//velocity.moveAngle((float)delta/refPlanet.getPeriode());
+			velocity.setPos((int)refPlanet.getPosX()+world.getWidth()/2, (int)refPlanet.getPosY()+world.getHeight()/2);
+			velocity.update(container, game, delta);
+		}
+		//this.spaceship.update(container, game, delta);
 	}
 	
 }

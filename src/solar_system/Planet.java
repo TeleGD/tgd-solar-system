@@ -69,7 +69,6 @@ public class Planet {
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		/* Méthode exécutée environ 60 fois par seconde */
-		
 		ground.update(container, game, delta);
 		air.update(container, game, delta);
 	}
@@ -87,9 +86,7 @@ public class Planet {
 		ground.render(container, game, context);//Affichage planète
 		for(Orbital orbital : listFront){//Affichage orbitales devant
 			orbital.render(container, game, context);
-		
 		}
-		
 		ground.renderMenuConstruct(container, game, context);
 	}
 	
@@ -147,6 +144,10 @@ public class Planet {
 	
 	public Air getAir(){
 		return air;
+	}
+
+	public void setVelocityVector(Velocity v) {
+		System.out.println("On ajoute une vélocité !");
 	}
 	
 	public void mouseWheelMoved(int change) {
