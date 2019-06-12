@@ -143,10 +143,11 @@ public class World extends BasicGameState {
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{
-		if (arg0 == 0) {
+		if (arg0 == 0) { // Clic gauche
 			if (planetSelected == null) {  // Sur le systeme, gère le clic sur une planète
 				planetSelected = solsys.planetTouched(x, y); // planetSelected recoit la planète touchée
 				mouv = false;
+				if (planetSelected == null) solsys.mousePressed(arg0, x, y);
 				// null sinon
 			}
 			//else if
@@ -172,14 +173,23 @@ public class World extends BasicGameState {
 				}
 			}
 		}
-		if (arg0 == 1) {
+		if (arg0 == 1) { // Clic droit
 			if (planetSelected == null) {
 				planetSelected = solsys.planetTouched(x, y);
 				if (planetSelected != null) {
-					solsys.setVelocityVector(planetSelected, new Velocity(0.3, 2));
+					solsys.setVelocityVector(planetSelected, new Velocity(0.3, 0));
+				}
+				else {
+					solsys.setVelocityVector(null, null);
 				}
 				planetSelected = null;
 			}
+		}
+	}
+	
+	public void mouseReleased(int arg0, int x, int y) {
+		if (planetSelected == null) {
+			solsys.mouseReleased(arg0, x, y);
 		}
 	}
 
@@ -190,7 +200,22 @@ public class World extends BasicGameState {
 	}
 	
 	public void mouseWheelMoved(int change) {
-		solsys.mouseWheelMoved(change);
+		if (planetSelected == null) {
+			solsys.mouseWheelMoved(change);
+		}
+		else {
+			planetSelected.mouseWheelMoved(change);
+		}
+	}
+	
+	public void keyPressed(int key, char c) {
+		if (planetSelected == null) {
+			solsys.keyPressed(key, c);
+		}
+	}
+	
+	public void keyReleased(int key, char c) {
+		solsys.keyReleased(key, c);
 	}
 	
 	public float getFacteurMagique(){

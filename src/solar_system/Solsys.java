@@ -2,25 +2,27 @@ package solar_system;
 
 
 import java.util.*;
-import java.util.Random;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 	
 public class Solsys {
 	private int nbPlanet;
 	private List<Planet> planets;
-	private Random r;
 	private World world;
 	private Image imageSun;
 	private Velocity velocity;
 	private Planet refPlanet;
-	//private Spaceship spaceship;
+	private int currentKey; // ID de la touche actuellement pressée (-1 si aucune touche)
+	private boolean leftClick; // indique si le bouton gauche de la souris est pressé ou non
+	private Spaceship spaceship;
 		
 	public Solsys(int nbPlanet, World world) {
-		r= new Random();
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.world = world;
@@ -34,7 +36,7 @@ public class Solsys {
 			e.printStackTrace();
 		}
 		this.imageSun=imageSun.getScaledCopy(300,300);
-		//this.spaceship = new Spaceship(900, 600, 0.1, -0.3, world);
+		this.currentKey = -1;
 	}
 	
 	public void addPlanet(Planet p) {
@@ -56,14 +58,38 @@ public class Solsys {
   		this.refPlanet = p;
   		this.velocity = v;
  	}
+  	
+  	public void mousePressed(int arg0, int x, int y) {
+  		if (arg0 == 0) { // Clic gauche
+  			this.leftClick = true;
+  		}
+	}
+  	
+  	public void mouseReleased(int arg0, int x, int y) {
+  		if (arg0 == 0) { // Clic gauche
+  			this.leftClick = false;
+  		}
+	}
 	
 	public void mouseWheelMoved(int change) {
-		for (Planet p : planets) {
-			p.mouseWheelMoved(change);
+		if (velocity != null) {
+			velocity.setVelocity(velocity.getNorm()+(float)change/10000, velocity.getAngle());
 		}
 	}
 	
-	//TODO : Commandes contrôlant velocity
+	public void keyPressed(int key, char c) {
+		this.currentKey = key;
+		if (key == Input.KEY_ENTER) {
+			if (velocity != null) this.spaceship = new Spaceship(velocity.getX(), velocity.getY(), velocity.getNorm()*Math.cos(velocity.getAngle()), velocity.getNorm()*Math.sin(velocity.getAngle()), world);
+		}
+		else if (key == Input.KEY_SPACE) {
+			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
+		}
+	}
+	
+	public void keyReleased(int key, char c) {
+		this.currentKey = -1;
+	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 
@@ -74,7 +100,7 @@ public class Solsys {
 		}
 		if (this.velocity != null) this.velocity.render(container, game, context);
 		//planets.get(0).render(container, game, context);
-		//this.spaceship.render(container, game, context);
+		if (this.spaceship != null) this.spaceship.render(container, game, context);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -85,13 +111,37 @@ public class Solsys {
 			p.setPosX((float)Math.cos((double)angle)*distance);
 			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
+			if (this.spaceship != null) {
+				double distance2 = Math.pow(spaceship.getX()-(p.getPosX()+world.getWidth()/2-p.getRadius()), 2)+ Math.pow(spaceship.getY()-(p.getPosY()+world.getHeight()/2-p.getRadius()), 2);
+				if (distance2 < Math.pow(p.getRadius(), 2)) {
+					this.spaceship.crash();
+				}
+			}
 		}
 		if (this.velocity != null) {
 			//velocity.moveAngle((float)delta/refPlanet.getPeriode());
 			velocity.setPos((int)refPlanet.getPosX()+world.getWidth()/2, (int)refPlanet.getPosY()+world.getHeight()/2);
+			if (currentKey == Input.KEY_LEFT) {
+				velocity.moveAngle(-0.01);
+			} else if (currentKey == Input.KEY_RIGHT) {
+				velocity.moveAngle(+0.01);
+			} else if (currentKey == Input.KEY_UP) {
+				velocity.setVelocity(velocity.getNorm()+0.002, velocity.getAngle());
+			} else if (currentKey == Input.KEY_DOWN) {
+				velocity.setVelocity(velocity.getNorm()-0.002, velocity.getAngle());
+			}
+			if (leftClick) {
+				float dx = Mouse.getX()-velocity.getX();
+				float dy = world.getHeight()-Mouse.getY()-velocity.getY();
+				double angle = Math.PI/2;
+				if (dx != 0) angle = Math.atan(dy/dx);
+				if (dx < 0) angle += Math.PI;
+				if (dx == 0 && dy < 0) angle = -Math.PI/2;
+				velocity.setVelocity(Math.abs(velocity.getNorm()), angle);
+			}
 			velocity.update(container, game, delta);
 		}
-		//this.spaceship.update(container, game, delta);
+		if (this.spaceship != null) this.spaceship.update(container, game, delta);
 	}
 	
 }
