@@ -6,12 +6,21 @@ run:
 	java -cp bin:res:lib/* -Djava.library.path=res/natives Main
 
 archive:
-	jar cfm main.jar .mf -C bin . -C res . -C lib .
+	mkdir -p zip
+	cp res/natives/* zip
+	cp lib/* zip
+	jar cfm zip/main.jar .mf -C bin . -C res .
+	echo "#/bin/sh\njava -Djava.library.path=. -jar main.jar" > zip/main.sh
+	echo "java -Djava.library.path=. -jar main.jar" > zip/main.bat
+	chmod u+x zip/main.sh
+	chmod u+x zip/main.bat
+	zip main.zip zip/*
 
 exec:
-	java -jar main.jar
+	java -Djava.library.path=zip -jar zip/main.jar
 
 clean:
 	rm -r -f bin/*
+	rm -r -f zip/*
 
 .PHONY: build run archive exec clean

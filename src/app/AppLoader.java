@@ -1,91 +1,108 @@
 package app;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.newdawn.slick.Font;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.opengl.EmptyImageData;
+import org.newdawn.slick.openal.SoundStore;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class AppLoader {
 
-	private static Font defaultFont;
-	private static Map <String, Map <Integer, Map <Integer, Font>>> fonts;
-	private static Image defaultImage;
-	private static Map <String, Image> images;
+	private static Map <String, Map <Integer, Map <Integer, AppFont>>> fontList;
+	private static Map <String, AppPicture> pictureList;
+	private static Map <String, AppAudio> audioList;
 
 	static {
-		AppLoader.defaultFont = new TrueTypeFont (new java.awt.Font (null, java.awt.Font.PLAIN, 16), true);
-		AppLoader.fonts = new HashMap <String, Map <Integer, Map <Integer, Font>>> ();
-		AppLoader.defaultImage = new Image (new EmptyImageData (0, 0));
-		AppLoader.images = new HashMap <String, Image> ();
+		AppLoader.fontList = new HashMap <String, Map <Integer, Map <Integer, AppFont>>> ();
+		AppLoader.pictureList = new HashMap <String, AppPicture> ();
+		AppLoader.audioList = new HashMap <String, AppAudio> ();
+		SoundStore.get ().init ();
 	}
 
-	public static Font loadFont (String filename, int type, int size) {
-		Map <Integer, Map <Integer, Font>> types;
-		if ((types = AppLoader.fonts.get (filename)) == null) {
-			types = new HashMap <Integer, Map <Integer, Font>> ();
-			AppLoader.fonts.put (filename, types);
+	private static InputStream openStream (String filename) {
+		InputStream stream = null;
+		if (filename != null && filename.startsWith ("/")) {
+			try {
+				stream = new FileInputStream (System.class.getResource (filename).getPath ());
+			} catch (Exception error) {}
+			if (stream == null) {
+				try {
+					stream = ResourceLoader.getResourceAsStream (filename.replaceAll ("/+", "/").substring (1).replace ("/", File.separator));
+				} catch (Exception error) {}
+			}
 		}
-		Map <Integer, Font> sizes;
+		return stream;
+	}
+
+	private static void closeStream (InputStream stream) {
+		try {
+			stream.close ();
+		} catch (Exception error) {}
+	}
+
+	public static AppFont loadFont (String filename, int type, int size) {
+		Map <Integer, Map <Integer, AppFont>> types = null;
+		if ((types = AppLoader.fontList.get (filename)) == null) {
+			types = new HashMap <Integer, Map <Integer, AppFont>> ();
+			AppLoader.fontList.put (filename, types);
+		}
+		Map <Integer, AppFont> sizes = null;
 		if ((sizes = types.get (type)) == null) {
-			sizes = new HashMap <Integer, Font> ();
+			sizes = new HashMap <Integer, AppFont> ();
 			types.put (type, sizes);
 		}
-		Font resource = sizes.get (size);
+		AppFont resource = sizes.get (size);
 		if (resource == null) {
-			try {
+			InputStream stream = AppLoader.openStream (filename);
+			if (stream != null) {
 				try {
-					InputStream stream = new FileInputStream (System.class.getResource (filename).getPath ());
-					try {
-						try {
-							resource = new TrueTypeFont (java.awt.Font.createFont (java.awt.Font.TRUETYPE_FONT, stream).deriveFont (type, size), true);
-						} catch (java.awt.FontFormatException error) {
-							resource = AppLoader.defaultFont;
-						}
-					} catch (IOException error) {
-						resource = AppLoader.defaultFont;
-					}
-					stream.close ();
-				} catch (NullPointerException error) {
-					resource = AppLoader.defaultFont;
-				}
-			} catch (IOException error) {
-				resource = AppLoader.defaultFont;
+					resource = new AppFont (filename, stream, type, size);
+				} catch (Exception error) {}
+				AppLoader.closeStream (stream);
+			}
+			if (resource == null) {
+				resource = new AppFont (filename, type, size);
 			}
 			sizes.put (size, resource);
 		}
 		return resource;
 	}
 
-	public static Image loadImage (String filename) {
-		Image resource = AppLoader.images.get (filename);
+	public static AppPicture loadPicture (String filename) {
+		AppPicture resource = AppLoader.pictureList.get (filename);
 		if (resource == null) {
-			if (filename != null && filename.startsWith ("/")) {
+			InputStream stream = AppLoader.openStream (filename);
+			if (stream != null) {
 				try {
-					try {
-						InputStream stream = new FileInputStream (System.class.getResource (filename).getPath ());
-						try {
-							resource = new Image (stream, filename, false);
-						} catch (SlickException exception) {
-							resource = AppLoader.defaultImage;
-						}
-						stream.close ();
-					} catch (NullPointerException error) {
-						resource = AppLoader.defaultImage;
-					}
-				} catch (IOException error) {
-					resource = AppLoader.defaultImage;
-				}
-			} else {
-				resource = AppLoader.defaultImage;
+					resource = new AppPicture (filename, stream);
+				} catch (Exception error) {}
+				AppLoader.closeStream (stream);
 			}
-			AppLoader.images.put (filename, resource);
+			if (resource == null) {
+				resource = new AppPicture (filename);
+			}
+			AppLoader.pictureList.put (filename, resource);
+		}
+		return resource;
+	}
+
+	public static AppAudio loadAudio (String filename) {
+		AppAudio resource = AppLoader.audioList.get (filename);
+		if (resource == null) {
+			InputStream stream = AppLoader.openStream (filename);
+			if (stream != null) {
+				try {
+					resource = new AppAudio (filename, stream);
+				} catch (Exception error) {}
+				AppLoader.closeStream (stream);
+			}
+			if (resource == null) {
+				resource = new AppAudio (filename);
+			}
+			AppLoader.audioList.put (filename, resource);
 		}
 		return resource;
 	}

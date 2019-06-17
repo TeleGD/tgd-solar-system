@@ -11,7 +11,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
 import app.ui.ButtonV2;
+
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
@@ -22,7 +24,7 @@ import solar_system.constructions.CabaneBucheron;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Ground {
-	
+
 	private int sizeCase = 80;
 	private Planet planet;
 	private World world;
@@ -48,7 +50,7 @@ public class Ground {
 	private int coinBoutonDestruct; // position verticale du bouton pour détruire un batiment
 	protected boolean constructionFailed; // Vaut true si le joueur a demandé la construction d'un batiment pour lequel il n'a pas assez de ressources
 	private MenuConstruction menuConstruction;
-	
+
 	public Ground(Planet planet, World world) {
 		/* Créer un objet de classe Ground avec des cases pour sur la planete plt */
 		this.planet = planet;
@@ -65,28 +67,25 @@ public class Ground {
 		coinMenuX = (int)(0.8*world.getWidth());
 		coinMenuY = (int)(0.1*world.getHeight());
 		menuConstruction = new MenuConstruction(world, coinMenuX, coinMenuY);
-		
+
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
 		imageConstructSize = 150;
 		hauteurTextMenuConstruct = 26;
 		constructionFailed = false;
 		generateCases();
-		
+
 		//this.air = new Air(5,(int)(5.0/4)*radius,this.world,planet);
 		Resource resource = new Resource("Fer"); // TODO : à changer
 		/////air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
-		
-		try{  // désormais, image correspond à l'image de la planète en arrière plan.
-			this.image = new Image(planet.getNomImage());
-			this.imageBack = new Image("res/images/retour.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+
+		// désormais, image correspond à l'image de la planète en arrière plan.
+		this.image = AppLoader.loadPicture(planet.getNomImage());
+		this.imageBack = AppLoader.loadPicture("/images/retour.png");
 	}
-		
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		
+
 		// Cette fonction contient deux fois "air.render()" : c'est normal (cf définition de air.render())
 		//air.render(container, game, context, true);
 		int x_bas_droite = this.x_origin+(int)(2*radius*facteur_magique);
@@ -109,13 +108,13 @@ public class Ground {
 
 		// imageBack pour revenir
 		context.drawImage(imageBack.getScaledCopy(48, 48), 0, 50);
-		
+
 		if (selectedCase != null) {
 			selectedCase.renderHighlighted (container, game, context);
 		}
-		
+
 	}
-	
+
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
@@ -123,32 +122,32 @@ public class Ground {
 			}
 		}
 	}
-	
-	
+
+
 	public void generateCases() {
 		// Génère le tableau de dimension 2 "heightCases" et le remplit de "Case"
-		
+
 		Resource resource;
 		int resourceQuantity;
-		
+
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
-		
+
 		this.cases = new Case[n][n];
 		// padding = marge intérieure (distance entre la grille et le bord de l'image)
 		padding = (int)( (radius*2-n*sizeCase)*facteur_magique/2 );
-		
+
 		for (int i = 0; i < cases.length ; i++) {
 			for (int j = 0; j < cases.length; j++ ) {
 				// Choix aléatoire d'une ressource :
 				resource = world.getPlayer().getResource(randomResourceName());
 				resourceQuantity = resourceQuantity( resource.getName() );
-				
+
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
 		}
 	}
-	
+
 	public Construction nameToConst (String name, Case tile) {
 		if(name=="Mine"){
 			return new Mine(tile, world.getPlayer());
@@ -170,12 +169,12 @@ public class Ground {
 		}
 		return null;
 	}
-	
+
 	public String randomResourceName() {
-		
+
 		String resource;
 		int rand = ThreadLocalRandom.current().nextInt(0, 17);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
-		
+
 		// Pour le noyau Linux :
 		if (rand==0) {
 			resource = "Noyau Linux";
@@ -190,7 +189,7 @@ public class Ground {
 		}
 		return resource;
 	}
-	
+
 	public int resourceQuantity(String res) {
 		switch (res) {
 			case "Fer" :
@@ -207,47 +206,47 @@ public class Ground {
 				return 0;
 		}
 	}
-	
+
 	public boolean mousePressed(int arg0, int x, int y) {
 		// Gère les clics sur le Ground.
-		
+
 		if (constructionFailed) { // pour faire disparaitre le message, le joueur doit cliquer n'importe où.
 			constructionFailed = false;
 		}
-		
+
 		// Construction d'un bâtiment :
 		if (menuConstruction.mousePressed(arg0, x, y)) return false;
-		
+
 		selectedCase = selectCase(x,y); // Récupère la case sélectionnée si elle existe.
 		menuConstruction.casePressed(selectedCase);
-		
-		
-		
+
+
+
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
-		
-		
-		
+
+
+
 /*		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
 			Image imageTemp;
 			constructionsPossibles = selectedCase.infoConstruct();
 			imagesConstructions = new ArrayList<Image>();
-			
+
 			for (int i=0; i<constructionsPossibles.size(); i++) {
 				try{
-					imageTemp = new Image("res/images/constructions/"+constructionsPossibles.get(i)+".png");
+					imageTemp = AppLoader.loadPicture("/images/constructions/"+constructionsPossibles.get(i)+".png");
 					imagesConstructions.add( imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ); // on met toutes les images à la même taille (et carrées)
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		
+
 		if (selectedCase != null) {
 			menuConstructionBoolean = true;
 		} else {
 			menuConstructionBoolean = false;
 		}*/
-		
+
 		if (x<48 && x>0 && y<98 && y>50) { // Clic sur l'image de retour.
 			selectedCase = null; // On désélectionne la case.
 			menuConstructionBoolean = false;
@@ -255,15 +254,15 @@ public class Ground {
 		}
 
 		return (false);
-		
+
 	}
-	
+
 	public void mouseWheelMoved(int change) {
 		menuConstruction.moveY(change);
 	}
-	
+
 	public Case selectCase(int x , int y){     // TODO : Correction à faire : pour les cases vers le bas ou vers la gauche, il y a un débordement de la 'hitbox' sur les cases d'à côté
-		// Retourne la case dans laquelle le point (x,y) est contenu. 
+		// Retourne la case dans laquelle le point (x,y) est contenu.
 		int renderedSize = sizeCase * world.getHeight()/1080;
 		if (y - (y_origin+padding) < 0 || (y - (y_origin+padding))/renderedSize >= cases.length || x - (x_origin+padding) < 0 || (x - (x_origin+padding))/renderedSize >= cases.length){//Si le clic est hors de la grille de la planète
 			System.out.println("On a pas cliqué sur la grille visiblement...");
@@ -280,14 +279,14 @@ public class Ground {
 		else {
 			return (cases[(x - (x_origin+padding))/renderedSize][(y - (y_origin+padding))/renderedSize]);}
 	}
-	
+
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		menuConstruction.render(container, game, context);
 	}
-	
+
 
 	 /*public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
-		
+
 		// Affiche le menu des constructions
 
 		coinBoutonDestruct = -100;
@@ -299,23 +298,23 @@ public class Ground {
 			int mX = 24;	// mX pour marginX, la marge à droite
 			for(int i=0; i<constructionsPossibles.size(); i++) {
 				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
-				
+
 				*//** Affichage du nom **//*
 				largeur = context.getFont().getWidth(c.getName());
 				context.setColor(Color.white);
 				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
 				currentHeight += hauteurTextMenuConstruct;
 				initialHeight = currentHeight;
-				
+
 				*//** Affichage de l'image **//*
 				try {
-					img = new Image("res/images/constructions/"+constructionsPossibles.get(i)+".png");
+					img = AppLoader.loadPicture("/images/constructions/"+constructionsPossibles.get(i)+".png");
 					boutonsConstructions.add(new ButtonV2(img, world.getWidth()-tailleImg-mX-50, currentHeight, tailleImg, tailleImg));
 				} catch (SlickException e) {
 					e.printStackTrace();
 				}
 				currentHeight += imageConstructSize;
-				
+
 				*//** Affichage des coûts **//*
 				currentHeight = initialHeight;
 				//largeur = context.getFont().getWidth("Coûts :");
@@ -324,7 +323,7 @@ public class Ground {
 				int currentWidth = world.getWidth()-mX-50;
 				for (String k : c.cout.keySet()) {
 					try{
-						img = new Image(Resource.imagePath(k));
+						img = AppLoader.loadPicture(Resource.imagePath(k));
 						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					} catch (SlickException e) {
 						e.printStackTrace();
@@ -335,7 +334,7 @@ public class Ground {
 					currentHeight += 50;
 				}
 				currentHeight = Math.max(currentHeight+10,initialHeight+imageConstructSize+10);
-				
+
 				*//** Affichage des débits **//*
 				largeur = context.getFont().getWidth("Gains :");
 				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
@@ -343,7 +342,7 @@ public class Ground {
 				currentWidth = world.getWidth()-24;
 				for (String k : c.debits.keySet()) {
 					try{
-						img = new Image(Resource.imagePath(k));
+						img = AppLoader.loadPicture(Resource.imagePath(k));
 						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
 					} catch (SlickException e) {
 						e.printStackTrace();
@@ -357,31 +356,31 @@ public class Ground {
 
 			}
 		}
-		
+
 		if (constructionFailed) {
 			context.setColor(Color.red);
 			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
 			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
 		}
 	}*/
-	
+
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<constructionsPossibles.size()) {
 			return constructionsPossibles.get(number);
 		}
 		return "";
 	}
-	
+
 	public Image getConstructImage(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<imagesConstructions.size()) {
 			return imagesConstructions.get(number);
 		}
 		return null;
 	}
-	
 
-	
-	
-	
+
+
+
+
 
 }

@@ -10,7 +10,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-	
+
+import app.AppLoader;
+
 public class Solsys {
 	private int nbPlanet;
 	private List<Planet> planets;
@@ -21,7 +23,7 @@ public class Solsys {
 	private int currentKey; // ID de la touche actuellement pressée (-1 si aucune touche)
 	private boolean leftClick; // indique si le bouton gauche de la souris est pressé ou non
 	private Spaceship spaceship;
-		
+
 	public Solsys(int nbPlanet, World world) {
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
@@ -30,21 +32,17 @@ public class Solsys {
 		for(int k=0; k<nbPlanet; k++ ) {
 			addPlanet(new Planet(1+k,200+100*k ,"description",world));
 		}
-		try{
-			this.imageSun = new Image("res/images/planets/soleil.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
 		this.imageSun=imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
 	}
-	
+
 	public void addPlanet(Planet p) {
 		if (planets.size() < nbPlanet)
 			planets.add(p);
 	}
-	
-	public Planet planetTouched(int x, int y) 
+
+	public Planet planetTouched(int x, int y)
 	{
 		for(Planet p : planets) {
 			if(Math.hypot(x-p.getPosX()-world.getWidth()/2, y-p.getPosY()-world.getHeight()/2) < p.getRadius()) {
@@ -53,30 +51,30 @@ public class Solsys {
 		}
 		return null;
 	}
-	
+
   	public void setVelocityVector(Planet p, Velocity v) {
   		this.refPlanet = p;
   		this.velocity = v;
  	}
-  	
+
   	public void mousePressed(int arg0, int x, int y) {
   		if (arg0 == 0) { // Clic gauche
   			this.leftClick = true;
   		}
 	}
-  	
+
   	public void mouseReleased(int arg0, int x, int y) {
   		if (arg0 == 0) { // Clic gauche
   			this.leftClick = false;
   		}
 	}
-	
+
 	public void mouseWheelMoved(int change) {
 		if (velocity != null) {
 			velocity.setVelocity(velocity.getNorm()+(float)change/10000, velocity.getAngle());
 		}
 	}
-	
+
 	public void keyPressed(int key, char c) {
 		this.currentKey = key;
 		if (key == Input.KEY_ENTER) {
@@ -86,11 +84,11 @@ public class Solsys {
 			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
 		}
 	}
-	
+
 	public void keyReleased(int key, char c) {
 		this.currentKey = -1;
 	}
-		
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for (Planet p: planets) {
 			int radius =p.getRadius();
@@ -151,6 +149,5 @@ public class Solsys {
 		}
 		if (this.spaceship != null) this.spaceship.update(container, game, delta);
 	}
-	
-}
 
+}

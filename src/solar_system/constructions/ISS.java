@@ -25,7 +25,7 @@ public class ISS extends Construction {
 		this.name = "Station intergalactique";
 		this.player=player;
 		
-		this.cout.put("Noyo Linux", 3.0);
+		this.cout.put("Noyau Linux", 3.0);
 		
 	}
 	

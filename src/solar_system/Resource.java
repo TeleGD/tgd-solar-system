@@ -3,28 +3,26 @@ package solar_system;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import app.AppLoader;
+
 public class Resource {
-	
+
 	private String name;
 	private double quantite;
 	private Image image;
-	
+
 	public Resource(String name) {
 		this.name=name;
 		this.quantite=0;
-		
+
 		if (name == "Bois") {
 			quantite = 100;
 		}
-		
-		try {
-			image = new Image(imagePath(name));
-		} catch(SlickException e) {
-			e.printStackTrace();
-		}
+
+		image = AppLoader.loadPicture(imagePath(name));
 	}
-	
-	public boolean modifQuantite (double qtite) {  
+
+	public boolean modifQuantite (double qtite) {
 		/* Ajoute ou prélève (si qtite<0)
 			Renvoie true si l'opération a réussi,
 			Renvoie false si l'opération est interrompue
@@ -36,38 +34,38 @@ public class Resource {
 		quantite+=qtite;
 		return true;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public double getQuantite () {
 		return quantite;
 	}
-	
+
 	public Image getImage () {
 		return image;
 	}
-	
+
 	public void render() {
 		//TODO wtf non !
 	}
-	
+
 	public static String imagePath(String name) {
 		String path = null;
 		switch (name) {
-			case "Fer": path = "res/images/resources/fer_minerai.png";
+			case "Fer": path = "/images/resources/fer_minerai.png";
 				break;
-			case "Bois": path = "res/images/resources/Bois.png";
+			case "Bois": path = "/images/resources/Bois.png";
 				break;
-			case "Cailloux": path = "res/images/resources/cailloux.png";
+			case "Cailloux": path = "/images/resources/cailloux.png";
 				break;
-			case "Nourriture": path = "res/images/resources/Nourriture.png";
+			case "Nourriture": path = "/images/resources/Nourriture.png";
 			break;
-			case "Noyau Linux": path = "res/images/resources/noyo.png";
+			case "Noyau Linux": path = "/images/resources/noyo.png";
 			break;
-			default : path = "res/images/resources/cailloux.png";
-			//case "Noyaux Linux": path = "res/resources/";
+			default : path = "/images/resources/cailloux.png";
+			//case "Noyaux Linux": path = "/resources/";
 		}
 		return path;
 	}

@@ -54,7 +54,7 @@ public class Welcome extends AppPage {
 		this.hintBlink = true;
 
 		this.setHint ("PRESS [START]");
-		this.setLogo (AppLoader.loadImage ("/images/logo.png"));
+		this.setLogo (AppLoader.loadPicture ("/images/logo.png"));
 	}
 
 	@Override
