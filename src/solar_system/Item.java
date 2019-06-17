@@ -34,7 +34,8 @@ public class Item {
 	private boolean canConstruct;
 	private Orbital orbital;
 
-	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
+	
+	public Item(World world, Case tile, String name, int x, int y) {//
 
 		this.world = world;
 		this.tile = tile;
@@ -43,7 +44,6 @@ public class Item {
 		this.imageConstructSize = 150;
 		this.canConstruct = false;
 		this.orbital = orbital;
-
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
@@ -60,7 +60,7 @@ public class Item {
 		Construction construction = nameToConst(name, tile);
 		Image img;
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
-		if(this.orbital == null || this.orbital instanceof Satellite){
+		//if(tile.getOrbital() == null || tile.getOrbital() instanceof Satellite){
 			for (String k : construction.cout.keySet()) {
 				img = AppLoader.loadPicture(Resource.imagePath(k));
 				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
@@ -75,10 +75,6 @@ public class Item {
 				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
 				currentX -= 48;
 			}
-		}
-		if(orbital instanceof Station){
-			System.out.println("Hey c'est encore moi la station ;) ");
-		}
 
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);

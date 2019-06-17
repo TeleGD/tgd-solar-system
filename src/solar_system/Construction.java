@@ -22,9 +22,9 @@ public abstract class Construction {
 	protected boolean destructed;
 	protected Case tile;
 	protected HashMap<String, Resource> resourcesProduced;
-	protected HashMap<String, Double> cout;
+	protected static HashMap<String, Double> cout;
 	protected HashMap<String, Double> coutPerpetuel;
-	protected Player player;
+	protected static Player player;
 	protected Image imgConstruction;
 
 	public Construction(Case tile, Player player) {

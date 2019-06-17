@@ -25,7 +25,7 @@ public class ISS extends Construction {
 		this.name = "Station intergalactique";
 		this.player=player;
 		
-		this.cout.put("Noyau Linux", 3.0);
+		this.cout.put("Noyau Linux", 0.0);//TODO : équilibrer le cout d'une station
 		
 	}
 	
@@ -36,13 +36,18 @@ public class ISS extends Construction {
 //		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 //	}
 
-//	//public static boolean constructPossible(Case tileConstructLocation) {
+//	public static boolean constructPossible(Case tileConstructLocation) {
 //		if (player.getResource(costEntry.getKey()).getQuantite()<costEntry.getValue()){
 //			return false;
 //		}
 //		return true;
+//		//return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 //	}
-
+	//public static boolean constructPossible(Case tileConstructLocation) {
+	//	return (player.getResource("Noyau Linux").getQuantite()>=cout.get("Noyau Linux"));
+	
+	//}
+	
 }
 
 
