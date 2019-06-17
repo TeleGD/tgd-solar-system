@@ -92,18 +92,18 @@ public class Solsys {
 	}
 		
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-
-		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		for (Planet p: planets) {
 			int radius =p.getRadius();
 			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
 		}
-		if (this.velocity != null) this.velocity.render(container, game, context);
 		//planets.get(0).render(container, game, context);
 		if (this.spaceship != null) this.spaceship.render(container, game, context);
+		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
+		if (this.velocity != null) this.velocity.render(container, game, context);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
+		boolean colliding = false;
 		for (Planet p : planets) {
 			float angle=p.getAngle()+(float)delta/p.getPeriode();
 			p.setAngle(angle);
@@ -112,10 +112,18 @@ public class Solsys {
 			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
 			if (this.spaceship != null) {
-				double distance2 = Math.pow(spaceship.getX()-(p.getPosX()+world.getWidth()/2-p.getRadius()), 2)+ Math.pow(spaceship.getY()-(p.getPosY()+world.getHeight()/2-p.getRadius()), 2);
+				double distance2 = Math.pow(spaceship.getX()-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(spaceship.getY()-(p.getPosY()+world.getHeight()/2), 2);
 				if (distance2 < Math.pow(p.getRadius(), 2)) {
 					this.spaceship.crash();
+					colliding = true;
 				}
+			}
+		}
+		if (this.spaceship != null) {
+			if (!colliding && !this.spaceship.hasLeft()) this.spaceship.left();
+			double distance2 = Math.pow(spaceship.getX()-world.getWidth()/2, 2)+ Math.pow(spaceship.getY()-world.getHeight()/2, 2);
+			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
+				this.spaceship.crash();
 			}
 		}
 		if (this.velocity != null) {
