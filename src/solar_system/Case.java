@@ -148,11 +148,15 @@ public class Case {
 			
 		}
 		if (orbital instanceof Station){
-			//resource = ;
-			//if (ISS.constructPossible(this)){
-			construPossible.add("ISS");
-			//}//TODO : Construire Station seulement si  on a les ressources necessaires,mais c'et pas ici, ca doit etre dans item...
-			
+			if(construction == null){
+				construPossible.add("ISS");
+			}
+			else{
+				if(construction instanceof ISS){
+					//TODO : Construire des vaisseaux dans la station
+					
+				}
+			}
 		}
 		return construPossible;
 		
