@@ -129,23 +129,36 @@ public class Item {
 		if (button.isPressed(x, y)) {
 			Construction constr = nameToConst(name, tile);
 			System.out.println(name);
-			if(tile.getOrbital()==null){
-				if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
-					tile.setConstruction( constr );
-				}
-				return true;
-
-			}
-			if(constr!=null){
-				if(tile.getOrbital() instanceof Station){
-					System.out.println(constr.getName());
-					if ( constr.playerCanConstruct( world.getPlayer() ) ) {
-						tile.setConstruction( constr );
-					}
-
-					//System.out.println(tile.getConstruction().getName());
-				}
-			}
+			
+			//TODO :
+//			if (constr instanceof Spaceship){Si on chercher à construire un vaisseau, on l'ajoute à sa station
+//				
+//			}
+//			else{//Sinon, c'est une construction "normale"
+//				//TODO : construire constr ur la case;
+//			}
+			
+			
+//			if(tile.getOrbital()==null){//Si une case sur la planete
+//				if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
+//					tile.setConstruction( constr );
+//				}
+//				return true;
+//			
+//			}
+//			else if(tile.getOrbital() instanceof Satellite){//Si la case est 
+//				
+//			}
+//			if(constr!=null){
+//				if(tile.getOrbital() instanceof Station){
+//					System.out.println(constr.getName());
+//					if ( constr.playerCanConstruct( world.getPlayer() ) ) {
+//						tile.setConstruction( constr );
+//					}
+//
+//					//System.out.println(tile.getConstruction().getName());
+//				}
+//			}
 
 		}
 		return false;

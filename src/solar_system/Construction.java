@@ -14,16 +14,11 @@ public abstract class Construction {
 
 	protected int life;
 	protected int lifeMax;
-	protected int posX;
-	protected int posY;
 	protected String description;
 	protected String name;
-	protected Map<String,Double> debits;
 	protected boolean destructed;
-	protected Case tile;
-	protected HashMap<String, Resource> resourcesProduced;
 	protected static HashMap<String, Double> cout;
-	protected HashMap<String, Double> coutPerpetuel;
+	protected HashMap<String, Double> entretiens;
 	protected static Player player;
 	protected Image imgConstruction;
 
@@ -44,7 +39,7 @@ public abstract class Construction {
 
 
 		debits = new HashMap<String,Double>();
-		coutPerpetuel = new HashMap<String, Double>();
+		entretiens = new HashMap<String, Double>();
 
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+this.getClass().getSimpleName()+".png"); // L'image doit avoir le même nom que la classe
 		imgConstruction = imageTemp.getScaledCopy(tile.getSize(),tile.getSize()) ;
@@ -60,7 +55,7 @@ public abstract class Construction {
 		// On commence par les couts perpétuels (ceux des ressources prélevées à chaque update) :
 		boolean prelevementReussi = true;
 
-		for( Map.Entry<String , Double> entry : coutPerpetuel.entrySet())
+		for( Map.Entry<String , Double> entry : entretiens.entrySet())
 		{
 			String resource_name = entry.getKey();
 			double qtite_a_prelever = entry.getValue();
