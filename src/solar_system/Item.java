@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import app.AppLoader;
 import app.AppPage;
 import app.ui.ButtonV2;
+
 import solar_system.constructions.CabaneBucheron;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
@@ -29,20 +30,40 @@ public class Item {
 	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
 	private int imageConstructSize;
+<<<<<<< HEAD
 	
 	public Item(World world, Case tile, String name, int x, int y) {//
 		
+||||||| merged common ancestors
+	private Orbital orbital;
+	
+	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
+		
+=======
+	private Orbital orbital;
+
+	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
+
+>>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		this.world = world;
 		this.tile = tile;
 		this.name = name;
 		imageConstructSize = 150;
+<<<<<<< HEAD
 		
+||||||| merged common ancestors
+		this.orbital = orbital;
+		
+=======
+		this.orbital = orbital;
+
+>>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
-		Image imageTemp = AppLoader.loadImage("/images/constructions/"+name+".png");
+		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
-		
+
 		xName = x + imageConstructSize;
 		yName = y + imageConstructSize + 8;
 
@@ -55,38 +76,44 @@ public class Item {
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
 		//if(tile.getOrbital() == null || tile.getOrbital() instanceof Satellite){
 			for (String k : construction.cout.keySet()) {
-				try{
-					img = new Image(Resource.imagePath(k));
-					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
+				img = AppLoader.loadPicture(Resource.imagePath(k));
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
 			for (String k : construction.debits.keySet()) {
-				try{
-					img = new Image(Resource.imagePath(k));
-					// Pour l'instant, seule une ressource est produite,
-					// on n'affiche donc pas le débit mais la quantité max disponible :
-					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
+				img = AppLoader.loadPicture(Resource.imagePath(k));
+				// Pour l'instant, seule une ressource est produite,
+				// on n'affiche donc pas le débit mais la quantité max disponible :
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
 				currentX -= 48;
 			}
+<<<<<<< HEAD
 
 		
+||||||| merged common ancestors
+		}
+		if(orbital instanceof Station){
+			System.out.println("Hey c'est encore moi la station ;) ");
+		}
+		
+=======
+		}
+		if(orbital instanceof Station){
+			System.out.println("Hey c'est encore moi la station ;) ");
+		}
+
+>>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
-		
+
 		currentY += 24;
-		
+
 		currentY += 50; // On se positionne une ligne en dessous
 		this.height = currentY - y;
 	}
-	
+
 	public Construction nameToConst (String name, Case tile) {
 		if(name=="Mine"){
 			return new Mine(tile, world.getPlayer());
@@ -107,15 +134,15 @@ public class Item {
 			return new CabaneBucheron(tile, world.getPlayer());
 		}
 		if(name=="ISS"){
-			return new ISS(tile, world.getPlayer());			
+			return new ISS(tile, world.getPlayer());
 		}
 		return null;
 	}
-	
+
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	public void moveY(int dY) {
 		this.button.moveY(dY);
 		for (ResourceIcon ri : iconCostProduc) {
@@ -123,7 +150,7 @@ public class Item {
 		}
 		this.yName += dY;
 	}
-	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		this.button.render(container, game, context);
 		for (ResourceIcon ri : iconCostProduc) {
@@ -132,7 +159,7 @@ public class Item {
 		int largeur = context.getFont().getWidth(name);
 		context.drawString(name, this.xName-largeur, this.yName);
 	}
-	
+
 	public boolean mousePressed(int arg0, int x, int y) {
 		if (button.isPressed(x, y)) {
 			Construction constr = nameToConst(name, tile);
@@ -142,7 +169,7 @@ public class Item {
 					tile.setConstruction( constr );
 				}
 				return true;
-				
+
 			}
 			if(constr!=null){
 				if(tile.getOrbital() instanceof Station){
@@ -150,13 +177,13 @@ public class Item {
 					if ( constr.playerCanConstruct( world.getPlayer() ) ) {
 						tile.setConstruction( constr );
 					}
-					
+
 					//System.out.println(tile.getConstruction().getName());
 				}
 			}
-			
+
 		}
 		return false;
 	}
-	
+
 }

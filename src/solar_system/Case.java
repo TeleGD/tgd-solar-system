@@ -10,6 +10,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
+
 import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
 import solar_system.constructions.TNCY;
@@ -26,7 +28,7 @@ public class Case {
 	private Image backgroundImg;
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private Orbital orbital;
-	
+
 	public Case(int x, int y, int size,Orbital orbital){
 		this.x = x;
 		this.y = y;
@@ -38,7 +40,7 @@ public class Case {
 		this.orbital = orbital;
 	}
 
-	
+
 	public Case(int x, int y, int size, Resource resource, int resourceQuantity){
 		this.x = x;
 		this.y = y;
@@ -47,34 +49,30 @@ public class Case {
 		this.resourceQuantity = (double)resourceQuantity;
 		construction = null;
 		this.orbital = null;
-		
+
 		setBackgroundAsResource();
-		
+
 	}
-	
+
 	public void setBackgroundAsResource() { // Permet de placer en arrière-plan de la case l'image de la ressource de la case
-		
+
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
 			// TODO: Utiliser le getImage de Resource
-			try{
-				if (this.resource.getName() == "Bois"){
-					this.backgroundImg = new Image("res/images/resources/foret.png");
-				}
-				else {
-					this.backgroundImg = new Image(this.resource.imagePath(this.resource.getName()));
-				}
-			} catch (SlickException e) {
-				e.printStackTrace();
+			if (this.resource.getName() == "Bois"){
+				this.backgroundImg = AppLoader.loadPicture("/images/resources/foret.png");
+			}
+			else {
+				this.backgroundImg = AppLoader.loadPicture(this.resource.imagePath(this.resource.getName()));
 			}
 		}
 	}
-	
+
 	public void setConstruction(Construction constr){
 		this.construction = constr;
 	}
-	
+
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 
 		context.setColor(new Color(0, 0, 0, 127));
@@ -87,7 +85,7 @@ public class Case {
 		}
 	}
 
-	
+
 	public void renderHighlighted (GameContainer container, StateBasedGame game, Graphics context) {
 		context.setColor(new Color(127, 0, 0, 127));
 		context.drawRect(x, y, size, size);
@@ -99,14 +97,14 @@ public class Case {
 			construction.update(container, game, delta);
 		}
 	}
-	
+
 	public boolean mousePressed(int arg0,int x ,int y){
 		if(x>this.x && x<this.x+size && y>this.y && y<this.y+size){
 			return true;
 		}
 		return false;
 	}
-	
+
 
 	public double preleveResource(double quantiteAPrelever) {
 		if(quantiteAPrelever <= resourceQuantity){
@@ -118,10 +116,10 @@ public class Case {
 			return resourcePreleved;
 		}
 	}
-	
+
 	public ArrayList<String> infoConstruct(){
 		//Retourne les constructions faisables sur la case cliquée
-		
+
 		ArrayList<String> construPossible = new ArrayList<>();
 		if(orbital == null || orbital instanceof Satellite ){
 			if (construction==null) {
@@ -145,7 +143,7 @@ public class Case {
 					construPossible.add("Mine2");
 				}
 			}
-			
+
 		}
 		if (orbital instanceof Station){
 			if(construction == null){
@@ -159,25 +157,25 @@ public class Case {
 			}
 		}
 		return construPossible;
-		
+
 	}
-	
+
 	public void setBackground(Image img) {
 		 backgroundImg = img;
 	}
-	
+
 	public double getResourceQuantity() {
 		return resourceQuantity;
 	}
-	
+
 	public Resource getResource(){
 		return resource;
 	}
-	
+
 	public Construction getConstruction(){
 		return construction;
 	}
-	
+
 	public void setResource(Resource r){
 		resource = r;
 		setBackgroundAsResource();
@@ -202,11 +200,11 @@ public class Case {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
+
 	public int getSize() {
 		return this.size;
 	}
-	
+
 	public Orbital getOrbital(){
 		return this.orbital;
 	}

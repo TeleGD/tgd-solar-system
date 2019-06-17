@@ -25,7 +25,7 @@ public class MenuConstruction {
 	private ButtonV2 suppr;
 	//private Orbital orbital;
 	private boolean orbital;//vaut 1 si c'est une orbitale
-	
+
 	public MenuConstruction(World world, int x, int y) {//,boolean orbital
 		this.world = world;
 		this.x = x;
@@ -36,7 +36,7 @@ public class MenuConstruction {
 		//this.orbital=orbital;
 		//this.orbital=orbital;
 	}
-	
+
 	public void casePressed(Case selectedCase){
 		listItems.clear();
 		this.y = this.y0;
@@ -71,17 +71,17 @@ public class MenuConstruction {
 				yItem += item.getHeight();
 			}
 			if (selectedCase.getConstruction() != null) {
-				Image imgBoule = AppLoader.loadImage("/images/constructions/destruction.jpeg");
+				Image imgBoule = AppLoader.loadPicture("/images/constructions/destruction.jpeg");
 				suppr = new ButtonV2(imgBoule, x, yItem, 48, 48); //TODO: Gérer sa position en fonction des constructions (améliorations possibles)
 			}
 		}
 	}
-	
+
 	public boolean mousePressed(int arg0, int x, int y) {
 		for (Item item : listItems) {
-			if (item.mousePressed(arg0, x, y)) { 
+			if (item.mousePressed(arg0, x, y)) {
 				casePressed(selectedCase); // On rafraîchit le menu de construction pour tenir compte du fait qu'on ait peut-être construit
-				return true; 
+				return true;
 			}
 		}
 		if (suppr != null && suppr.isPressed(x, y)) { // Destruction
@@ -94,7 +94,7 @@ public class MenuConstruction {
 		}
 		return false;
 	}
-	
+
 	public void moveY(int dY) {
 		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= world.getPlayer().getyMinUI()) {
 			this.y += dY/5;
@@ -104,7 +104,7 @@ public class MenuConstruction {
 			if (this.suppr != null) this.suppr.moveY(dY/5);
 		}
 	}
-	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for (Item item : listItems) {
 			item.render(container, game, context);
@@ -113,12 +113,12 @@ public class MenuConstruction {
 			suppr.render(container, game, context);
 		}
 	}
-	
+
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<constructionsPossibles.size()) {
 			return constructionsPossibles.get(number);
 		}
 		return "";
 	}
-	
+
 }
