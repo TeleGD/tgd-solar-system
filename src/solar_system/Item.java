@@ -30,34 +30,14 @@ public class Item {
 	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
 	private int imageConstructSize;
-<<<<<<< HEAD
+
 	
 	public Item(World world, Case tile, String name, int x, int y) {//
-		
-||||||| merged common ancestors
-	private Orbital orbital;
-	
-	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
-		
-=======
-	private Orbital orbital;
 
-	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
-
->>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		this.world = world;
 		this.tile = tile;
 		this.name = name;
 		imageConstructSize = 150;
-<<<<<<< HEAD
-		
-||||||| merged common ancestors
-		this.orbital = orbital;
-		
-=======
-		this.orbital = orbital;
-
->>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
@@ -89,22 +69,7 @@ public class Item {
 				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
 				currentX -= 48;
 			}
-<<<<<<< HEAD
 
-		
-||||||| merged common ancestors
-		}
-		if(orbital instanceof Station){
-			System.out.println("Hey c'est encore moi la station ;) ");
-		}
-		
-=======
-		}
-		if(orbital instanceof Station){
-			System.out.println("Hey c'est encore moi la station ;) ");
-		}
-
->>>>>>> 24eca3db2391653dbce12f63542a0690c3126d80
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
 
