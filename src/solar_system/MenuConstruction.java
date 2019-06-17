@@ -66,7 +66,7 @@ public class MenuConstruction {
 			int yItem = this.y;
 			Item item;
 			for (String name : constructionsPossibles) {
-				item = new Item(world, selectedCase, name, x, yItem,selectedCase.getOrbital());//orbital
+				item = new Item(world, selectedCase, name, x, yItem);//orbital
 				listItems.add(item);
 				yItem += item.getHeight();
 			}

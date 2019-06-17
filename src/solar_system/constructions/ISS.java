@@ -25,7 +25,7 @@ public class ISS extends Construction {
 		this.name = "Station intergalactique";
 		this.player=player;
 		
-		this.cout.put("Noyau Linux", 0.0);
+		this.cout.put("Noyau Linux", 0.0);//TODO : équilibrer le cout d'une station
 		
 	}
 	
