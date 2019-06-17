@@ -19,20 +19,24 @@ public class MenuConstruction {
 	private ArrayList<String> constructionsPossibles;
 	private ArrayList<Item> listItems;
 	private World world;
+	private Planet planet;
 	private int x;
 	private int y;
 	private int y0; // ordonnée initiale, si jamais on doit reset la postion y
 	private ButtonV2 suppr;
 	//private Orbital orbital;
+	private String errorMsg;
 	private boolean orbital;//vaut 1 si c'est une orbitale
 
-	public MenuConstruction(World world, int x, int y) {//,boolean orbital
+	public MenuConstruction(World world, Planet planet, int x, int y) {//,boolean orbital
 		this.world = world;
+		this.planet = planet;
 		this.x = x;
 		this.y = y;
 		this.y0 = y;
 		this.listItems = new ArrayList<>();
 		this.suppr = null;
+		this.errorMsg = "";
 		//this.orbital=orbital;
 		//this.orbital=orbital;
 	}
@@ -78,19 +82,28 @@ public class MenuConstruction {
 	}
 
 	public boolean mousePressed(int arg0, int x, int y) {
-		for (Item item : listItems) {
-			if (item.mousePressed(arg0, x, y)) {
-				casePressed(selectedCase); // On rafraîchit le menu de construction pour tenir compte du fait qu'on ait peut-être construit
+		if (this.planet.getOwner() == this.world.getPlayer()) {	// Si la planète appartient au joueur
+			for (Item item : listItems) { // Si on clique sur l'un des items
+				if (item.mousePressed(arg0, x, y)) {
+					casePressed(selectedCase); // On rafraîchit le menu de construction pour tenir compte du fait qu'on ait peut-être construit
+					this.errorMsg = "";
+					return true;
+				}
+			}
+			if (suppr != null && suppr.isPressed(x, y)) { // Si on clique sur le bouton de destruction
+				selectedCase.setConstruction(null);
+				/*selectedCase.setBackground(null);
+				selectedCase.setBackgroundAsResource();*/
+				suppr = null;
+				casePressed(selectedCase);
+				this.errorMsg = "";
 				return true;
 			}
+			// Si on a cliqué sur rien
+			this.errorMsg = "";
 		}
-		if (suppr != null && suppr.isPressed(x, y)) { // Destruction
-			selectedCase.setConstruction(null);
-			/*selectedCase.setBackground(null);
-			selectedCase.setBackgroundAsResource();*/
-			suppr = null;
-			casePressed(selectedCase);
-			return true;
+		else {	// Si la planète n'appartient pas au joueur
+			this.errorMsg = "Vous n'êtes pas propriétaire de cette planète !";
 		}
 		return false;
 	}
@@ -102,6 +115,12 @@ public class MenuConstruction {
 				item.moveY(dY/5);
 			}
 			if (this.suppr != null) this.suppr.moveY(dY/5);
+		}
+	}
+	
+	public void update (GameContainer container, StateBasedGame game, int delta) {
+		for (Item item : listItems) {
+			item.update(container, game, delta);
 		}
 	}
 

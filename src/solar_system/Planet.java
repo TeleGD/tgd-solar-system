@@ -33,6 +33,7 @@ public class Planet {
 	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
 	private Air air;
 	private List<Orbital> orbitals;
+	private Player owner;
 
 	public Planet(int type,float distance, String description, World world) {
 		this(type,distance,(r.nextInt(50)+50)/2,description, world);
@@ -53,15 +54,14 @@ public class Planet {
 		this.color=new Color(type*120,0,255/type);
 		posx=(float)Math.cos((double)this.angle)*this.distance;
 		posy=(float)Math.sin((double)this.angle)*this.distance;
-
 		Random rnd = new Random();
 		this.nomImage = "/images/planets/"+rnd.nextInt(6)+".png";
 		this.image = AppLoader.loadPicture(nomImage);
 		this.image=image.getScaledCopy(radius*2,radius*2);
+		this.image.setAlpha(0.6f);
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
 		this.orbitals=air.getOrbitals();
-
 
 	}
 
@@ -114,6 +114,15 @@ public class Planet {
 
 	public void setPosY(float y){
 		this.posy=y;
+	}
+	
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public void setOwner(Player p) {
+		this.owner = p;
+		this.image.setAlpha(1);
 	}
 
 	public float getDistance(){

@@ -9,7 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+
 
 import app.AppLoader;
 
@@ -109,10 +109,12 @@ public class Solsys {
 			p.setPosX((float)Math.cos((double)angle)*distance);
 			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
+			// Collision du vaisseau avec la planète
 			if (this.spaceship != null) {
 				double distance2 = Math.pow(spaceship.getX()-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(spaceship.getY()-(p.getPosY()+world.getHeight()/2), 2);
 				if (distance2 < Math.pow(p.getRadius(), 2)) {
 					this.spaceship.crash();
+					if (this.spaceship.hasLeft()) p.setOwner(this.world.getPlayer());
 					colliding = true;
 				}
 			}

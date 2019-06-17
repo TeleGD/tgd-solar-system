@@ -25,11 +25,13 @@ public class Item {
 	private World world;
 	private Case tile;
 	private String name;
+	private Construction constr;
 	private ButtonV2 button;
 	private int height;
 	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
 	private int imageConstructSize;
+	private boolean canConstruct;
 	private Orbital orbital;
 
 	public Item(World world, Case tile, String name, int x, int y,Orbital orbital) {//
@@ -37,7 +39,9 @@ public class Item {
 		this.world = world;
 		this.tile = tile;
 		this.name = name;
-		imageConstructSize = 150;
+		this.constr = nameToConst(name, tile);
+		this.imageConstructSize = 150;
+		this.canConstruct = false;
 		this.orbital = orbital;
 
 		Image imgConstruction = null;
@@ -113,6 +117,10 @@ public class Item {
 	public int getHeight() {
 		return this.height;
 	}
+	
+	public boolean playerCanConstruct() {
+		return this.canConstruct;
+	}
 
 	public void moveY(int dY) {
 		this.button.moveY(dY);
@@ -120,6 +128,16 @@ public class Item {
 			ri.moveY(dY);
 		}
 		this.yName += dY;
+	}
+	
+	public void update (GameContainer container, StateBasedGame game, int delta) {
+		if (this.constr != null) this.canConstruct = this.constr.playerCanConstruct(world.getPlayer());
+		if (canConstruct) {
+			button.setAlpha(1);
+		}
+		else {
+			button.setAlpha(0.5f);
+		}
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
@@ -133,24 +151,22 @@ public class Item {
 
 	public boolean mousePressed(int arg0, int x, int y) {
 		if (button.isPressed(x, y)) {
-			Construction constr = nameToConst(name, tile);
 			System.out.println(name);
 			if(tile.getOrbital()==null){
-				if ( constr.playerCanConstruct( world.getPlayer() ) ) { // Si le joueur a les ressources requises pour la construction :
-					tile.setConstruction( constr );
+				if ( canConstruct ) { // Si le joueur a les ressources requises pour la construction :
+					constr.giveMeYourMoney(world.getPlayer());	// On fait payer le joueur
+					tile.setConstruction( constr );	// On construit la construction
 				}
 				return true;
 
 			}
-			if(constr!=null){
-				if(tile.getOrbital() instanceof Station){
-					System.out.println(constr.getName());
-					if ( constr.playerCanConstruct( world.getPlayer() ) ) {
-						tile.setConstruction( constr );
-					}
-
-					//System.out.println(tile.getConstruction().getName());
+			if(tile.getOrbital() instanceof Station){
+				System.out.println(constr.getName());
+				if ( canConstruct ) {
+					tile.setConstruction( constr );
 				}
+
+				//System.out.println(tile.getConstruction().getName());
 			}
 
 		}
