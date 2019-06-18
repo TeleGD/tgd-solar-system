@@ -66,7 +66,7 @@ public class Ground {
 
 		coinMenuX = (int)(0.8*world.getWidth());
 		coinMenuY = (int)(0.1*world.getHeight());
-		menuConstruction = new MenuConstruction(world, coinMenuX, coinMenuY);
+		menuConstruction = new MenuConstruction(world, planet, coinMenuX, coinMenuY);
 
 		coinMenuX = 10000; // tant que le coin du menu n'a pas été calculé, on prend une grande valeur pour que le menu soit hors du champ.
 		coinMenuY = 10000;
@@ -121,6 +121,7 @@ public class Ground {
 				c.update(container, game, delta);
 			}
 		}
+		if (this.menuConstruction != null) this.menuConstruction.update(container, game, delta);
 	}
 
 

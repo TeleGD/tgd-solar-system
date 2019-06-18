@@ -77,12 +77,15 @@ public abstract class Construction {
 				return false;
 			}
 		}
-		// Si la construction est possible, on prélève les ressources :
-
+		return true;
+	}
+	
+	public void giveMeYourMoney(Player player) {
+		// Prélève les ressources nécessaires sans vérifier que la construction est possible
+		// (condition à vérifier par l'item du menu)
 		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
 			player.getResource( costEntry.getKey() ).modifQuantite( - costEntry.getValue() );
 		}
-		return true;
 	}
 
 	public void isDead() {

@@ -24,6 +24,10 @@ public class ButtonV2 {
 		this.ypos += dY;
 	}
 	
+	public void setAlpha(float alpha) {
+		this.img.setAlpha(alpha);
+	}
+	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		context.drawImage(img, xpos, ypos, xpos+xsize, ypos+ysize, 0, 0, img.getWidth(), img.getHeight());
 	}
