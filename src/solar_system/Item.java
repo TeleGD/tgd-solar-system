@@ -32,7 +32,6 @@ public class Item {
 	private int xName, yName;
 	private int imageConstructSize;
 	private boolean canConstruct;
-	private Orbital orbital;
 
 	
 	public Item(World world, Case tile, String name, int x, int y) {//
@@ -43,7 +42,6 @@ public class Item {
 		this.constr = nameToConst(name, tile);
 		this.imageConstructSize = 150;
 		this.canConstruct = false;
-		this.orbital = orbital;
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
