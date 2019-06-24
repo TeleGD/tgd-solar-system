@@ -22,7 +22,7 @@ public abstract class Construction {
 	protected boolean destructed;
 	protected Case tile;
 	protected HashMap<String, Resource> resourcesProduced;
-	protected static HashMap<String, Double> cout;
+	protected HashMap<String, Double> cout;
 	protected HashMap<String, Double> coutPerpetuel;
 	protected static Player player;
 	protected Image imgConstruction;
@@ -103,8 +103,10 @@ public abstract class Construction {
 	public void giveMeYourMoney(Player player) {
 		// Prélève les ressources nécessaires sans vérifier que la construction est possible
 		// (condition à vérifier par l'item du menu)
+		System.out.println(this.name);
 		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
 			player.getResource( costEntry.getKey() ).modifQuantite( - costEntry.getValue() );
+			System.out.println("Vous venez de payer "+costEntry.getValue()+" "+costEntry.getKey());
 		}
 	}
 

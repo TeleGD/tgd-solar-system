@@ -32,6 +32,7 @@ public class Item {
 	private int xName, yName;
 	private int imageConstructSize;
 	private boolean canConstruct;
+	private boolean ownership;
 	private Orbital orbital;
 
 	
@@ -117,6 +118,14 @@ public class Item {
 	public boolean playerCanConstruct() {
 		return this.canConstruct;
 	}
+	
+	public boolean getOwnership() {
+		return this.ownership;
+	}
+	
+	public void setOwnership(boolean ownership) {
+		this.ownership = ownership;
+	}
 
 	public void moveY(int dY) {
 		this.button.moveY(dY);
@@ -127,7 +136,7 @@ public class Item {
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		if (this.constr != null) this.canConstruct = this.constr.playerCanConstruct(world.getPlayer());
+		if (this.constr != null) this.canConstruct = this.ownership && this.constr.playerCanConstruct(world.getPlayer());
 		if (canConstruct) {
 			button.setAlpha(1);
 		}

@@ -46,6 +46,10 @@ public class Resource {
 	public Image getImage () {
 		return image;
 	}
+	
+	public void setAlpha(float alpha) {
+		this.image.setAlpha(alpha);
+	}
 
 	public void render() {
 		//TODO wtf non !

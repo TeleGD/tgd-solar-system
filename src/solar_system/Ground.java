@@ -116,12 +116,17 @@ public class Ground {
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
+		boolean isOwner = this.planet.getOwner() == this.world.getPlayer();
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
 				c.update(container, game, delta);
+				if (isOwner) c.setAlpha(0.5f);
+				else c.setAlpha(0.5f);
 			}
 		}
 		if (this.menuConstruction != null) this.menuConstruction.update(container, game, delta);
+		if (isOwner) this.image.setAlpha(1);
+		else this.image.setAlpha(0.5f);
 	}
 
 

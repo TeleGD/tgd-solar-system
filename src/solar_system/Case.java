@@ -81,7 +81,8 @@ public class Case {
 			construction.render(container, game, context, x, y);
 		}
 		else if(backgroundImg != null){
-			context.drawImage(backgroundImg.getScaledCopy(size-1,size-1),x+1,y+1);
+			//context.drawImage(backgroundImg.getScaledCopy(size-1,size-1),x+1,y+1);
+			context.drawImage(backgroundImg, x+1, y+1, x+size, y+size, 0, 0, backgroundImg.getWidth(), backgroundImg.getHeight());
 		}
 	}
 
@@ -162,6 +163,11 @@ public class Case {
 
 	public void setBackground(Image img) {
 		 backgroundImg = img;
+	}
+	
+	public void setAlpha(float alpha) {
+		this.backgroundImg.setAlpha(alpha);
+		this.resource.setAlpha(alpha);
 	}
 
 	public double getResourceQuantity() {
