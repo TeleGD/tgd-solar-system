@@ -59,13 +59,7 @@ public class Case {
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
-			// TODO: Utiliser le getImage de Resource
-			if (this.resource.getName() == "Bois"){
-				this.backgroundImg = AppLoader.loadPicture("/images/resources/foret.png");
-			}
-			else {
-				this.backgroundImg = AppLoader.loadPicture(this.resource.imagePath(this.resource.getName()));
-			}
+			this.backgroundImg = resource.getImage().copy();
 		}
 	}
 

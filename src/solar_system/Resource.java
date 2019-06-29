@@ -17,9 +17,11 @@ public class Resource {
 
 		if (name == "Bois") {
 			quantite = 100;
+			image = AppLoader.loadPicture("/images/resources/foret.png");
 		}
-
-		image = AppLoader.loadPicture(imagePath(name));
+		else {
+			image = AppLoader.loadPicture(imagePath(name));
+		}
 	}
 
 	public boolean modifQuantite (double qtite) {

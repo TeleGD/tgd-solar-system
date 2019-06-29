@@ -80,7 +80,7 @@ public class Ground {
 		/////air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
 
 		// désormais, image correspond à l'image de la planète en arrière plan.
-		this.image = AppLoader.loadPicture(planet.getNomImage());
+		this.image = AppLoader.loadPicture(planet.getNomImage()).copy();
 		this.imageBack = AppLoader.loadPicture("/images/retour.png");
 	}
 
@@ -119,9 +119,9 @@ public class Ground {
 		boolean isOwner = this.planet.getOwner() == this.world.getPlayer();
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
-				c.update(container, game, delta);
-				if (isOwner) c.setAlpha(0.5f);
+				if (isOwner) c.setAlpha(1);
 				else c.setAlpha(0.5f);
+				c.update(container, game, delta);
 			}
 		}
 		if (this.menuConstruction != null) this.menuConstruction.update(container, game, delta);
@@ -289,86 +289,6 @@ public class Ground {
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		menuConstruction.render(container, game, context);
 	}
-
-
-	 /*public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
-
-		// Affiche le menu des constructions
-
-		coinBoutonDestruct = -100;
-		if (imagesConstructions.size()!=0) {
-			Image img;
-			int tailleImg = 128;
-			int currentHeight = coinMenuY;
-			int largeur, initialHeight;
-			int mX = 24;	// mX pour marginX, la marge à droite
-			for(int i=0; i<constructionsPossibles.size(); i++) {
-				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
-
-				*//** Affichage du nom **//*
-				largeur = context.getFont().getWidth(c.getName());
-				context.setColor(Color.white);
-				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				initialHeight = currentHeight;
-
-				*//** Affichage de l'image **//*
-				try {
-					img = AppLoader.loadPicture("/images/constructions/"+constructionsPossibles.get(i)+".png");
-					boutonsConstructions.add(new ButtonV2(img, world.getWidth()-tailleImg-mX-50, currentHeight, tailleImg, tailleImg));
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
-				currentHeight += imageConstructSize;
-
-				*//** Affichage des coûts **//*
-				currentHeight = initialHeight;
-				//largeur = context.getFont().getWidth("Coûts :");
-				//context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
-				//currentHeight += hauteurTextMenuConstruct;
-				int currentWidth = world.getWidth()-mX-50;
-				for (String k : c.cout.keySet()) {
-					try{
-						img = AppLoader.loadPicture(Resource.imagePath(k));
-						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
-					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-					currentHeight += 50;
-				}
-				currentHeight = Math.max(currentHeight+10,initialHeight+imageConstructSize+10);
-
-				*//** Affichage des débits **//*
-				largeur = context.getFont().getWidth("Gains :");
-				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				currentWidth = world.getWidth()-24;
-				for (String k : c.debits.keySet()) {
-					try{
-						img = AppLoader.loadPicture(Resource.imagePath(k));
-						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					currentWidth -= 48;
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
-					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-				}
-				currentHeight += 64;
-
-			}
-		}
-
-		if (constructionFailed) {
-			context.setColor(Color.red);
-			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
-			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
-		}
-	}*/
 
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<constructionsPossibles.size()) {
