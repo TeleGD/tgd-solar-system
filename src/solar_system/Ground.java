@@ -149,7 +149,7 @@ public class Ground {
 		}
 	}
 
-	public Construction nameToConst (String name, Case tile) {
+	public Building nameToConst (String name, Case tile) {
 		if(name=="Mine"){
 			return new Mine(tile, world.getPlayer());
 		}

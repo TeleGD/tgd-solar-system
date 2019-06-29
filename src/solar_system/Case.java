@@ -78,7 +78,10 @@ public class Case {
 		context.setColor(new Color(0, 0, 0, 127));
 		context.drawRect(x, y, size, size);
 		if(construction != null) {
-			construction.render(container, game, context, x, y);
+			if(construction instanceof Building) {
+				Building building = (Building)construction;
+				building.render(container, game, context, x, y);
+			}
 		}
 		else if(backgroundImg != null){
 			context.drawImage(backgroundImg.getScaledCopy(size-1,size-1),x+1,y+1);

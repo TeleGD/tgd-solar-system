@@ -22,8 +22,10 @@ public abstract class Construction {
 	protected static Player player;
 	protected Image sprite;
 	protected boolean prelevementReussi;
+	//protected Case tile;
+	
 
-	public Construction(Case tile, Player player) {
+	public Construction(Player player) {
 		this.lifeMax = 100;
 		this.life = lifeMax;
 		this.cout = new HashMap<String, Double>();
@@ -31,20 +33,9 @@ public abstract class Construction {
 		this.player = player;
 		destructed = false;
 
-		this.tile = tile;
-		resourcesProduced = new HashMap<String, Resource>();
-		Resource resOfCase = tile.getResource() ;
-		if((tile.getOrbital() instanceof Station) == false){
-			resourcesProduced.put(resOfCase.getName(), resOfCase);
-		}
-
-
-		debits = new HashMap<String,Double>();
+		//this.tile = tile;
+		
 		entretiens = new HashMap<String, Double>();
-
-		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+this.getClass().getSimpleName()+".png"); // L'image doit avoir le même nom que la classe
-		sprite = imageTemp.getScaledCopy(tile.getSize(),tile.getSize()) ;
-
 	}
 
 	public void takeDamage(int damage) {
@@ -105,7 +96,5 @@ public abstract class Construction {
 	public String getName() {
 		return name;
 	}
-
-	
 
 }

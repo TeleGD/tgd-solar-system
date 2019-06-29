@@ -51,7 +51,7 @@ public class Item {
 		xName = x + imageConstructSize;
 		yName = y + imageConstructSize + 8;
 
-		// Définition de variables temporaires nous indiquant notre position actuelle
+		// Définition de variables temporaires nous indiquant notre position actuelle 
 		// (on se déplace pour positionner des objets uns par uns).
 		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
 		int currentY = y;
@@ -65,14 +65,17 @@ public class Item {
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
-			for (String k : construction.debits.keySet()) {
-				img = AppLoader.loadPicture(Resource.imagePath(k));
-				// Pour l'instant, seule une ressource est produite,
-				// on n'affiche donc pas le débit mais la quantité max disponible :
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
-				currentX -= 48;
+			if (construction instanceof Building) {
+				for (String k : ((Building)construction).debits.keySet()) {
+					img = AppLoader.loadPicture(Resource.imagePath(k));
+					// Pour l'instant, seule une ressource est produite,
+					// on n'affiche donc pas le débit mais la quantité max disponible :
+					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+					currentX -= 48;
+				}
 			}
+			
 
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
