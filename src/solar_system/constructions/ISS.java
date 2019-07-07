@@ -16,6 +16,8 @@ import solar_system.util.Images;
 
 public class ISS extends Building {
 	
+	private int nbVaisseaux;
+	
 	public ISS (Case tile, Player player){
 		super(tile,player);
 //		this.posX=tile.getX();
@@ -25,7 +27,7 @@ public class ISS extends Building {
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		
+		this.nbVaisseaux=0;
 		this.cout.put("Noyau Linux", 0.0);//TODO : équilibrer le cout d'une station
 		
 	}
@@ -33,6 +35,11 @@ public class ISS extends Building {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
 	}
+	
+	public void addNbVaisseau() {
+		this.nbVaisseaux ++;
+	}
+	
 //	public static boolean constructPossible(Case tileConstructLocation) {
 //		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 //	}

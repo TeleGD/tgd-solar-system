@@ -19,6 +19,7 @@ import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.TNCY;
+import solar_system.constructions.Vaisseau;
 import solar_system.constructions.ISS;
 
 public class Item {
@@ -150,9 +151,13 @@ public class Item {
 		if (button.isPressed(x, y)) {
 			System.out.println(name);
 			//TODO :
-//			if (constr instanceof Spaceship){Si on chercher à construire un vaisseau, on l'ajoute à sa station
-//
-//			}
+			if (constr instanceof Vaisseau){//Si on chercher à construire un vaisseau, on l'ajoute à sa station
+				if (tile.getConstruction() instanceof ISS) {
+					((ISS)tile.getConstruction()).addNbVaisseau();
+					System.out.println("Et on ajoute un vaisseau !");
+				}
+				
+			}
 			if(tile.getOrbital()==null){
 				if ( canConstruct ) { // Si le joueur a les ressources requises pour la construction :
 					constr.giveMeYourMoney(world.getPlayer());	// On fait payer le joueur
