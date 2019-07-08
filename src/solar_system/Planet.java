@@ -61,7 +61,7 @@ public class Planet {
 		this.image.setAlpha(0.6f);
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
-		this.orbitals=air.getOrbitals();
+		this.orbitals = air.getOrbitals();
 
 	}
 

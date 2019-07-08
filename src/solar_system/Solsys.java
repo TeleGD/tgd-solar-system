@@ -25,15 +25,21 @@ public class Solsys {
 	private Spaceship spaceship;
 
 	public Solsys(int nbPlanet, World world) {
+		System.out.println(nbPlanet);
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.world = world;
 		//  addPlanet(new Planet(9,0,0,75,"des",world));  Permet d'ajouter une planète à la place du Soleil
-		for(int k=0; k<nbPlanet; k++ ) {
-			addPlanet(new Planet(1+k,200+100*k ,"description",world));
+		for(int k=0; k<nbPlanet-1; k++ ) {
+			if (k == nbPlanet/2) {
+				Planet p = new Planet(1+k,200+110*k, 64,"description",world);
+				p.setOwner(world.getPlayer());
+				addPlanet(p);
+			}
+			else addPlanet(new Planet(1+k,200+110*k ,"description",world));
 		}
 		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
-		this.imageSun=imageSun.getScaledCopy(300,300);
+		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
 	}
 
