@@ -1,4 +1,5 @@
 package solar_system.constructions;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,24 +8,27 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
+import solar_system.Building;
 import solar_system.Case;
 import solar_system.Player;
 import solar_system.Construction;
 import solar_system.Resource;
 import solar_system.util.Images;
 
-public class ISS extends Construction {
+public class ISS extends Building {
+	
+	private ArrayList<Vaisseau> listVaisseaux;
 	
 	public ISS (Case tile, Player player){
 		super(tile,player);
-		this.posX=tile.getX();
-		this.posY=tile.getY();
+//		this.posX=tile.getX();
+//		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		
+		this.listVaisseaux=new ArrayList<>();
 		this.cout.put("Noyau Linux", 0.0);//TODO : équilibrer le cout d'une station
 		
 	}
@@ -32,6 +36,15 @@ public class ISS extends Construction {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		
 	}
+	
+	public void addVaisseau(Vaisseau vaisseau) {//Ajoute le vaisseau à l'ISS(à utiliser lorsqu'il est acheté)
+		this.listVaisseaux.add(vaisseau);
+	}
+	
+	public void removeVaisseau(Vaisseau vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
+		this.listVaisseaux.remove(vaisseau);
+	}
+	
 //	public static boolean constructPossible(Case tileConstructLocation) {
 //		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 //	}

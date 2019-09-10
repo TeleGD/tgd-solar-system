@@ -19,6 +19,8 @@ import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.TNCY;
+import solar_system.constructions.Vaisseau;
+import solar_system.constructions.vaisseaux.Colonisator;
 import solar_system.constructions.ISS;
 
 public class Item {
@@ -33,8 +35,6 @@ public class Item {
 	private int imageConstructSize;
 	private boolean canConstruct;
 	private boolean ownership;
-	private Orbital orbital;
-
 	
 	public Item(World world, Case tile, String name, int x, int y) {//
 
@@ -44,7 +44,6 @@ public class Item {
 		this.constr = nameToConst(name, tile);
 		this.imageConstructSize = 150;
 		this.canConstruct = false;
-		this.orbital = orbital;
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
@@ -68,14 +67,17 @@ public class Item {
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
-			for (String k : construction.debits.keySet()) {
-				img = AppLoader.loadPicture(Resource.imagePath(k));
-				// Pour l'instant, seule une ressource est produite,
-				// on n'affiche donc pas le débit mais la quantité max disponible :
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-				// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
-				currentX -= 48;
+			if (construction instanceof Building) {
+				for (String k : ((Building)construction).debits.keySet()) {
+					img = AppLoader.loadPicture(Resource.imagePath(k));
+					// Pour l'instant, seule une ressource est produite,
+					// on n'affiche donc pas le débit mais la quantité max disponible :
+					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+					currentX -= 48;
+				}
 			}
+
 
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
@@ -87,42 +89,31 @@ public class Item {
 	}
 
 	public Construction nameToConst (String name, Case tile) {
-		if(name=="Mine"){
-			return new Mine(tile, world.getPlayer());
-		}
-		if(name=="Mine2"){
-			return new Mine2(tile, world.getPlayer());
-		}
-		if(name=="TNCY"){
-			return new TNCY(tile, world.getPlayer());
-		}
-		if(name=="Ferme"){
-			return new Ferme(tile, world.getPlayer());
-		}
-		if(name=="Scierie"){
-			return new Scierie(tile, world.getPlayer());
-		}
-		if(name=="CabaneBucheron"){
-			return new CabaneBucheron(tile, world.getPlayer());
-		}
-		if(name=="ISS"){
-			return new ISS(tile, world.getPlayer());
-		}
+		switch(name) {
+			case "Mine" : return new Mine(tile, world.getPlayer());
+			case "Mine2" : return new Mine2(tile, world.getPlayer());
+			case "TNCY" : return new TNCY(tile, world.getPlayer());
+			case "Ferme" : return new Ferme(tile, world.getPlayer());
+			case "Scierie" : return new Scierie(tile, world.getPlayer());
+			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
+			case "ISS" : return new ISS(tile, world.getPlayer());
+			case "Colonisator" : return new Colonisator(world.getPlayer());
+			}
 		return null;
 	}
 
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	public boolean playerCanConstruct() {
 		return this.canConstruct;
 	}
-	
+
 	public boolean getOwnership() {
 		return this.ownership;
 	}
-	
+
 	public void setOwnership(boolean ownership) {
 		this.ownership = ownership;
 	}
@@ -134,7 +125,7 @@ public class Item {
 		}
 		this.yName += dY;
 	}
-	
+
 	public void update (GameContainer container, StateBasedGame game, int delta) {
 		if (this.constr != null) this.canConstruct = this.ownership && this.constr.playerCanConstruct(world.getPlayer());
 		if (canConstruct) {
@@ -157,21 +148,23 @@ public class Item {
 	public boolean mousePressed(int arg0, int x, int y) {
 		if (button.isPressed(x, y)) {
 			System.out.println(name);
-			if(tile.getOrbital()==null){
+			//TODO :
+			if (constr instanceof Vaisseau){//Si on chercher à construire un vaisseau, on l'ajoute à sa station
+				if (tile.getConstruction() instanceof ISS) {
+					//TODO : Si il a les ressources, faire payer le joueur
+					Vaisseau vaisseau = (Vaisseau) constr;
+					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
+					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
+					System.out.println("Et on ajoute un vaisseau !");
+				}
+
+			}
+			else {// Si on cherche à construire autre chose qu'un vaisseau (sur une case)
 				if ( canConstruct ) { // Si le joueur a les ressources requises pour la construction :
 					constr.giveMeYourMoney(world.getPlayer());	// On fait payer le joueur
 					tile.setConstruction( constr );	// On construit la construction
 				}
 				return true;
-
-			}
-			if(tile.getOrbital() instanceof Station){
-				System.out.println(constr.getName());
-				if ( canConstruct ) {
-					tile.setConstruction( constr );
-				}
-
-				//System.out.println(tile.getConstruction().getName());
 			}
 
 		}

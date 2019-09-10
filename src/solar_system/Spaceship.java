@@ -5,7 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Spaceship {
+public class Spaceship{
 	private double x;
 	private double y;
 	private double vx;
