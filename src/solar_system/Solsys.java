@@ -44,7 +44,7 @@ public class Solsys {
 			}
 			else addPlanet(new Planet(1+k,200+110*k ,"description",world));
 		}
-		this.imageSun = AppLoader.loadPicture("/ima40ges/planets/soleil.png");
+		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
 		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
 	}
