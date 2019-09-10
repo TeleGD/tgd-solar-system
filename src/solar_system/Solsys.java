@@ -31,8 +31,14 @@ public class Solsys {
 		this.world = world;
 		//  addPlanet(new Planet(9,0,0,75,"des",world));  Permet d'ajouter une planète à la place du Soleil
 		for(int k=0; k<nbPlanet-1; k++ ) {
+			// On ajoute la planète mère sur l'orbite médiane
+			// (lorsque le compteur de planète arrive à la moitié du nombre de planètes total dans le système solaire)
 			if (k == nbPlanet/2) {
-				Planet p = new Planet(1+k,200+110*k, 64,"description",world);
+				HashMap<String, Integer> resourcesMin = new HashMap<String, Integer>();
+				resourcesMin.put("Bois", 40);
+				resourcesMin.put("Fer", 10);
+				resourcesMin.put("Nourriture", 30);
+				Planet p = new Planet(1+k,200+110*k, 64, resourcesMin, "description",world);
 				p.setOwner(world.getPlayer());
 				addPlanet(p);
 			}
@@ -89,6 +95,7 @@ public class Solsys {
 		else if (key == Input.KEY_SPACE) {
 			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
 		}
+		//else if (key == Input.KEY_)
 	}
 
 	public void keyReleased(int key, char c) {

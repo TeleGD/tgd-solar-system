@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import app.AppLoader;
 
@@ -32,14 +33,25 @@ public class Planet {
 	private Image image;
 	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
 	private Air air;
+	private HashMap<String, Integer> resourcesMin;
 	private List<Orbital> orbitals;
 	private Player owner;
+	
+	// ArrayList<HashMap<String, Integer>> resourcesMin, 
 
-	public Planet(int type,float distance, String description, World world) {
-		this(type,distance,(r.nextInt(50)+50)/2,description, world);
+	public Planet(int type, float distance, String description, World world) {
+		this(type, distance, (r.nextInt(50)+50)/2, null, description, world);
+	}
+	
+	public Planet(int type, float distance, int radius, String description, World world) {
+		this(type, distance, radius, null, description, world);
+	}
+	
+	public Planet(int type, float distance, HashMap<String, Integer> resourcesMin, String description, World world) {
+		this(type, distance, (r.nextInt(50)+50)/2, resourcesMin, description, world);
 	}
 
-	public Planet(int type, float distance ,int radius, String description, World world) {
+	public Planet(int type, float distance ,int radius, HashMap<String, Integer> resourcesMin, String description, World world) {
 		this.radius2 = (int) Math.floor(radius*8.1);
 		this.angle=(float) (r.nextDouble()*Math.PI*2);
 		this.distance=distance;
@@ -61,8 +73,8 @@ public class Planet {
 		this.image.setAlpha(0.6f);
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
+		this.resourcesMin = resourcesMin;
 		this.orbitals = air.getOrbitals();
-
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -151,6 +163,10 @@ public class Planet {
 
 	public Air getAir(){
 		return air;
+	}
+	
+	public HashMap<String, Integer> getResourcesMin() {
+		return this.resourcesMin;
 	}
 
 	public void setVelocityVector(Velocity v) {

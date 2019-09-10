@@ -1,6 +1,8 @@
 package solar_system;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,16 +140,33 @@ public class Ground {
 
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
+		
+		// Définition des ressources à placer à partir des ressources minimales requises
+		ArrayList<String> resourcesNames = new ArrayList<>();
+		if (planet.getResourcesMin() != null) {
+			for (String name : planet.getResourcesMin().keySet()) {
+				int quantity = planet.getResourcesMin().get(name);
+				for(int i = 0; i < quantity; i++) resourcesNames.add(name);
+			}
+		}
+		
+		// On complète la liste des ressources avec des ressources aléatoires (s'il reste de la place)
+		while (resourcesNames.size() < n*n) {
+			resourcesNames.add(randomResourceName());
+		}
+		
+		// On mélange tout !
+		Collections.shuffle(resourcesNames);
 
 		this.cases = new Case[n][n];
 		// padding = marge intérieure (distance entre la grille et le bord de l'image)
 		padding = (int)( (radius*2-n*sizeCase)*facteur_magique/2 );
 
-		for (int i = 0; i < cases.length ; i++) {
-			for (int j = 0; j < cases.length; j++ ) {
-				// Choix aléatoire d'une ressource :
-				resource = world.getPlayer().getResource(randomResourceName());
-				resourceQuantity = resourceQuantity( resource.getName() );
+		for (int i = 0; i < n ; i++) {
+			for (int j = 0; j < n; j++ ) {
+				String name = resourcesNames.get(n*i+j);
+				resource = world.getPlayer().getResource(name);
+				resourceQuantity = resourceQuantity(name);
 
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
