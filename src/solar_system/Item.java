@@ -152,27 +152,18 @@ public class Item {
 			System.out.println(name);
 			//TODO :
 			if (constr instanceof Vaisseau){//Si on chercher à construire un vaisseau, on l'ajoute à sa station
-				if (tile.getConstruction() instanceof ISS) {
+				if (tile.getConstruction() instanceof ISS) {// Si il a les ressources, faire payer le joueur
 					((ISS)tile.getConstruction()).addNbVaisseau();
 					System.out.println("Et on ajoute un vaisseau !");
 				}
 				
 			}
-			if(tile.getOrbital()==null){
+			else {// Si on cherche à construire autre chose qu'un vaisseau (sur une case)
 				if ( canConstruct ) { // Si le joueur a les ressources requises pour la construction :
 					constr.giveMeYourMoney(world.getPlayer());	// On fait payer le joueur
 					tile.setConstruction( constr );	// On construit la construction
 				}
 				return true;
-
-			}
-			if(tile.getOrbital() instanceof Station){
-				System.out.println(constr.getName());
-				if ( canConstruct ) {
-					tile.setConstruction( constr );
-				}
-
-				//System.out.println(tile.getConstruction().getName());
 			}
 
 		}
