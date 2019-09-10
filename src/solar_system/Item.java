@@ -34,7 +34,7 @@ public class Item {
 	private int xName, yName;
 	private int imageConstructSize;
 	private boolean canConstruct;
-
+	private boolean ownership;
 	
 	public Item(World world, Case tile, String name, int x, int y) {//
 
@@ -53,7 +53,7 @@ public class Item {
 		xName = x + imageConstructSize;
 		yName = y + imageConstructSize + 8;
 
-		// Définition de variables temporaires nous indiquant notre position actuelle 
+		// Définition de variables temporaires nous indiquant notre position actuelle
 		// (on se déplace pour positionner des objets uns par uns).
 		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
 		int currentY = y;
@@ -77,7 +77,7 @@ public class Item {
 					currentX -= 48;
 				}
 			}
-			
+
 
 		// Parfois le bouton de la construction est plus grand que tous les icônes sur la droite, parfois c'est l'inverse.
 		currentY = Math.max(currentY+10,y+imgConstruction.getHeight()+10);
@@ -97,7 +97,7 @@ public class Item {
 			case "Scierie" : return new Scierie(tile, world.getPlayer());
 			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
 			case "ISS" : return new ISS(tile, world.getPlayer());
-			case "Colonisator" : return new Colonisator(world.getPlayer()); 
+			case "Colonisator" : return new Colonisator(world.getPlayer());
 			}
 		return null;
 	}
@@ -110,6 +110,14 @@ public class Item {
 		return this.canConstruct;
 	}
 
+	public boolean getOwnership() {
+		return this.ownership;
+	}
+
+	public void setOwnership(boolean ownership) {
+		this.ownership = ownership;
+	}
+
 	public void moveY(int dY) {
 		this.button.moveY(dY);
 		for (ResourceIcon ri : iconCostProduc) {
@@ -119,7 +127,7 @@ public class Item {
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		if (this.constr != null) this.canConstruct = this.constr.playerCanConstruct(world.getPlayer());
+		if (this.constr != null) this.canConstruct = this.ownership && this.constr.playerCanConstruct(world.getPlayer());
 		if (canConstruct) {
 			button.setAlpha(1);
 		}
@@ -149,7 +157,7 @@ public class Item {
 					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
 				}
-				
+
 			}
 			else {// Si on cherche à construire autre chose qu'un vaisseau (sur une case)
 				if ( canConstruct ) { // Si le joueur a les ressources requises pour la construction :

@@ -23,7 +23,7 @@ public abstract class Construction {
 	protected Image sprite;
 	protected boolean prelevementReussi;
 	//protected Case tile;
-	
+
 
 	public Construction(Player player) {
 		this.lifeMax = 100;
@@ -34,7 +34,7 @@ public abstract class Construction {
 		destructed = false;
 
 		//this.tile = tile;
-		
+
 		entretiens = new HashMap<String, Double>();
 	}
 
@@ -56,7 +56,7 @@ public abstract class Construction {
 				prelevementReussi = false;
 			}
 		}
-		
+
 	}
 
 	public boolean playerCanConstruct(Player player){
@@ -72,8 +72,10 @@ public abstract class Construction {
 	public void giveMeYourMoney(Player player) {
 		// Prélève les ressources nécessaires sans vérifier que la construction est possible
 		// (condition à vérifier par l'item du menu)
+		System.out.println(this.name);
 		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
 			player.getResource( costEntry.getKey() ).modifQuantite( - costEntry.getValue() );
+			System.out.println("Vous venez de payer "+costEntry.getValue()+" "+costEntry.getKey());
 		}
 	}
 

@@ -1,6 +1,8 @@
 package solar_system;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +82,7 @@ public class Ground {
 		/////air.addOrbital(new Satellite(20,0,100,100, 50,(int)(5.0/4)*radius,resource,this.world));
 
 		// désormais, image correspond à l'image de la planète en arrière plan.
-		this.image = AppLoader.loadPicture(planet.getNomImage());
+		this.image = AppLoader.loadPicture(planet.getNomImage()).copy();
 		this.imageBack = AppLoader.loadPicture("/images/retour.png");
 	}
 
@@ -116,12 +118,17 @@ public class Ground {
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
+		boolean isOwner = this.planet.getOwner() == this.world.getPlayer();
 		for (Case[] tab : cases) {
 			for (Case c : tab) {
+				if (isOwner) c.setAlpha(1);
+				else c.setAlpha(0.5f);
 				c.update(container, game, delta);
 			}
 		}
 		if (this.menuConstruction != null) this.menuConstruction.update(container, game, delta);
+		if (isOwner) this.image.setAlpha(1);
+		else this.image.setAlpha(0.5f);
 	}
 
 
@@ -133,16 +140,33 @@ public class Ground {
 
 		// Nombre de cases en longueur :
 		int n = (int) Math.floor( ((float)Math.sqrt(2) * (float) radius - 14) / (float) sizeCase);
+		
+		// Définition des ressources à placer à partir des ressources minimales requises
+		ArrayList<String> resourcesNames = new ArrayList<>();
+		if (planet.getResourcesMin() != null) {
+			for (String name : planet.getResourcesMin().keySet()) {
+				int quantity = planet.getResourcesMin().get(name);
+				for(int i = 0; i < quantity; i++) resourcesNames.add(name);
+			}
+		}
+		
+		// On complète la liste des ressources avec des ressources aléatoires (s'il reste de la place)
+		while (resourcesNames.size() < n*n) {
+			resourcesNames.add(randomResourceName());
+		}
+		
+		// On mélange tout !
+		Collections.shuffle(resourcesNames);
 
 		this.cases = new Case[n][n];
 		// padding = marge intérieure (distance entre la grille et le bord de l'image)
 		padding = (int)( (radius*2-n*sizeCase)*facteur_magique/2 );
 
-		for (int i = 0; i < cases.length ; i++) {
-			for (int j = 0; j < cases.length; j++ ) {
-				// Choix aléatoire d'une ressource :
-				resource = world.getPlayer().getResource(randomResourceName());
-				resourceQuantity = resourceQuantity( resource.getName() );
+		for (int i = 0; i < n ; i++) {
+			for (int j = 0; j < n; j++ ) {
+				String name = resourcesNames.get(n*i+j);
+				resource = world.getPlayer().getResource(name);
+				resourceQuantity = resourceQuantity(name);
 
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
@@ -284,86 +308,6 @@ public class Ground {
 	public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
 		menuConstruction.render(container, game, context);
 	}
-
-
-	 /*public void renderMenuConstruct (GameContainer container, StateBasedGame game, Graphics context) {
-
-		// Affiche le menu des constructions
-
-		coinBoutonDestruct = -100;
-		if (imagesConstructions.size()!=0) {
-			Image img;
-			int tailleImg = 128;
-			int currentHeight = coinMenuY;
-			int largeur, initialHeight;
-			int mX = 24;	// mX pour marginX, la marge à droite
-			for(int i=0; i<constructionsPossibles.size(); i++) {
-				Construction c = nameToConst(constructionsPossibles.get(i), selectedCase);
-
-				*//** Affichage du nom **//*
-				largeur = context.getFont().getWidth(c.getName());
-				context.setColor(Color.white);
-				context.drawString(c.getName(), world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				initialHeight = currentHeight;
-
-				*//** Affichage de l'image **//*
-				try {
-					img = AppLoader.loadPicture("/images/constructions/"+constructionsPossibles.get(i)+".png");
-					boutonsConstructions.add(new ButtonV2(img, world.getWidth()-tailleImg-mX-50, currentHeight, tailleImg, tailleImg));
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
-				currentHeight += imageConstructSize;
-
-				*//** Affichage des coûts **//*
-				currentHeight = initialHeight;
-				//largeur = context.getFont().getWidth("Coûts :");
-				//context.drawString("Coûts :", world.getWidth()-largeur-mX, currentHeight);
-				//currentHeight += hauteurTextMenuConstruct;
-				int currentWidth = world.getWidth()-mX-50;
-				for (String k : c.cout.keySet()) {
-					try{
-						img = AppLoader.loadPicture(Resource.imagePath(k));
-						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.cout.get(k).intValue()));
-					context.drawString(Integer.toString(c.cout.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-					currentHeight += 50;
-				}
-				currentHeight = Math.max(currentHeight+10,initialHeight+imageConstructSize+10);
-
-				*//** Affichage des débits **//*
-				largeur = context.getFont().getWidth("Gains :");
-				context.drawString("Gains :", world.getWidth()-largeur-mX, currentHeight);
-				currentHeight += hauteurTextMenuConstruct;
-				currentWidth = world.getWidth()-24;
-				for (String k : c.debits.keySet()) {
-					try{
-						img = AppLoader.loadPicture(Resource.imagePath(k));
-						context.drawImage(img, currentWidth, currentHeight, currentWidth+48, currentHeight+48, 0, 0, img.getWidth(), img.getHeight());
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
-					currentWidth -= 48;
-					// Tout ce qui suit sert à afficher la valeur sur la droite :
-					largeur = context.getFont().getWidth(Integer.toString(c.debits.get(k).intValue()));
-					context.drawString(Integer.toString(c.debits.get(k).intValue()), currentWidth+48-largeur, currentHeight+32);
-				}
-				currentHeight += 64;
-
-			}
-		}
-
-		if (constructionFailed) {
-			context.setColor(Color.red);
-			context.drawString("Construction impossible :", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()));
-			context.drawString("    ressources insuffisantes", (int) (0.75*world.getWidth()), (int) (0.2*world.getHeight()+24));
-		}
-	}*/
 
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
 		if (number<constructionsPossibles.size()) {

@@ -25,15 +25,27 @@ public class Solsys {
 	private Spaceship spaceship;
 
 	public Solsys(int nbPlanet, World world) {
+		System.out.println(nbPlanet);
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.world = world;
 		//  addPlanet(new Planet(9,0,0,75,"des",world));  Permet d'ajouter une planète à la place du Soleil
-		for(int k=0; k<nbPlanet; k++ ) {
-			addPlanet(new Planet(1+k,200+100*k ,"description",world));
+		for(int k=0; k<nbPlanet-1; k++ ) {
+			// On ajoute la planète mère sur l'orbite médiane
+			// (lorsque le compteur de planète arrive à la moitié du nombre de planètes total dans le système solaire)
+			if (k == nbPlanet/2) {
+				HashMap<String, Integer> resourcesMin = new HashMap<String, Integer>();
+				resourcesMin.put("Bois", 40);
+				resourcesMin.put("Fer", 10);
+				resourcesMin.put("Nourriture", 30);
+				Planet p = new Planet(1+k,200+110*k, 64, resourcesMin, "description",world);
+				p.setOwner(world.getPlayer());
+				addPlanet(p);
+			}
+			else addPlanet(new Planet(1+k,200+110*k ,"description",world));
 		}
 		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
-		this.imageSun=imageSun.getScaledCopy(300,300);
+		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
 	}
 
@@ -82,6 +94,11 @@ public class Solsys {
 		}
 		else if (key == Input.KEY_SPACE) {
 			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
+		}
+		else if (key == Input.KEY_0) {
+			for (Planet p : this.planets) {
+				p.setOwner(world.getPlayer());
+			}
 		}
 	}
 
