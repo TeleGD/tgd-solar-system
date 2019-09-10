@@ -44,7 +44,7 @@ public class Solsys {
 			}
 			else addPlanet(new Planet(1+k,200+110*k ,"description",world));
 		}
-		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
+		this.imageSun = AppLoader.loadPicture("/ima40ges/planets/soleil.png");
 		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
 	}
@@ -95,7 +95,11 @@ public class Solsys {
 		else if (key == Input.KEY_SPACE) {
 			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
 		}
-		//else if (key == Input.KEY_)
+		else if (key == Input.KEY_0) {
+			for (Planet p : this.planets) {
+				p.setOwner(world.getPlayer());
+			}
+		}
 	}
 
 	public void keyReleased(int key, char c) {
