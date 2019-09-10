@@ -20,6 +20,7 @@ import solar_system.constructions.Mine2;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.TNCY;
 import solar_system.constructions.Vaisseau;
+import solar_system.constructions.vaisseaux.Colonisator;
 import solar_system.constructions.ISS;
 
 public class Item {
@@ -88,27 +89,16 @@ public class Item {
 	}
 
 	public Construction nameToConst (String name, Case tile) {
-		if(name=="Mine"){
-			return new Mine(tile, world.getPlayer());
-		}
-		if(name=="Mine2"){
-			return new Mine2(tile, world.getPlayer());
-		}
-		if(name=="TNCY"){
-			return new TNCY(tile, world.getPlayer());
-		}
-		if(name=="Ferme"){
-			return new Ferme(tile, world.getPlayer());
-		}
-		if(name=="Scierie"){
-			return new Scierie(tile, world.getPlayer());
-		}
-		if(name=="CabaneBucheron"){
-			return new CabaneBucheron(tile, world.getPlayer());
-		}
-		if(name=="ISS"){
-			return new ISS(tile, world.getPlayer());
-		}
+		switch(name) {
+			case "Mine" : return new Mine(tile, world.getPlayer());
+			case "Mine2" : return new Mine2(tile, world.getPlayer());
+			case "TNCY" : return new TNCY(tile, world.getPlayer());
+			case "Ferme" : return new Ferme(tile, world.getPlayer());
+			case "Scierie" : return new Scierie(tile, world.getPlayer());
+			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
+			case "ISS" : return new ISS(tile, world.getPlayer());
+			case "Colonisator" : return new Colonisator(world.getPlayer()); 
+			}
 		return null;
 	}
 
@@ -152,8 +142,11 @@ public class Item {
 			System.out.println(name);
 			//TODO :
 			if (constr instanceof Vaisseau){//Si on chercher à construire un vaisseau, on l'ajoute à sa station
-				if (tile.getConstruction() instanceof ISS) {// Si il a les ressources, faire payer le joueur
-					((ISS)tile.getConstruction()).addNbVaisseau();
+				if (tile.getConstruction() instanceof ISS) {
+					//TODO : Si il a les ressources, faire payer le joueur
+					Vaisseau vaisseau = (Vaisseau) constr;
+					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
+					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
 				}
 				

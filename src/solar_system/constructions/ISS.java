@@ -1,4 +1,5 @@
 package solar_system.constructions;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import solar_system.util.Images;
 
 public class ISS extends Building {
 	
-	private int nbVaisseaux;
+	private ArrayList<Vaisseau> listVaisseaux;
 	
 	public ISS (Case tile, Player player){
 		super(tile,player);
@@ -27,7 +28,7 @@ public class ISS extends Building {
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		this.nbVaisseaux=0;
+		this.listVaisseaux=new ArrayList<>();
 		this.cout.put("Noyau Linux", 0.0);//TODO : équilibrer le cout d'une station
 		
 	}
@@ -36,8 +37,12 @@ public class ISS extends Building {
 		
 	}
 	
-	public void addNbVaisseau() {
-		this.nbVaisseaux ++;
+	public void addVaisseau(Vaisseau vaisseau) {//Ajoute le vaisseau à l'ISS(à utiliser lorsqu'il est acheté)
+		this.listVaisseaux.add(vaisseau);
+	}
+	
+	public void removeVaisseau(Vaisseau vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
+		this.listVaisseaux.remove(vaisseau);
 	}
 	
 //	public static boolean constructPossible(Case tileConstructLocation) {

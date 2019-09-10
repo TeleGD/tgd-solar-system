@@ -154,7 +154,8 @@ public class Case {
 			}
 			else{
 				if(construction instanceof ISS){
-					//TODO : Construire des vaisseaux dans la station
+					construPossible.add("Colonisator");
+					//TODO : Ajouter tous les vaisseaux de constructions.vaisseaux
 					
 				}
 			}

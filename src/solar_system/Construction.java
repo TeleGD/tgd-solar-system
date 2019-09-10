@@ -62,8 +62,6 @@ public abstract class Construction {
 	public boolean playerCanConstruct(Player player){
 
 		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
-			player.getResource(costEntry.getKey());
-			player.getResource(costEntry.getKey()).getQuantite();
 			if(player.getResource(costEntry.getKey()).getQuantite() < costEntry.getValue()){
 				return false;
 			}

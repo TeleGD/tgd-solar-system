@@ -10,7 +10,8 @@ public class Vaisseau extends Construction{
 		this.name="Vaisseau spatial";
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.cout.put("Noyo",0.0);
+		this.cout.put("Noyau Linux",0.0);
+		this.cout.put("Bois",1.0);
 	}
 
 }
