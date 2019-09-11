@@ -71,9 +71,9 @@ public class Planet {
 		this.image = AppLoader.loadPicture(nomImage);
 		this.image=image.getScaledCopy(radius*2,radius*2);
 		this.image.setAlpha(0.6f);
+		this.resourcesMin = resourcesMin;
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2,world,this);
-		this.resourcesMin = resourcesMin;
 		this.orbitals = air.getOrbitals();
 	}
 

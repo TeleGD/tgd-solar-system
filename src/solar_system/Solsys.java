@@ -36,7 +36,7 @@ public class Solsys {
 			if (k == nbPlanet/2) {
 				HashMap<String, Integer> resourcesMin = new HashMap<String, Integer>();
 				resourcesMin.put("Bois", 40);
-				resourcesMin.put("Fer", 10);
+				resourcesMin.put("Fer", 12);
 				resourcesMin.put("Nourriture", 30);
 				Planet p = new Planet(1+k,200+110*k, 64, resourcesMin, "description",world);
 				p.setOwner(world.getPlayer());
