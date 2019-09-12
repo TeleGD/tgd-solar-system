@@ -34,11 +34,11 @@ public class Solsys {
 			// On ajoute la planète mère sur l'orbite médiane
 			// (lorsque le compteur de planète arrive à la moitié du nombre de planètes total dans le système solaire)
 			if (k == nbPlanet/2) {
-				HashMap<String, Integer> resourcesMin = new HashMap<String, Integer>();
-				resourcesMin.put("Bois", 40);
-				resourcesMin.put("Fer", 12);
-				resourcesMin.put("Nourriture", 30);
-				Planet p = new Planet(1+k,200+110*k, 64, resourcesMin, "description",world);
+				HashMap<String, Integer> minResources = new HashMap<String, Integer>();
+				minResources.put("Bois", 40);
+				minResources.put("Fer", 12);
+				minResources.put("Nourriture", 30);
+				Planet p = new Planet(1+k,200+110*k, 64, minResources, 0, 1, "description",world);
 				p.setOwner(world.getPlayer());
 				addPlanet(p);
 			}

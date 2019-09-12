@@ -25,17 +25,17 @@ public class Air {
 	
 	private List<Orbital> orbitals;
 	
-	public Air(int nbOrbitaux, int distance,World world,Planet planet) {
+	public Air(int nbOrbitaux, int distance, int minSatellite, int minStation, World world, Planet planet) {
 		this.facteur_magique = (float)(world.getHeight())/1080;
-		this.planet=planet;
-		this.radius=planet.getRadius2 ();
+		this.planet = planet;
+		this.radius = planet.getRadius2 ();
 		this.nbOrbitaux = nbOrbitaux;
 		this.distance = distance;
 		this.orbitals = new ArrayList<Orbital>();
-		this.world=world;
-		this.sizeCase= (int)(80*world.getFacteurMagique());
-		this.nbSatelite=(int) (Math.random()*4);
-		this.nbStation=(int) (Math.random()*3);//Générer int aléatoire.
+		this.world = world;
+		this.sizeCase = (int)(80*world.getFacteurMagique());
+		this.nbSatelite = Math.max(minSatellite, (int) (Math.random()*4));
+		this.nbStation = Math.max(minStation, (int) (Math.random()*3));//Générer int aléatoire.
 		//System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
 		Resource resource = new Resource("Fer");
 		int nbOrbitals = this.nbSatelite+this.nbStation;
