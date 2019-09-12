@@ -250,28 +250,6 @@ public class Ground {
 		// Modification de la liste des constructions à afficher dans le menu des constructions :
 
 
-
-/*		if (selectedCase != null) {  // On adapte les listes du menu de constructions à la case nouvellement sélectionnée.
-			Image imageTemp;
-			constructionsPossibles = selectedCase.infoConstruct();
-			imagesConstructions = new ArrayList<Image>();
-
-			for (int i=0; i<constructionsPossibles.size(); i++) {
-				try{
-					imageTemp = AppLoader.loadPicture("/images/constructions/"+constructionsPossibles.get(i)+".png");
-					imagesConstructions.add( imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ); // on met toutes les images à la même taille (et carrées)
-				} catch (SlickException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		if (selectedCase != null) {
-			menuConstructionBoolean = true;
-		} else {
-			menuConstructionBoolean = false;
-		}*/
-
 		if (x<48 && x>0 && y<98 && y>50) { // Clic sur l'image de retour.
 			selectedCase = null; // On désélectionne la case.
 			menuConstructionBoolean = false;

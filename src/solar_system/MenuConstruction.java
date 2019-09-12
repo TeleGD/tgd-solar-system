@@ -44,30 +44,14 @@ public class MenuConstruction {
 		this.y = this.y0;
 		this.selectedCase = selectedCase;
 		suppr = null;
-//		for (String k : construction.cout.keySet()) {
-//			try{
-//				img = new Image(Resource.imagePath(k));
-//				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
-//			} catch (SlickException e) {for (String k : construction.cout.keySet()) {
-//				try{
-//					img = new Image(Resource.imagePath(k));
-//					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
-//				} catch (SlickException e) {
-//					e.printStackTrace();
-//				}
-//				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
-//				currentY += 50;  // On se positionne une ligne en dessous
-//			}
-//				e.printStackTrace();
-//			}
-//			// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
-//			currentY += 50;  // On se positionne une ligne en dessous
-//		}
 		if (selectedCase != null) {
 			this.constructionsPossibles = selectedCase.infoConstruct();
 			int yItem = this.y;
 			Item item;
 			for (String name : constructionsPossibles) {
+//				if (selectedCase.getConstruction() instanceof ISS) {
+//					//TODO : Afficher le nombre de vaisseau du type DEJA construits
+//				}
 				item = new Item(world, selectedCase, name, x, yItem);//orbital
 				listItems.add(item);
 				yItem += item.getHeight();
