@@ -49,9 +49,6 @@ public class MenuConstruction {
 			int yItem = this.y;
 			Item item;
 			for (String name : constructionsPossibles) {
-//				if (selectedCase.getConstruction() instanceof ISS) {
-//					//TODO : Afficher le nombre de vaisseau du type DEJA construits
-//				}
 				item = new Item(world, selectedCase, name, x, yItem);//orbital
 				listItems.add(item);
 				yItem += item.getHeight();

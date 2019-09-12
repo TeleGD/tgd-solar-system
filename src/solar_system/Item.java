@@ -23,6 +23,9 @@ import solar_system.constructions.Vaisseau;
 import solar_system.constructions.vaisseaux.Colonisator;
 import solar_system.constructions.ISS;
 
+
+//TODO : Afficher le nombre de vaisseau du type DEJA construits lorsqu'on clique sur une ISS
+
 public class Item {
 	private World world;
 	private Case tile;
