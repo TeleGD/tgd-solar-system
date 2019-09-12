@@ -143,9 +143,9 @@ public class Ground {
 		
 		// Définition des ressources à placer à partir des ressources minimales requises
 		ArrayList<String> resourcesNames = new ArrayList<>();
-		if (planet.getResourcesMin() != null) {
-			for (String name : planet.getResourcesMin().keySet()) {
-				int quantity = planet.getResourcesMin().get(name);
+		if (planet.getMinResources() != null) {
+			for (String name : planet.getMinResources().keySet()) {
+				int quantity = planet.getMinResources().get(name);
 				for(int i = 0; i < quantity; i++) resourcesNames.add(name);
 			}
 		}
