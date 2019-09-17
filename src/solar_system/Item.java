@@ -100,7 +100,7 @@ public class Item {
 			case "Scierie" : return new Scierie(tile, world.getPlayer());
 			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
 			case "ISS" : return new ISS(tile, world.getPlayer());
-			case "Colonisator" : return new Colonisator(world.getPlayer());
+			case "Colonisator" : return new Colonisator(world.getPlayer(),world);
 			}
 		return null;
 	}

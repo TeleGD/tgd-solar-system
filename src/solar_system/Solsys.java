@@ -12,6 +12,7 @@ import org.newdawn.slick.Input;
 
 
 import app.AppLoader;
+import solar_system.constructions.Vaisseau;
 
 public class Solsys {
 	private int nbPlanet;
@@ -22,7 +23,7 @@ public class Solsys {
 	private Planet refPlanet;
 	private int currentKey; // ID de la touche actuellement pressée (-1 si aucune touche)
 	private boolean leftClick; // indique si le bouton gauche de la souris est pressé ou non
-	private Spaceship spaceship;
+	private Vaisseau vaisseau;
 
 	public Solsys(int nbPlanet, World world) {
 		System.out.println(nbPlanet);
@@ -90,7 +91,11 @@ public class Solsys {
 	public void keyPressed(int key, char c) {
 		this.currentKey = key;
 		if (key == Input.KEY_ENTER) {
-			if (velocity != null) this.spaceship = new Spaceship(velocity.getX(), velocity.getY(), velocity.getNorm()*Math.cos(velocity.getAngle()), velocity.getNorm()*Math.sin(velocity.getAngle()), world);
+			if (velocity != null) {
+				this.vaisseau = new Vaisseau(world.getPlayer(),world);
+				vaisseau.launch(velocity.getX(), velocity.getY(), velocity.getNorm()*Math.cos(velocity.getAngle()), velocity.getNorm()*Math.sin(velocity.getAngle()));
+			}
+			
 		}
 		else if (key == Input.KEY_SPACE) {
 			this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
@@ -112,7 +117,7 @@ public class Solsys {
 			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
 		}
 		//planets.get(0).render(container, game, context);
-		if (this.spaceship != null) this.spaceship.render(container, game, context);
+		if (this.vaisseau != null) this.vaisseau.render(container, game, context);
 		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		if (this.velocity != null) this.velocity.render(container, game, context);
 	}
@@ -127,20 +132,20 @@ public class Solsys {
 			p.setPosY((float)Math.sin((double)angle)*distance);
 			p.update(container, game, delta);
 			// Collision du vaisseau avec la planète
-			if (this.spaceship != null) {
-				double distance2 = Math.pow(spaceship.getX()-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(spaceship.getY()-(p.getPosY()+world.getHeight()/2), 2);
+			if (this.vaisseau != null) {
+				double distance2 = Math.pow(vaisseau.getX()-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(vaisseau.getY()-(p.getPosY()+world.getHeight()/2), 2);
 				if (distance2 < Math.pow(p.getRadius(), 2)) {
-					this.spaceship.crash();
-					if (this.spaceship.hasLeft()) p.setOwner(this.world.getPlayer());
+					this.vaisseau.crash();
+					if (this.vaisseau.hasLeft()) p.setOwner(this.world.getPlayer());
 					colliding = true;
 				}
 			}
 		}
-		if (this.spaceship != null) {
-			if (!colliding && !this.spaceship.hasLeft()) this.spaceship.left();
-			double distance2 = Math.pow(spaceship.getX()-world.getWidth()/2, 2)+ Math.pow(spaceship.getY()-world.getHeight()/2, 2);
+		if (this.vaisseau != null) {
+			if (!colliding && !this.vaisseau.hasLeft()) this.vaisseau.left();
+			double distance2 = Math.pow(vaisseau.getX()-world.getWidth()/2, 2)+ Math.pow(vaisseau.getY()-world.getHeight()/2, 2);
 			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
-				this.spaceship.crash();
+				this.vaisseau.crash();
 			}
 		}
 		if (this.velocity != null) {
@@ -166,7 +171,7 @@ public class Solsys {
 			}
 			velocity.update(container, game, delta);
 		}
-		if (this.spaceship != null) this.spaceship.update(container, game, delta);
+		if (this.vaisseau != null) this.vaisseau.update(container, game, delta);
 	}
 
 }
