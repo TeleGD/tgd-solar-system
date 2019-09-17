@@ -145,7 +145,14 @@ public class Item {
 			ri.render(container, game, context);
 		}
 		int largeur = context.getFont().getWidth(name);
-		context.drawString(name, this.xName-largeur, this.yName);
+		String str;
+		if (constr instanceof Vaisseau) {
+			str=name + " (" + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr) + ")";
+		}
+		else {
+			str=name;
+		}
+		context.drawString(str , this.xName-largeur, this.yName);
 	}
 
 	public boolean mousePressed(int arg0, int x, int y) {
@@ -159,7 +166,8 @@ public class Item {
 					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
 					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
-					nbVaisseaux = "Nombre de vaisseaux de ce type : " + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
+					nbVaisseaux = "Nombre de " + vaisseau.getName() + ": "  + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
+					System.out.println(nbVaisseaux);
 				}
 
 			}
