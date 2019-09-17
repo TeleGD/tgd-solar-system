@@ -159,7 +159,7 @@ public class Item {
 					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
 					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
-					nbVaisseaux = "Nombre de vaisseaux de ce type : " + ((ISS)tile.getConstruction()).getVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
+					nbVaisseaux = "Nombre de vaisseaux de ce type : " + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
 				}
 
 			}

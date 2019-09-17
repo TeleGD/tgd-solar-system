@@ -8,5 +8,8 @@ public class Colonisator extends Vaisseau{
 	public Colonisator(Player player) {
 		super(player);
 	}
-
+	
+	public String getName() {
+		return "Colonisator";
+	}
 }
