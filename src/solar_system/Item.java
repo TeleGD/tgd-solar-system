@@ -38,7 +38,7 @@ public class Item {
 	private int imageConstructSize;
 	private boolean canConstruct;
 	private boolean ownership;
-	
+	private String nbVaisseaux=""; //Sert à indiquer combien de vaisseaux de ce type(uniquement en cliquant sur une ISS)
 	public Item(World world, Case tile, String name, int x, int y) {//
 
 		this.world = world;
@@ -159,6 +159,7 @@ public class Item {
 					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
 					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
+					nbVaisseaux = "Nombre de vaisseaux de ce type : " + ((ISS)tile.getConstruction()).getVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
 				}
 
 			}
