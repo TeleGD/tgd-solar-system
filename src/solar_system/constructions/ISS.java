@@ -31,7 +31,7 @@ public class ISS extends Building {
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		this.vaisseaux = new HashMap<Vaisseau,Integer >();//vaisseaux est la hashmap contenant la liste des vaisseaux associée à leur quantité dans l'ISS
+		this.vaisseaux = new HashMap<Vaisseau,Integer>(); //vaisseaux est la hashmap contenant la liste des vaisseaux associée à leur quantité dans l'ISS
 		initVaisseaux();
 		this.cout.put("Noyau Linux", 0.0); //TODO : équilibrer le cout d'une station
 		
@@ -50,8 +50,7 @@ public class ISS extends Building {
 		if (this.vaisseaux.containsKey(vaisseau)) {
 			nbV = this.vaisseaux.get(vaisseau);
 			this.vaisseaux.replace(vaisseau,nbV);
-		}	
-		
+		}
 	}
 	
 	public int getVaisseaux(Vaisseau vaisseau) {
@@ -64,13 +63,10 @@ public class ISS extends Building {
 	
 	
 	public void removeVaisseau(Vaisseau vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
-		int nbV = this.vaisseaux.get(vaisseau);
-		if(nbV>0) {
-			this.vaisseaux.remove(vaisseau);
-			vaisseaux.put(vaisseau, nbV-1);
-			
+		if (this.vaisseaux.containsKey(vaisseau)) {
+			int nbV = this.vaisseaux.get(vaisseau);
+			if (nbV > 0) vaisseaux.put(vaisseau, nbV-1);
 		}
-		
 	}
 	
 //	public static boolean constructPossible(Case tileConstructLocation) {

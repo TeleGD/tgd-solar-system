@@ -16,6 +16,7 @@ import app.AppLoader;
 public class Solsys {
 	private int nbPlanet;
 	private List<Planet> planets;
+	private Planet selectedPlanet;
 	private World world;
 	private Image imageSun;
 	private Velocity velocity;
@@ -23,6 +24,7 @@ public class Solsys {
 	private int currentKey; // ID de la touche actuellement pressée (-1 si aucune touche)
 	private boolean leftClick; // indique si le bouton gauche de la souris est pressé ou non
 	private Spaceship spaceship;
+	private MenuVaisseau menuVaisseau;
 
 	public Solsys(int nbPlanet, World world) {
 		System.out.println(nbPlanet);
@@ -39,6 +41,7 @@ public class Solsys {
 				minResources.put("Fer", 12);
 				minResources.put("Nourriture", 30);
 				Planet p = new Planet(1+k,200+110*k, 64, minResources, 0, 1, "description",world);
+				// Ci-dessus, 0 et 1 représentent respectivement le nombre minimum de satellites et le nombre de stations
 				p.setOwner(world.getPlayer());
 				addPlanet(p);
 			}
@@ -68,6 +71,13 @@ public class Solsys {
   		this.refPlanet = p;
   		this.velocity = v;
  	}
+  	
+  	public void rightClick(int xmouse, int ymouse) {
+  		this.selectedPlanet = this.planetTouched(xmouse, ymouse);
+  		if (selectedPlanet != null) {
+  	  		this.menuVaisseau = new MenuVaisseau("Lancer un vaisseau", (int)selectedPlanet.getPosX(), (int)selectedPlanet.getPosY());
+  		}
+  	}
 
   	public void mousePressed(int arg0, int x, int y) {
   		if (arg0 == 0) { // Clic gauche
@@ -115,6 +125,7 @@ public class Solsys {
 		if (this.spaceship != null) this.spaceship.render(container, game, context);
 		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		if (this.velocity != null) this.velocity.render(container, game, context);
+		if (this.menuVaisseau != null) this.menuVaisseau.render(container, game, context);
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {

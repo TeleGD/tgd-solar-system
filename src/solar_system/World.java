@@ -175,6 +175,7 @@ public class World extends BasicGameState {
 		}
 		if (arg0 == 1) { // Clic droit
 			if (planetSelected == null) {
+				/*
 				planetSelected = solsys.planetTouched(x, y);
 				if (planetSelected != null) {
 					solsys.setVelocityVector(planetSelected, new Velocity(0.3, 0));
@@ -183,6 +184,8 @@ public class World extends BasicGameState {
 					solsys.setVelocityVector(null, null);
 				}
 				planetSelected = null;
+				*/
+				solsys.rightClick(x, y);
 			}
 		}
 	}
