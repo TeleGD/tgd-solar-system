@@ -19,9 +19,6 @@ import solar_system.util.Images;
 
 public class ISS extends Building {
 	
-	private HashMap <String,ArrayList<Vaisseau>> vaisseaux;
-	private ArrayList<Vaisseau> listVaisseaux;//CHANGER
-	
 	public ISS (Case tile, Player player){
 		super(tile,player);
 //		this.posX=tile.getX();
@@ -31,8 +28,6 @@ public class ISS extends Building {
 		this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		this.vaisseaux = new HashMap<String,ArrayList<Vaisseau>>();//vaisseaux est la hashmap contenant la liste des vaisseaux associée à leur quantité dans l'ISS
-		initVaisseaux();
 		this.cout.put("Noyau Linux", 0.0); //TODO : équilibrer le cout d'une station
 		
 	}
@@ -41,32 +36,25 @@ public class ISS extends Building {
 		
 	}
 	
-	public void initVaisseaux() { //Crée les hashMap avec tous les vaisseaux possibles dedans, initialisés à 0
-		this.vaisseaux.put("Colonisator",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
+	public void addVaisseau(Vaisseau vaisseau) {
+		tile.getOrbital().getAir().getPlanet().addVaisseau(vaisseau);
 	}
-	
-	public void addVaisseau(Vaisseau vaisseau) { //Ajoute un vaisseau de type vaisseau
-		if (this.vaisseaux.containsKey(vaisseau.getName())) {
-			this.vaisseaux.get(vaisseau.getName()).add(vaisseau);
-		}	
-		
-	}
-	
 	public int getNbVaisseaux(Vaisseau vaisseau) {
-		return vaisseaux.get(vaisseau.getName()).size();
+		return tile.getOrbital().getAir().getPlanet().getNbVaisseaux(vaisseau);
 	}
+	
+	//Retire le vaisseau du nom demandé à l'ISS
+	public void removeVaisseau(String vaisseau) {
+		tile.getOrbital().getAir().getPlanet().removeVaisseau(vaisseau);
+	}
+	
+	
 	
 //	public void addVaisseau(Vaisseau vaisseau) {//Ajoute le vaisseau à l'ISS(à utiliser lorsqu'il est acheté)
 //		this.listVaisseaux.add(vaisseau);
 //	}
 	
-	//Retire le vaisseau du nom demandé à l'ISS
-	public void removeVaisseau(String vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
-		if(!this.vaisseaux.get(vaisseau).isEmpty()) {//Il y a au moins un vaisseau du type demandé
-			this.vaisseaux.get(vaisseau).remove(0);//On enlève le premier vaisseau, si liste non vide, existe toujours
-		}
-		
-	}
+	
 	
 //	public static boolean constructPossible(Case tileConstructLocation) {
 //		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());

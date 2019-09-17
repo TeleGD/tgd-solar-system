@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.AppLoader;
-
+import solar_system.constructions.Vaisseau;
 import solar_system.util.Images;
 
 public class Planet {
-
 
 	static Random r = new Random();
 	private int type;
@@ -36,6 +35,8 @@ public class Planet {
 	private HashMap<String, Integer> minResources;
 	private List<Orbital> orbitals;
 	private Player owner;
+	private HashMap <String,ArrayList<Vaisseau>> vaisseaux;
+	
 	
 	// ArrayList<HashMap<String, Integer>> resourcesMin, 
 
@@ -75,6 +76,8 @@ public class Planet {
 		this.ground = new Ground(this, world);
 		this.air = new Air(5,(int)(5.0/4)*radius2, minSatellite, minStation, world, this);
 		this.orbitals = air.getOrbitals();
+		this.vaisseaux = new HashMap<String,ArrayList<Vaisseau>>();//vaisseaux est la hashmap contenant la liste des vaisseaux associée à leur quantité dans l'ISS
+		initVaisseaux();
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -175,6 +178,29 @@ public class Planet {
 
 	public void mouseWheelMoved(int change) {
 		ground.mouseWheelMoved(change);
+	}
+	
+	///A PROPOS DES VAISSEAUX APPARTENANT À LA PLANÈTE : 
+	public void initVaisseaux() { //Crée les hashMap avec tous les vaisseaux possibles dedans, initialisés à 0
+		this.vaisseaux.put("Colonisator",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
+	}
+	
+	public void addVaisseau(Vaisseau vaisseau) { //Ajoute un vaisseau de type vaisseau
+		if (this.vaisseaux.containsKey(vaisseau.getName())) {
+			this.vaisseaux.get(vaisseau.getName()).add(vaisseau);
+		}	
+		
+	}
+	
+	public int getNbVaisseaux(Vaisseau vaisseau) {
+		return vaisseaux.get(vaisseau.getName()).size();
+	}
+	
+	//Retire le vaisseau du nom demandé à l'ISS
+	public void removeVaisseau(String vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
+		if(!this.vaisseaux.get(vaisseau).isEmpty()) {//Il y a au moins un vaisseau du type demandé
+			this.vaisseaux.get(vaisseau).remove(0);//On enlève le premier vaisseau, si liste non vide, existe toujours
+		}			
 	}
 
 }
