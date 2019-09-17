@@ -39,7 +39,8 @@ public class Item {
 	private boolean canConstruct;
 	private boolean ownership;
 	private String nbVaisseaux=""; //Sert à indiquer combien de vaisseaux de ce type(uniquement en cliquant sur une ISS)
-	public Item(World world, Case tile, String name, int x, int y) {//
+
+	public Item(World world, Case tile, String name, int x, int y) {
 
 		this.world = world;
 		this.tile = tile;
@@ -60,23 +61,22 @@ public class Item {
 		// (on se déplace pour positionner des objets uns par uns).
 		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
 		int currentY = y;
-		Construction construction = nameToConst(name, tile);
 		Image img;
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
 		//if(tile.getOrbital() == null || tile.getOrbital() instanceof Satellite){
-			for (String k : construction.cout.keySet()) {
+			for (String k : this.constr.cout.keySet()) {
 				img = AppLoader.loadPicture(Resource.imagePath(k));
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.cout.get(k).intValue()));
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
-			if (construction instanceof Building) {
-				for (String k : ((Building)construction).debits.keySet()) {
+			if (this.constr instanceof Building) {
+				for (String k : ((Building)this.constr).debits.keySet()) {
 					img = AppLoader.loadPicture(Resource.imagePath(k));
 					// Pour l'instant, seule une ressource est produite,
 					// on n'affiche donc pas le débit mais la quantité max disponible :
 					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.debits.get(k).intValue()));
 					currentX -= 48;
 				}
 			}
