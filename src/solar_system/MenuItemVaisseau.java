@@ -12,6 +12,10 @@ public class MenuItemVaisseau extends app.ui.MenuItem {
 		this.vaisseau = vaisseau;
 	}
 	
+	public MenuItemVaisseau(Vaisseau vaisseau, int nbv) {
+		this(vaisseau, nbv, 8, 128, 128);
+	}
+	
 	public Vaisseau getVaisseau() {
 		return this.vaisseau;
 	}

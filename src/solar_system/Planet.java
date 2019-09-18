@@ -1,6 +1,7 @@
 package solar_system;
 
 import java.util.Random;
+import java.util.Set;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -188,12 +189,21 @@ public class Planet {
 	public void addVaisseau(Vaisseau vaisseau) { //Ajoute un vaisseau de type vaisseau
 		if (this.vaisseaux.containsKey(vaisseau.getName())) {
 			this.vaisseaux.get(vaisseau.getName()).add(vaisseau);
-		}	
-		
+		}
 	}
 	
-	public int getNbVaisseaux(Vaisseau vaisseau) {
-		return vaisseaux.get(vaisseau.getName()).size();
+	public int getNbVaisseaux(String name) {
+		return vaisseaux.get(name).size();
+	}
+	
+	public Set<String> getVaisseauxNames() {
+		return this.vaisseaux.keySet();
+	}
+	
+	public Vaisseau getVaisseau(String name) {
+		if (!this.vaisseaux.get(name).isEmpty()) {
+			return this.vaisseaux.get(name).get(0);
+		} return null;
 	}
 	
 	//Retire le vaisseau du nom demandé à l'ISS

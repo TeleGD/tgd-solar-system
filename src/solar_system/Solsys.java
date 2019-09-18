@@ -76,13 +76,24 @@ public class Solsys {
   	public void rightClick(int xmouse, int ymouse) {
   		this.selectedPlanet = this.planetTouched(xmouse, ymouse);
   		if (selectedPlanet != null) {
-  	  		this.menuVaisseau = new MenuVaisseau("Lancer un vaisseau", (int)selectedPlanet.getPosX(), (int)selectedPlanet.getPosY());
+  	  		this.menuVaisseau = new MenuVaisseau("Lancer un vaisseau", xmouse, ymouse);
+  	  		for (String name : selectedPlanet.getVaisseauxNames()) {
+  	  			if (selectedPlanet.getNbVaisseaux(name) > 0) {
+  	  				this.menuVaisseau.addVaisseau(selectedPlanet.getVaisseau(name), selectedPlanet.getNbVaisseaux(name));
+  	  			}
+  	  		}
+  		}
+  		else {
+  			this.menuVaisseau = null;
   		}
   	}
 
   	public void mousePressed(int arg0, int x, int y) {
   		if (arg0 == 0) { // Clic gauche
   			this.leftClick = true;
+  			if (this.menuVaisseau != null && !this.menuVaisseau.isPressed(x, y)) {
+  				this.menuVaisseau = null;
+  			}
   		}
 	}
 

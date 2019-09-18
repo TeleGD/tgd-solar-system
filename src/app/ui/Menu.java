@@ -11,13 +11,14 @@ public class Menu<Item extends MenuItem> {
 	private String title;
 	private int xpos, ypos;
 	private int xsize, ysize;
-	private ArrayList<Item> items;
+	protected ArrayList<Item> items;
 	
 	public Menu(String title, int xpos, int ypos) {
 		this.title = title;
 		this.xpos = xpos;
 		this.ypos = ypos;
 		this.items = new ArrayList<Item>();
+		this.updateSize();
 	}
 	
 	public void setTitle(String title) {
@@ -34,6 +35,10 @@ public class Menu<Item extends MenuItem> {
 		updateSize();
 	}
 	
+	public void reset() {
+		items.clear();
+	}
+	
 	public String getTitle() {
 		return this.title;
 	}
@@ -43,13 +48,36 @@ public class Menu<Item extends MenuItem> {
 	}
 	
 	private void updateSize() {
-		int max = 0;
+		int max = 240;
 		this.ysize = 32;
 		for (MenuItem item : items) {
 			if (item.getWidth() > max) max = item.getWidth();
 			this.ysize += item.getHeight();
 		}
 		this.xsize = max;
+	}
+	
+	public void setPos(int x, int y) {
+		this.xpos = x;
+		this.ypos = y;
+		int curY = 32;
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).setXPos(this.xpos);
+			items.get(i).setYPos(curY);
+			curY += items.get(i).getHeight();
+		}
+	}
+	
+	public int length() {
+		return items.size();
+	}
+	
+	public int getWidth() {
+		return this.xsize;
+	}
+	
+	public int getHeight() {
+		return this.ysize;
 	}
 	
 	// Renvoie vrai si le menu est cliqué (dont la barre de titre)
@@ -66,6 +94,9 @@ public class Menu<Item extends MenuItem> {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		for (Item item : items) {
+			item.render(container, game, context);
+		}
 		context.setColor(Color.white);
 		context.fillRect(xpos, ypos, xsize, 32);
 		context.setColor(Color.black);

@@ -41,7 +41,7 @@ public class ISS extends Building {
 	}
 
 	public int getNbVaisseaux(Vaisseau vaisseau) {
-		return tile.getOrbital().getAir().getPlanet().getNbVaisseaux(vaisseau);
+		return tile.getOrbital().getAir().getPlanet().getNbVaisseaux(vaisseau.getName());
 	}
 	
 	//Retire le vaisseau du nom demandé à l'ISS
