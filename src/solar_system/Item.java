@@ -38,8 +38,9 @@ public class Item {
 	private int imageConstructSize;
 	private boolean canConstruct;
 	private boolean ownership;
-	
-	public Item(World world, Case tile, String name, int x, int y) {//
+	private String nbVaisseaux=""; //Sert à indiquer combien de vaisseaux de ce type(uniquement en cliquant sur une ISS)
+
+	public Item(World world, Case tile, String name, int x, int y) {
 
 		this.world = world;
 		this.tile = tile;
@@ -60,23 +61,22 @@ public class Item {
 		// (on se déplace pour positionner des objets uns par uns).
 		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
 		int currentY = y;
-		Construction construction = nameToConst(name, tile);
 		Image img;
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
 		//if(tile.getOrbital() == null || tile.getOrbital() instanceof Satellite){
-			for (String k : construction.cout.keySet()) {
+			for (String k : this.constr.cout.keySet()) {
 				img = AppLoader.loadPicture(Resource.imagePath(k));
-				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.cout.get(k).intValue()));
+				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.cout.get(k).intValue()));
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
-			if (construction instanceof Building) {
-				for (String k : ((Building)construction).debits.keySet()) {
+			if (this.constr instanceof Building) {
+				for (String k : ((Building)this.constr).debits.keySet()) {
 					img = AppLoader.loadPicture(Resource.imagePath(k));
 					// Pour l'instant, seule une ressource est produite,
 					// on n'affiche donc pas le débit mais la quantité max disponible :
 					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
-					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, construction.debits.get(k).intValue()));
+					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.debits.get(k).intValue()));
 					currentX -= 48;
 				}
 			}
@@ -100,7 +100,7 @@ public class Item {
 			case "Scierie" : return new Scierie(tile, world.getPlayer());
 			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
 			case "ISS" : return new ISS(tile, world.getPlayer());
-			case "Colonisator" : return new Colonisator(world.getPlayer());
+			case "Colonisator" : return new Colonisator(world.getPlayer(),world);
 			}
 		return null;
 	}
@@ -145,7 +145,14 @@ public class Item {
 			ri.render(container, game, context);
 		}
 		int largeur = context.getFont().getWidth(name);
-		context.drawString(name, this.xName-largeur, this.yName);
+		String str;
+		if (constr instanceof Vaisseau) {
+			str=name + " (" + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr) + ")";
+		}
+		else {
+			str=name;
+		}
+		context.drawString(str , this.xName-largeur, this.yName);
 	}
 
 	public boolean mousePressed(int arg0, int x, int y) {
@@ -159,6 +166,8 @@ public class Item {
 					((ISS)tile.getConstruction()).addVaisseau(vaisseau);
 					constr.giveMeYourMoney(world.getPlayer());//On fait payer le joueur
 					System.out.println("Et on ajoute un vaisseau !");
+					nbVaisseaux = "Nombre de " + vaisseau.getName() + ": "  + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
+					System.out.println(nbVaisseaux);
 				}
 
 			}

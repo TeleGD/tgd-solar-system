@@ -23,9 +23,10 @@ public abstract class Orbital {
 	protected Case tile;
 	private World world;
 	private int sizeCase;
+	private Air air;
 
 
-	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world) {
+	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world, Air air) {
 		this.speed=0.001;
 		this.size = (float) size;
 		this.angle = angle;
@@ -41,6 +42,7 @@ public abstract class Orbital {
 		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
 		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
 		this.world=world;
+		this.air = air;
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context){
@@ -86,5 +88,9 @@ public abstract class Orbital {
 
 	public int get_distance(){
 		return this.distance;
+	}
+	
+	public Air getAir() {
+		return this.air;
 	}
 }
