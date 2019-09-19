@@ -1,5 +1,6 @@
 package app.ui;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,27 +9,31 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class MenuItem {
 	private int xpos, ypos, xsize, ysize, padding;
-	private int imgWidth, textWidth;
+	private int imgWidth, imgHeight, textWidth, textHeight;
+	private boolean highlighted;
 	private Image img;
 	private String text;
 	
 	public MenuItem(Image img, String text, int padding, int xpos, int ypos) {
-		this.img = img;
+		this.setImage(img);
 		this.text = text;
 		this.padding = padding;
 		this.xpos = xpos;
 		this.ypos = ypos;
-		this.xsize = 3*padding;
-		this.ysize = 2*padding;
+		this.updateSize();
+	}
+	
+	private void updateSize() {
+		xsize = 3*padding;
+		ysize = 2*padding;
 		
 		if (this.img != null) {
-			this.xsize += this.img.getWidth();
-			this.ysize += this.img.getHeight();
-			this.imgWidth = this.img.getWidth();
+			xsize += this.imgWidth;
+			if (this.imgHeight >= this.textHeight) ysize += this.imgHeight;
 		}
 		if (this.text != null) {
-			this.textWidth = 100;
-			this.xsize += textWidth;
+			xsize += textWidth;
+			if (this.textHeight > this.imgHeight) ysize += this.textHeight;
 		}
 	}
 	
@@ -60,6 +65,10 @@ public class MenuItem {
 		return (xpos <= xmouse && xmouse <= xpos+xsize && ypos <= ymouse && ymouse <= ypos+ysize);
 	}
 	
+	public void updateHighlight() {
+		this.highlighted = isPressed(Mouse.getX(), Mouse.getY());
+	}
+	
 	public void setWidth(int width) {
 		this.xsize = width;
 	}
@@ -78,7 +87,13 @@ public class MenuItem {
 	
 	public void setImage(Image img) {
 		this.img = img;
-		this.imgWidth = img.getWidth();
+		if (img != null) {
+			this.imgWidth = img.getWidth();
+			this.imgHeight = img.getHeight();
+		} else {
+			this.imgWidth = 0;
+			this.imgHeight = 0;
+		}
 	}
 	
 	public void setText(String text) {
@@ -86,7 +101,16 @@ public class MenuItem {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		context.setColor(Color.blue);
+		if (text != null) {
+			int newTextWidth = context.getFont().getWidth(text);
+			this.textHeight = context.getFont().getHeight(text);
+			if (this.textWidth != newTextWidth) {
+				this.textWidth = newTextWidth;
+				this.updateSize();
+			}
+		}
+		if (this.highlighted) context.setColor(Color.cyan);
+		else context.setColor(Color.blue);
 		context.fillRect(xpos, ypos, xsize, ysize);
 		context.setColor(Color.white);
 		context.setLineWidth(1);
@@ -95,6 +119,6 @@ public class MenuItem {
 		context.drawLine(xpos+xsize, ypos, xpos+xsize, ypos+ysize);
 		context.drawLine(xpos, ypos+ysize, xpos+xsize, ypos+ysize);
 		if (img != null) context.drawImage(img, xpos+padding, ypos+padding);
-		if (text != null) context.drawString(text, xpos+imgWidth+2*padding, padding);
+		if (text != null) context.drawString(text, xpos+imgWidth+2*padding, ypos+(ysize-textHeight)/2);
 	}
 }

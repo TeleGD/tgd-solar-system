@@ -11,12 +11,14 @@ public class Menu<Item extends MenuItem> {
 	private String title;
 	private int xpos, ypos;
 	private int xsize, ysize;
+	private int padding, titleHeight;
 	protected ArrayList<Item> items;
 	
 	public Menu(String title, int xpos, int ypos) {
 		this.title = title;
 		this.xpos = xpos;
 		this.ypos = ypos;
+		this.padding = 8;
 		this.items = new ArrayList<Item>();
 		this.updateSize();
 	}
@@ -28,6 +30,7 @@ public class Menu<Item extends MenuItem> {
 	public void addItem(Item item) {
 		items.add(item);
 		updateSize();
+		setPos(xpos, ypos);
 	}
 	
 	public void removeItem(int index) {
@@ -48,22 +51,27 @@ public class Menu<Item extends MenuItem> {
 	}
 	
 	private void updateSize() {
-		int max = 240;
-		this.ysize = 32;
+		int max = this.xsize;
+		this.ysize = 2*padding+titleHeight;
+		// On détermine la taille horizontale maximale parmi tous les items
 		for (MenuItem item : items) {
 			if (item.getWidth() > max) max = item.getWidth();
 			this.ysize += item.getHeight();
 		}
+		// Cette taille maximale est définie comme étant la taille du menu
 		this.xsize = max;
+		// On ajuste en conséquence la taille de tous les items
+		for (MenuItem item : items) item.setWidth(max);
 	}
 	
 	public void setPos(int x, int y) {
 		this.xpos = x;
 		this.ypos = y;
-		int curY = 32;
+		this.updateSize();
+		int curY = 2*padding+titleHeight;
 		for (int i = 0; i < items.size(); i++) {
 			items.get(i).setXPos(this.xpos);
-			items.get(i).setYPos(curY);
+			items.get(i).setYPos(this.ypos+curY);
 			curY += items.get(i).getHeight();
 		}
 	}
@@ -93,14 +101,22 @@ public class Menu<Item extends MenuItem> {
 		return -1;
 	}
 	
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		for (Item item : items) {
+			item.updateHighlight();
+		}
+	}
+	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for (Item item : items) {
 			item.render(container, game, context);
 		}
+		this.titleHeight = context.getFont().getHeight(title);
+		this.xsize = Math.max(xsize, context.getFont().getWidth(title));
 		context.setColor(Color.white);
-		context.fillRect(xpos, ypos, xsize, 32);
+		context.fillRect(xpos, ypos, xsize, 2*padding+titleHeight);
 		context.setColor(Color.black);
-		context.drawString(title, xpos+10, ypos+10);
+		context.drawString(title, xpos+padding, ypos+padding);
 		context.setColor(Color.green);
 		context.setLineWidth(1);
 		context.drawLine(xpos, ypos, xpos+xsize, ypos);

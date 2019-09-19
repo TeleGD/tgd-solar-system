@@ -194,6 +194,10 @@ public class Solsys {
 			velocity.update(container, game, delta);
 		}
 		if (this.vaisseau != null) this.vaisseau.update(container, game, delta);
+		if (this.menuVaisseau != null) {
+			this.menuVaisseau.setPos(world.getWidth()/2+(int)selectedPlanet.getPosX(), world.getHeight()/2+(int)selectedPlanet.getPosY());
+			this.menuVaisseau.update(container, game, delta);
+		}
 	}
 
 }
