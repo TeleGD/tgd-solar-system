@@ -2,6 +2,7 @@ package solar_system;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -35,11 +36,14 @@ public class Item {
 	private int height;
 	private ArrayList<ResourceIcon> iconCostProduc;
 	private int xName, yName;
+	private int yStringCout, yStringDebit;
+	private int xString;
 	private int imageConstructSize;
 	private boolean canConstruct;
 	private boolean ownership;
 	private String nbVaisseaux=""; //Sert à indiquer combien de vaisseaux de ce type(uniquement en cliquant sur une ISS)
-
+	
+	
 	public Item(World world, Case tile, String name, int x, int y) {
 
 		this.world = world;
@@ -53,7 +57,7 @@ public class Item {
 		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
-
+		
 		xName = x + imageConstructSize;
 		yName = y + imageConstructSize + 8;
 
@@ -61,15 +65,21 @@ public class Item {
 		// (on se déplace pour positionner des objets uns par uns).
 		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
 		int currentY = y;
+		
+		this.xString=currentX;
 		Image img;
 		// Pour chaque ressource en coût de la construction, on ajoute l'icône correspondant à la liste iconCostDebit
 		//if(tile.getOrbital() == null || tile.getOrbital() instanceof Satellite){
+		this.yStringCout = currentY;
+		currentY+=20;
 			for (String k : this.constr.cout.keySet()) {
 				img = AppLoader.loadPicture(Resource.imagePath(k));
 				iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.cout.get(k).intValue()));
 				// Comme on les affiche en colonne, on garde notre position X actuelle et on descend en Y
 				currentY += 50;  // On se positionne une ligne en dessous
 			}
+			this.yStringDebit=currentY;
+			currentY+=20;
 			if (this.constr instanceof Building) {
 				for (String k : ((Building)this.constr).debits.keySet()) {
 					img = AppLoader.loadPicture(Resource.imagePath(k));
@@ -127,6 +137,8 @@ public class Item {
 			ri.moveY(dY);
 		}
 		this.yName += dY;
+		this.yStringCout +=dY;
+		this.yStringDebit +=dY;
 	}
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -141,6 +153,9 @@ public class Item {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		this.button.render(container, game, context);
+		context.setColor(Color.white);
+		context.drawString("Coût :" , xString , yStringCout );
+		context.drawString("Débit :" , xString , yStringDebit );
 		for (ResourceIcon ri : iconCostProduc) {
 			ri.render(container, game, context);
 		}
