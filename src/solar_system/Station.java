@@ -19,8 +19,8 @@ public class Station extends Orbital {
 //		context.fillOval(get_x()*1f-size, get_y()*1f-size, size * 2, size * 2);
 //		//System.out.println("Je suis une station de position "+get_x()+","+get_y());
 //		super.render(container, game, context);
-		context.setColor(Color.red);
-		context.fillOval(container.getWidth()/2+get_x()*1f-size, container.getHeight()/2-get_y()/2*1f-size, size * 2, size * 2);
+		//context.setColor(Color.red);
+		//context.fillOval(container.getWidth()/2+get_x()*1f-size, container.getHeight()/2-get_y()/2*1f-size, size * 2, size * 2);
 		super.render(container, game, context);
 	}
 	//@Override

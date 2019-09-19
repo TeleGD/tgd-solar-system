@@ -68,9 +68,16 @@ public class Case {
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-
-		context.setColor(new Color(0, 0, 0, 127));
-		context.drawRect(x, y, size, size);
+		if(orbital instanceof Station && construction == null) {
+			context.setColor(new Color(255, 255, 255, 255));
+			context.setLineWidth(5);
+			context.drawRect(x, y, size, size);
+			context.setLineWidth(1);
+		}
+		else if (!(orbital instanceof Station)){
+			context.setColor(new Color(0, 0, 0, 127));
+			context.drawRect(x, y, size, size);
+		}
 		if(construction != null) {
 			if(construction instanceof Building) {
 				Building building = (Building)construction;
