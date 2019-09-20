@@ -60,6 +60,14 @@ public class MenuConstruction {
 			}
 		}
 	}
+	
+	public int getXPos() {
+		return this.x;
+	}
+	
+	public int getYPos() {
+		return this.y;
+	}
 
 	public boolean mousePressed(int arg0, int x, int y) {
 		for (Item item : listItems) { // Si on clique sur l'un des items
