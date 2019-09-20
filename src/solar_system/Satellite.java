@@ -10,8 +10,12 @@ import app.AppLoader;
 
 public class Satellite extends Orbital{
 	
-	public Satellite(int lifeMax, int cout,float angle, int size, int distance, Resource resource,World world,Air air) {
+	public Satellite(int lifeMax, int cout,float angle, int size, int distance, Resource resource,int resourceQuantity,World world,Air air) {
 		super(lifeMax, cout, angle, size, distance, resource,world,air);
+		this.tile=new Case(0,0,sizeCase,resource,resourceQuantity,this);
+		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
+		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
+		
 	}
 
 	public void render (GameContainer container, StateBasedGame game, Graphics context){

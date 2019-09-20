@@ -41,8 +41,9 @@ public class Air {
 		int nbOrbitals = this.nbSatelite+this.nbStation;
 		Resource resource2;
 		for(int i=0;i<this.nbSatelite;i++){
-			orbitals.add(new Satellite(20,0,(float)(Math.PI*i*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,this.world,this));
 			resource2 = world.getPlayer().getResource(planet.getGround().randomResourceName());//On génère le nom d'une ressource aléatoirement.
+			int rand = ThreadLocalRandom.current().nextInt(1, 20)*50;
+			orbitals.add(new Satellite(20,0,(float)(Math.PI*i*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,rand,this.world,this));
 			//System.out.println(planet.getGround().randomResourceName());
 			orbitals.get(i).getCase().setResource(resource2);//Ona ajoute cette ressource sur le satelliite qu'on vient de créer.
 			orbitals.get(i).getCase().setRessourceQuantity(resource2.getQuantite());

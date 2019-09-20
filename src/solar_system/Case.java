@@ -29,7 +29,7 @@ public class Case {
 	private int imageConstructSize; // Hauteur des images des constructions, dans le menu des constructions
 	private Orbital orbital;
 
-	public Case(int x, int y, int size,Orbital orbital){
+	public Case(int x, int y, int size,Orbital orbital){//Constructeur pour une case de Station
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -41,7 +41,7 @@ public class Case {
 	}
 
 
-	public Case(int x, int y, int size, Resource resource, int resourceQuantity){
+	public Case(int x, int y, int size, Resource resource, int resourceQuantity){//Constructeur pour une case de la planète
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -53,7 +53,19 @@ public class Case {
 		setBackgroundAsResource();
 
 	}
-
+	
+	public Case(int x, int y, int size,Resource resource, int resourceQuantity,Orbital orbital){//Constructeur pour une case de satellite
+		this.x = x;
+		this.y = y;
+		this.size = size;
+		this.resource = resource;
+		this.resourceQuantity = (double)resourceQuantity;
+		construction = null;
+		imageConstructSize = 150;
+		this.orbital = orbital;
+		setBackgroundAsResource();
+	}
+	
 	public void setBackgroundAsResource() { // Permet de placer en arrière-plan de la case l'image de la ressource de la case
 
 		if (this.resource==null){

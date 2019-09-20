@@ -9,6 +9,9 @@ public class Station extends Orbital {
 	
 	public Station(int lifeMax, int cout,float angle, int size, int distance, Resource resource,World world,Air air) {
 		super(lifeMax, cout, angle, size, distance, resource,world,air);
+		this.tile=new Case(0,0,sizeCase,this);
+		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
+		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
 	}
 	
 	
