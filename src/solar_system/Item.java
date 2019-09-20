@@ -177,7 +177,7 @@ public class Item {
 			System.out.println(name);
 			//TODO :
 			if (constr instanceof Vaisseau){//Si on chercher à construire un vaisseau, on l'ajoute à sa station
-				if (tile.getConstruction() instanceof ISS) {
+				if (tile.getConstruction() instanceof ISS && canConstruct) {
 					//TODO : Si il a les ressources, faire payer le joueur
 					Vaisseau vaisseau = (Vaisseau) constr;
 					((ISS)tile.getConstruction()).addVaisseau(vaisseau);

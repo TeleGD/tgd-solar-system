@@ -22,25 +22,23 @@ public abstract class Orbital {
 	private int y;
 	protected Case tile;
 	private World world;
-	private int sizeCase;
+	protected int sizeCase;
 	private Air air;
 
 
-	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world, Air air) {
+	public Orbital(int lifeMax, int cout,float angle,int size, int distance,World world, Air air) {
 		this.speed=0.001;
 		this.size = (float) size;
 		this.angle = angle;
 		this.distance = distance+size;
 
-		if (this.resource==null){
-			this.backgroundImg = null;
-		} else {
-			this.backgroundImg = AppLoader.loadPicture(resource.imagePath(resource.getName()));
-		}
+//		if (this.resource==null){
+//			this.backgroundImg = null;
+//		} else {
+//			this.backgroundImg = AppLoader.loadPicture(resource.imagePath(resource.getName()));
+//		}
 		this.sizeCase= (int)(80*world.getFacteurMagique());
-		this.tile=new Case(0,0,sizeCase,this);
-		tile.setX((int)(distance*Math.cos(angle)+size-this.sizeCase/2));
-		tile.setY((int)(distance*Math.sin(angle)+size-this.sizeCase/2));
+		
 		this.world=world;
 		this.air = air;
 	}
