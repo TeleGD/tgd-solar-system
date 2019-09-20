@@ -97,4 +97,8 @@ public abstract class Construction {
 		return name;
 	}
 
+	public Image getSprite() {
+		return sprite;
+	}
+
 }

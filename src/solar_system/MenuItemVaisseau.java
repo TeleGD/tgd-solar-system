@@ -8,7 +8,7 @@ public class MenuItemVaisseau extends app.ui.MenuItem {
 	private Vaisseau vaisseau;
 	
 	public MenuItemVaisseau(Vaisseau vaisseau, int nbv, int padding, int xpos, int ypos) {
-		super(vaisseau.sprite, vaisseau.getName()+" : "+nbv, padding, xpos, ypos);
+		super(vaisseau.getSprite().getScaledCopy(24, 24), vaisseau.getName()+" : "+nbv, padding, xpos, ypos);
 		this.vaisseau = vaisseau;
 	}
 	

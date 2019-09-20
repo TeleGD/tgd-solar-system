@@ -7,11 +7,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
+import app.AppLoader;
+
 public class MenuItem {
 	private int xpos, ypos, xsize, ysize, padding;
 	private int imgWidth, imgHeight, textWidth, textHeight;
 	private boolean highlighted;
 	private Image img;
+	private Image bkg, bkgHigh;
 	private String text;
 	
 	public MenuItem(Image img, String text, int padding, int xpos, int ypos) {
@@ -21,6 +24,8 @@ public class MenuItem {
 		this.xpos = xpos;
 		this.ypos = ypos;
 		this.updateSize();
+		//this.bkg = AppLoader.loadPicture("/images/menu_item.png");
+		//this.bkgHigh = AppLoader.loadPicture("/images/menu_item_highlighted.png");
 	}
 	
 	private void updateSize() {
@@ -109,9 +114,20 @@ public class MenuItem {
 				this.updateSize();
 			}
 		}
-		if (this.highlighted) context.setColor(Color.cyan);
-		else context.setColor(Color.blue);
-		context.fillRect(xpos, ypos, xsize, ysize);
+		if (this.highlighted) {
+			if (this.bkgHigh != null) context.drawImage(bkgHigh, xpos, ypos, xpos+xsize, ypos+ysize, 0, 0, bkgHigh.getWidth(), bkgHigh.getHeight());
+			else {
+				context.setColor(Color.decode("#0099ff"));
+				context.fillRect(xpos, ypos, xsize, ysize);
+			}
+		}
+		else {
+			if (this.bkg != null) context.drawImage(bkg, xpos, ypos, xpos+xsize, ypos+ysize, 0, 0, bkg.getWidth()-1, bkg.getHeight()-1);
+			else {
+				context.setColor(Color.blue);
+				context.fillRect(xpos, ypos, xsize, ysize);
+			}
+		}
 		context.setColor(Color.white);
 		context.setLineWidth(1);
 		context.drawLine(xpos, ypos, xpos+xsize, ypos);

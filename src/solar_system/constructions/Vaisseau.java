@@ -3,6 +3,7 @@ package solar_system.constructions;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Construction;
@@ -15,10 +16,12 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 	private double y;
 	private double vx;
 	private double vy;
+	private float angle;
 	private boolean launched;
 	private boolean hasLeft;
 	private boolean crashed;
 	private World world;
+	private Image img;
 	
 	public Vaisseau(Player player, World world){
 		super(player) ;
@@ -38,6 +41,10 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		this.launched = true;
 		this.hasLeft = false;
 		this.crashed = false;
+		if (this.sprite != null) {
+			this.img = sprite.getScaledCopy(64, 64);
+			this.img.setCenterOfRotation(32, 32);
+		}
 		
 	}
 	
@@ -77,6 +84,10 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		vy -= delta*40*ry/r3;
 		x += delta*vx;
 		y += delta*vy;
+		if (this.img != null) {
+			angle = (float)(Math.atan2(vx, vx)*180/Math.PI);
+			this.img.setRotation(angle);
+		}
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
@@ -86,9 +97,8 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		if (!crashed && launched) {
-			context.setColor(Color.green);
-			context.fillOval((int)x-24, (int)y-24, 48, 48);
+		if (!crashed && launched && img != null) {
+			context.drawImage(img, (float)x, (float)y);
 		}
 	}
 
