@@ -25,10 +25,12 @@ public class ISS extends Building {
 //		this.posY=tile.getY();
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.debits.put("Nourriture", 0.02);
+		//this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
 		this.player=player;
-		this.cout.put("Noyau Linux", 0.0); //TODO : équilibrer le cout d'une station
+		this.cout.put("Bois", 100.0); //TODO : équilibrer le cout d'une station
+		this.cout.put("Nourriture", 500.0);
+		this.cout.put("Fer", 100.0);
 		
 	}
 	

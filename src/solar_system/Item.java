@@ -54,7 +54,7 @@ public class Item {
 		this.canConstruct = false;
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
-		Image imageTemp = AppLoader.loadPicture("/images/constructions/"+name+".png");
+		Image imageTemp = this.constr.getSprite(); //AppLoader.loadPicture("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
 		
@@ -85,7 +85,8 @@ public class Item {
 					img = AppLoader.loadPicture(Resource.imagePath(k));
 					// Pour l'instant, seule une ressource est produite,
 					// on n'affiche donc pas le débit mais la quantité max disponible :
-					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, (int) tile.getResourceQuantity()));
+					iconCostProduc.add(new ResourceIcon(currentX, currentY, img, ((Building)this.constr).debits.get(k)*60));//(int) tile.getResourceQuantity()));
+					iconCostProduc.add(new ResourceIcon(currentX+iconCostProduc.get(iconCostProduc.size()-1).getSize()+90, currentY, img, (int) tile.getResourceQuantity()));
 					// iconCostProduc.add(new ResourceIcon(currentX, currentY, img, this.constr.debits.get(k).intValue()));
 					currentX -= 48;
 				}
@@ -155,7 +156,8 @@ public class Item {
 		this.button.render(container, game, context);
 		context.setColor(Color.white);
 		context.drawString("Coût :" , xString , yStringCout );
-		context.drawString("Débit :" , xString , yStringDebit );
+		context.drawString("Débit(/s) : |" , xString , yStringDebit );
+		context.drawString("Stock :" , xString+iconCostProduc.get(iconCostProduc.size()-1).getSize()+90 , yStringDebit );
 		for (ResourceIcon ri : iconCostProduc) {
 			ri.render(container, game, context);
 		}

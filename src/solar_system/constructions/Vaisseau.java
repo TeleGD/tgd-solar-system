@@ -28,8 +28,8 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		this.name="Vaisseau spatial";
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.cout.put("Noyau Linux",0.0);
-		this.cout.put("Bois",1.0);
+		this.cout.put("Fer",50.0);
+		this.cout.put("Bois",20.0);
 		this.world = world;
 	}
 	

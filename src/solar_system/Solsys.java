@@ -39,9 +39,9 @@ public class Solsys {
 			// (lorsque le compteur de planète arrive à la moitié du nombre de planètes total dans le système solaire)
 			if (k == nbPlanet/2) {
 				HashMap<String, Integer> minResources = new HashMap<String, Integer>();
-				minResources.put("Bois", 40);
-				minResources.put("Fer", 12);
-				minResources.put("Nourriture", 30);
+				minResources.put("Bois", 30);
+				minResources.put("Fer", 11);
+				minResources.put("Nourriture", 23);
 				Planet p = new Planet(1+k,200+110*k, 64, minResources, 0, 1, "description",world);
 				// Ci-dessus, 0 et 1 représentent respectivement le nombre minimum de satellites et le nombre de stations
 				p.setOwner(world.getPlayer());

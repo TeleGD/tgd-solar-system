@@ -11,8 +11,9 @@ public class ResourceIcon {
 	private int y;
 	private Image img;
 	private String cost;
+	private int size = 48;
 	
-	public ResourceIcon(int x, int y, Image img, int cost) {
+	public ResourceIcon(int x, int y, Image img, double cost) {
 		this.x = x;
 		this.y = y;
 		this.img = img;
@@ -20,7 +21,7 @@ public class ResourceIcon {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		context.drawImage(img, x, y, x+48, y+48, 0, 0, img.getWidth(), img.getHeight());
+		context.drawImage(img, x, y, x+size, y+size, 0, 0, img.getWidth(), img.getHeight());
 		
 		// Placement du coût en bas à droite
 		context.setColor(Color.white);
@@ -31,5 +32,13 @@ public class ResourceIcon {
 	
 	public void moveY(int dY) {
 		this.y += dY;
+	}
+	
+	public Image getImg() {
+		return img;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 }
