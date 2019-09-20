@@ -20,6 +20,7 @@ import solar_system.constructions.Ferme;
 import solar_system.constructions.Mine;
 import solar_system.constructions.Mine2;
 import solar_system.constructions.TNCY;
+import solar_system.constructions.Vaisseau;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.CabaneBucheron;
 
