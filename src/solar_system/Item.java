@@ -21,7 +21,7 @@ import solar_system.constructions.Mine2;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.TNCY;
 import solar_system.constructions.Vaisseau;
-import solar_system.constructions.vaisseaux.Colonisator;
+import solar_system.constructions.vaisseaux.*;
 import solar_system.constructions.ISS;
 
 
@@ -112,6 +112,7 @@ public class Item {
 			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
 			case "ISS" : return new ISS(tile, world.getPlayer());
 			case "Colonisator" : return new Colonisator(world.getPlayer(),world);
+			case "Tesla" : return new Tesla(world.getPlayer(),world);
 			}
 		return null;
 	}

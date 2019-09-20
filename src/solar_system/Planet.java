@@ -184,6 +184,7 @@ public class Planet {
 	///A PROPOS DES VAISSEAUX APPARTENANT À LA PLANÈTE : 
 	public void initVaisseaux() { //Crée les hashMap avec tous les vaisseaux possibles dedans, initialisés à 0
 		this.vaisseaux.put("Colonisator",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
+		this.vaisseaux.put("Tesla",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
 	}
 	
 	public void addVaisseau(Vaisseau vaisseau) { //Ajoute un vaisseau de type vaisseau

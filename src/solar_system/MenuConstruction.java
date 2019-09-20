@@ -106,7 +106,7 @@ public class MenuConstruction {
 	}
 
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
-		if (number<constructionsPossibles.size()) {
+		if (number < constructionsPossibles.size()) {
 			return constructionsPossibles.get(number);
 		}
 		return "";

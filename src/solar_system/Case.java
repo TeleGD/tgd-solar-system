@@ -169,6 +169,7 @@ public class Case {
 			else{
 				if(construction instanceof ISS){
 					construPossible.add("Colonisator");
+					construPossible.add("Tesla");
 					//TODO : Ajouter tous les vaisseaux de constructions.vaisseaux
 					
 				}

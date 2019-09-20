@@ -267,14 +267,14 @@ public class Ground {
 		// Retourne la case dans laquelle le point (x,y) est contenu.
 		int renderedSize = sizeCase * world.getHeight()/1080;
 		if (y - (y_origin+padding) < 0 || (y - (y_origin+padding))/renderedSize >= cases.length || x - (x_origin+padding) < 0 || (x - (x_origin+padding))/renderedSize >= cases.length){//Si le clic est hors de la grille de la planète
-			System.out.println("On a pas cliqué sur la grille visiblement...");
+			//System.out.println("On a pas cliqué sur la grille visiblement...");
 			if(planet.getAir().mousePressed(0,x,y)==null){//
-				System.out.println("C'est très null tout ça...");
+				//System.out.println("C'est très null tout ça...");
 				return (null); // Aucune case ne contient (x,y) !
 			}
 			else{//Sinon retourner la case sur l'orbitale cliquée
 				Orbital orbital = planet.getAir().mousePressed(0,x,y);
-				System.out.println("Hey, la case est renvoyée, j'en fais quoi ?");
+				//System.out.println("Hey, la case est renvoyée, j'en fais quoi ?");
 				return(orbital.getCase());
 			}
 		}
@@ -287,14 +287,14 @@ public class Ground {
 	}
 
 	public String construcRequested(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
-		if (number<constructionsPossibles.size()) {
+		if (number < constructionsPossibles.size()) {
 			return constructionsPossibles.get(number);
 		}
 		return "";
 	}
 
 	public Image getConstructImage(int number) {    // Renvoie le nom du bâtiment numéro 'number' dans le menu des constructions
-		if (number<imagesConstructions.size()) {
+		if (number < imagesConstructions.size()) {
 			return imagesConstructions.get(number);
 		}
 		return null;
