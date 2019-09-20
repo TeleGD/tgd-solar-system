@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
 import app.ui.ButtonV2;
+import solar_system.constructions.Vaisseau;
 
 public class MenuConstruction {
 	private Case selectedCase;

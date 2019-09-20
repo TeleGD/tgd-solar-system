@@ -183,6 +183,7 @@ public class Item {
 					System.out.println("Et on ajoute un vaisseau !");
 					nbVaisseaux = "Nombre de " + vaisseau.getName() + ": "  + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr); //Pb : ne s'affichera qu'à partir du moment ou on a cobstruit au miins 1 vaisseau du type.
 					System.out.println(nbVaisseaux);
+					return true;
 				}
 
 			}
@@ -196,6 +197,10 @@ public class Item {
 
 		}
 		return false;
+	}
+	
+	public Construction getConstruction() {
+		return this.constr;
 	}
 
 }
