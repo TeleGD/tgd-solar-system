@@ -2,13 +2,9 @@ package solar_system;
 
 import java.util.*;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Air {
@@ -37,19 +33,18 @@ public class Air {
 		this.nbSatelite = Math.max(minSatellite, (int) (Math.random()*4));
 		this.nbStation = Math.max(minStation, (int) (Math.random()*3));//Générer int aléatoire.
 		//System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
-		Resource resource = new Resource("Fer");
 		int nbOrbitals = this.nbSatelite+this.nbStation;
-		Resource resource2;
+		Resource resource;
 		for(int i=0;i<this.nbSatelite;i++){
-			resource2 = world.getPlayer().getResource(planet.getGround().randomResourceName());//On génère le nom d'une ressource aléatoirement.
+			resource = world.getPlayer().getResource(planet.getGround().randomResourceName());//On génère le nom d'une ressource aléatoirement.
 			int rand = ThreadLocalRandom.current().nextInt(1, 20)*50;
 			orbitals.add(new Satellite(20,0,(float)(Math.PI*i*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,rand,this.world,this));
 			//System.out.println(planet.getGround().randomResourceName());
-			orbitals.get(i).getCase().setResource(resource2);//Ona ajoute cette ressource sur le satelliite qu'on vient de créer.
-			orbitals.get(i).getCase().setRessourceQuantity(resource2.getQuantite());
+//			orbitals.get(i).getCase().setResource(resource2);//Ona ajoute cette ressource sur le satelliite qu'on vient de créer.
+//			orbitals.get(i).getCase().setRessourceQuantity(resource2.getQuantite());
 		}
 		for(int j=0;j<this.nbStation;j++){
-			orbitals.add(new Station(20,0,(float)(Math.PI*(j+this.nbSatelite)*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,this.world,this));
+			orbitals.add(new Station(20,0,(float)(Math.PI*(j+this.nbSatelite)*2/nbOrbitals), 50,(int)(5.0/4*radius), this.world,this));
 		}
 	
 	}

@@ -26,17 +26,17 @@ public abstract class Orbital {
 	private Air air;
 
 
-	public Orbital(int lifeMax, int cout,float angle,int size, int distance, Resource resource,World world, Air air) {
+	public Orbital(int lifeMax, int cout,float angle,int size, int distance,World world, Air air) {
 		this.speed=0.001;
 		this.size = (float) size;
 		this.angle = angle;
 		this.distance = distance+size;
 
-		if (this.resource==null){
-			this.backgroundImg = null;
-		} else {
-			this.backgroundImg = AppLoader.loadPicture(resource.imagePath(resource.getName()));
-		}
+//		if (this.resource==null){
+//			this.backgroundImg = null;
+//		} else {
+//			this.backgroundImg = AppLoader.loadPicture(resource.imagePath(resource.getName()));
+//		}
 		this.sizeCase= (int)(80*world.getFacteurMagique());
 		
 		this.world=world;
