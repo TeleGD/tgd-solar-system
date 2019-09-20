@@ -162,7 +162,8 @@ public class Item {
 		int largeur = context.getFont().getWidth(name);
 		String str;
 		if (constr instanceof Vaisseau) {
-			str=name + " (" + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr) + ")";
+			//str=name + " (" + ((ISS)tile.getConstruction()).getNbVaisseaux((Vaisseau) constr) + ")";
+			str=name + " (" + ((ISS)tile.getConstruction()).getCurrentCapacity() + "/" + ((ISS)tile.getConstruction()).getCapacity() + ")";
 		}
 		else {
 			str=name;

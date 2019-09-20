@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
 import app.ui.ButtonV2;
+import solar_system.constructions.ISS;
 import solar_system.constructions.Vaisseau;
 
 public class MenuConstruction {
@@ -69,6 +70,9 @@ public class MenuConstruction {
 			}
 		}
 		if (suppr != null && suppr.isPressed(x, y)) { // Si on clique sur le bouton de destruction
+			//if (selectedCase.getConstruction() instanceof ISS) {
+				//((ISS)(selectedCase.getConstruction())).get
+			//}
 			selectedCase.setConstruction(null);
 			/*selectedCase.setBackground(null);
 			selectedCase.setBackgroundAsResource();*/

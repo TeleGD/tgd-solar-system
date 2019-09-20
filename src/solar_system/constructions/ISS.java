@@ -19,6 +19,10 @@ import solar_system.util.Images;
 
 public class ISS extends Building {
 	
+	int capacity=10;
+	int currentCapacity;
+	private HashMap <String,Integer> vaisseaux;
+	
 	public ISS (Case tile, Player player){
 		super(tile,player);
 //		this.posX=tile.getX();
@@ -36,8 +40,24 @@ public class ISS extends Building {
 		
 	}
 	
-	public void addVaisseau(Vaisseau vaisseau) {
-		tile.getOrbital().getAir().getPlanet().addVaisseau(vaisseau);
+	public void initVaisseaux() { //Crée les hashMap avec tous les vaisseaux possibles dedans, initialisés à 0
+		this.vaisseaux.put("Colonisator",0); //Ajouter vaisseaux ici
+		this.vaisseaux.put("Tesla",0);
+		this.vaisseaux.put("Véço",0);
+	}
+	
+	public void addVaisseau(Vaisseau vaisseau) {//Création d'un vaisseau à partir de l'ISS
+		 if(this.currentCapacity<this.capacity) {
+			tile.getOrbital().getAir().getPlanet().addVaisseau(vaisseau);//Création d'un vaisseau du type, dans la hashmap de la planète
+			this.currentCapacity++;//On augmente la capacité actuelle de l'ISS
+			System.out.println(vaisseau.getName());
+			for(String str : vaisseaux.keySet()) {
+				System.out.println(vaisseaux.get(str));
+			}
+			Integer n=this.vaisseaux.get(vaisseau.getName());
+			this.vaisseaux.put(vaisseau.getName(),++n);
+		}
+		
 	}
 
 	public int getNbVaisseaux(Vaisseau vaisseau) {
@@ -47,8 +67,27 @@ public class ISS extends Building {
 	//Retire le vaisseau du nom demandé à l'ISS
 	public void removeVaisseau(String vaisseau) {
 		tile.getOrbital().getAir().getPlanet().removeVaisseau(vaisseau);
+		this.currentCapacity--;
+		Integer n=this.vaisseaux.get(vaisseau);
+		this.vaisseaux.put(vaisseau,--n);
+//		for (String str : vaisseaux) {
+//			for (int i=0 ; i<vaisseaux.get(str);i++) {
+//				
+//			}
+		//}
 	}
 	
+	public int getCapacity() {
+		return this.capacity;
+	}
+	
+	public int getCurrentCapacity() {
+		return this.currentCapacity;
+	}
+	
+	public int getNbVaisseaux(String vaisseau) {//Récupère le nombre de vaisseau du type vaisseau" construits dans l'ISS
+		return vaisseaux.get(vaisseau);
+	}
 	
 	
 //	public void addVaisseau(Vaisseau vaisseau) {//Ajoute le vaisseau à l'ISS(à utiliser lorsqu'il est acheté)
