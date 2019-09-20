@@ -11,7 +11,7 @@ public class Menu<Item extends MenuItem> {
 	private String title;
 	private int xpos, ypos;
 	private int xsize, ysize;
-	private int padding, titleHeight;
+	private int padding, titleWidth, titleHeight;
 	protected ArrayList<Item> items;
 	
 	public Menu(String title, int xpos, int ypos) {
@@ -51,17 +51,16 @@ public class Menu<Item extends MenuItem> {
 	}
 	
 	private void updateSize() {
-		int max = this.xsize;
+		this.xsize = 2*padding+titleWidth;
 		this.ysize = 2*padding+titleHeight;
 		// On détermine la taille horizontale maximale parmi tous les items
 		for (MenuItem item : items) {
-			if (item.getWidth() > max) max = item.getWidth();
+			if (item.getWidth() > this.xsize) this.xsize = item.getWidth();
 			this.ysize += item.getHeight();
 		}
 		// Cette taille maximale est définie comme étant la taille du menu
-		this.xsize = max;
 		// On ajuste en conséquence la taille de tous les items
-		for (MenuItem item : items) item.setWidth(max);
+		for (MenuItem item : items) item.setWidth(this.xsize);
 	}
 	
 	public void setPos(int x, int y) {
@@ -103,7 +102,7 @@ public class Menu<Item extends MenuItem> {
 	
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		for (Item item : items) {
-			item.updateHighlight();
+			item.updateHighlight(container.getHeight());
 		}
 	}
 	
@@ -111,8 +110,13 @@ public class Menu<Item extends MenuItem> {
 		for (Item item : items) {
 			item.render(container, game, context);
 		}
-		this.titleHeight = context.getFont().getHeight(title);
-		this.xsize = Math.max(xsize, context.getFont().getWidth(title));
+		int theight = context.getFont().getHeight(title);
+		int twidth = context.getFont().getWidth(title);
+		if (this.titleWidth != twidth || this.titleHeight != theight) {
+			this.titleWidth = twidth;
+			this.titleHeight = theight;
+			this.updateSize();
+		}
 		context.setColor(Color.white);
 		context.fillRect(xpos, ypos, xsize, 2*padding+titleHeight);
 		context.setColor(Color.black);

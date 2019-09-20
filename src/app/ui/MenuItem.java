@@ -65,8 +65,8 @@ public class MenuItem {
 		return (xpos <= xmouse && xmouse <= xpos+xsize && ypos <= ymouse && ymouse <= ypos+ysize);
 	}
 	
-	public void updateHighlight() {
-		this.highlighted = isPressed(Mouse.getX(), Mouse.getY());
+	public void updateHighlight(int worldHeight) {
+		this.highlighted = this.isPressed(Mouse.getX(), worldHeight-Mouse.getY());
 	}
 	
 	public void setWidth(int width) {

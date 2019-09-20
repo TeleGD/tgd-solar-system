@@ -15,6 +15,7 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 	private double y;
 	private double vx;
 	private double vy;
+	private boolean launched;
 	private boolean hasLeft;
 	private boolean crashed;
 	private World world;
@@ -34,9 +35,14 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		this.y = y0;
 		this.vx = vx0;
 		this.vy = vy0;
+		this.launched = true;
 		this.hasLeft = false;
 		this.crashed = false;
 		
+	}
+	
+	public boolean isLaunched() {
+		return this.launched;
 	}
 	
 	public int getX() {
@@ -74,13 +80,13 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		if (!crashed) {
+		if (!crashed && launched) {
 			nextOrbitalPosition(delta);
 		}
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		if (!crashed) {
+		if (!crashed && launched) {
 			context.setColor(Color.green);
 			context.fillOval((int)x-24, (int)y-24, 48, 48);
 		}

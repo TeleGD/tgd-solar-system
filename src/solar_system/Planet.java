@@ -207,9 +207,9 @@ public class Planet {
 	}
 	
 	//Retire le vaisseau du nom demandé à l'ISS
-	public void removeVaisseau(String vaisseau) {//Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
-		if(!this.vaisseaux.get(vaisseau).isEmpty()) {//Il y a au moins un vaisseau du type demandé
-			this.vaisseaux.get(vaisseau).remove(0);//On enlève le premier vaisseau, si liste non vide, existe toujours
+	public void removeVaisseau(String vaisseau) { //Retire le vaisseau à l'ISS (à utiliser lorqu'il est lancé)
+		if(!this.vaisseaux.get(vaisseau).isEmpty()) { //Il y a au moins un vaisseau du type demandé
+			this.vaisseaux.get(vaisseau).remove(0); //On enlève le premier vaisseau, si liste non vide, existe toujours
 		}			
 	}
 
