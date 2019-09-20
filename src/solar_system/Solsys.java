@@ -26,6 +26,7 @@ public class Solsys {
 	private MenuVaisseau menuVaisseau;
 	private Vaisseau vaisseau;
 	private ArrayList<Vaisseau> vaisseauList;
+	private String cheatCode;
 
 	public Solsys(int nbPlanet, World world) {
 		System.out.println(nbPlanet);
@@ -52,6 +53,7 @@ public class Solsys {
 		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
 		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
+		this.cheatCode = "1000";
 	}
 
 	public void addPlanet(Planet p) {
@@ -139,6 +141,14 @@ public class Solsys {
 			for (Planet p : this.planets) {
 				p.setOwner(world.getPlayer());
 			}
+		}
+		if (c == this.cheatCode.charAt(0)) this.cheatCode = this.cheatCode.substring(1);
+		else this.cheatCode = "1000";
+		if (this.cheatCode.length() == 0) {
+			for (String res : this.world.getPlayer().getResources().keySet()) {
+				this.world.getPlayer().getResource(res).modifQuantite(1000);
+			}
+			this.cheatCode = "1000";
 		}
 	}
 

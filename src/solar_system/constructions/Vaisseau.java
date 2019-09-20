@@ -85,7 +85,7 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		x += delta*vx;
 		y += delta*vy;
 		if (this.img != null) {
-			angle = (float)(Math.atan2(vx, vx)*180/Math.PI);
+			angle = (float)(Math.atan2(vx, -vy)*180/Math.PI)-90;
 			this.img.setRotation(angle);
 		}
 	}
