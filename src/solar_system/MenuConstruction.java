@@ -125,7 +125,7 @@ public class MenuConstruction {
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		stringLength = context.getFont().getWidth("Débit(/s) : | Stock : ");
+		stringLength = context.getFont().getWidth("Débit(/s) : | Stock :   ");
 		for (Item item : listItems) {
 			item.render(container, game, context);
 		}

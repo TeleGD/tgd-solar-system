@@ -56,7 +56,7 @@ public class Item {
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = this.constr.getSprite(); //AppLoader.loadPicture("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
-		this.imageConstructSize= imageConstructSize-8;
+		this.imageConstructSize= imageConstructSize;
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
 		
 		xName = x + imageConstructSize;
@@ -64,7 +64,7 @@ public class Item {
 
 		// Définition de variables temporaires nous indiquant notre position actuelle
 		// (on se déplace pour positionner des objets uns par uns).
-		int currentX = x+imgConstruction.getWidth()+8;	// marge de 8 pixels
+		int currentX = x+imgConstruction.getWidth();	// marge de 8 pixels
 		int currentY = y;
 		
 		this.xString=currentX;
