@@ -123,7 +123,11 @@ public class Solsys {
 		this.currentKey = key;
 		if (key == Input.KEY_ENTER) {
 			if (vaisseau != null && velocity != null) {
-				this.vaisseauList.add(refPlanet.getVaisseau(vaisseau.getName()));
+				Vaisseau vt = refPlanet.getVaisseau(vaisseau.getName());
+				//TODO : Comprendre pourquoi le vaisseau obtenu par la ligne ci-dessus peut être nul
+				// (il s'agit de la seule ligne où l'on ajoute des éléments à vaisseauList, et on
+				// s'est déjà retrouvé avec un élément null en itérant sur cette liste...)
+				if (vt != null) this.vaisseauList.add(vt);
 				for (Vaisseau v : vaisseauList) {
 					if (!v.isLaunched())
 						v.launch(velocity.getX(), velocity.getY(), velocity.getNorm()*Math.cos(velocity.getAngle()), velocity.getNorm()*Math.sin(velocity.getAngle()));
