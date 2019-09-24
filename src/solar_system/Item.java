@@ -206,4 +206,8 @@ public class Item {
 		return this.constr;
 	}
 
+	public int getY(){
+		return button.getYpos();
+	}
+
 }

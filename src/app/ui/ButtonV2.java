@@ -31,4 +31,8 @@ public class ButtonV2 {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		context.drawImage(img, xpos, ypos, xpos+xsize, ypos+ysize, 0, 0, img.getWidth(), img.getHeight());
 	}
+
+	public int getYpos() {
+		return ypos;
+	}
 }

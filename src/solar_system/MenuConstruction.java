@@ -24,6 +24,8 @@ public class MenuConstruction {
 	private int x;
 	private int y;
 	private int y0; // ordonnée initiale, si jamais on doit reset la postion y
+	private int displayHeight;  // Hauteur accordée à l'affichage de MenuConstruction et ses Item
+	private int height; // Hauteur nécessaire pour afficher tout MenuConstruction
 	private ButtonV2 suppr;
 	//private Orbital orbital;
 	private boolean orbital;//vaut 1 si c'est une orbitale
@@ -36,8 +38,8 @@ public class MenuConstruction {
 		this.y0 = y;
 		this.listItems = new ArrayList<>();
 		this.suppr = null;
-		//this.orbital=orbital;
-		//this.orbital=orbital;
+		this.displayHeight = world.getHeight() - this.y0;
+		this.height = 0;
 	}
 
 	public void casePressed(Case selectedCase){
@@ -47,18 +49,19 @@ public class MenuConstruction {
 		suppr = null;
 		if (selectedCase != null) {
 			this.constructionsPossibles = selectedCase.infoConstruct();
-			int yItem = this.y;
 			Item item;
 			for (String name : constructionsPossibles) {
-				item = new Item(world, selectedCase, name, x, yItem);//orbital
+				item = new Item(world, selectedCase, name, x, this.y);//orbital
 				listItems.add(item);
-				yItem += item.getHeight();
+				this.y += item.getHeight();
 			}
 			if (selectedCase.getConstruction() != null) {
 				Image imgBoule = AppLoader.loadPicture("/images/constructions/destruction.jpeg");
-				suppr = new ButtonV2(imgBoule, x, yItem, 48, 48); //TODO: Gérer sa position en fonction des constructions (améliorations possibles)
+				suppr = new ButtonV2(imgBoule, x, this.y, 48, 48); //TODO: Gérer sa position en fonction des constructions (améliorations possibles)
 			}
 		}
+
+		this.height = this.y - this.y0;
 	}
 	
 	public int getXPos() {
@@ -88,7 +91,22 @@ public class MenuConstruction {
 	}
 
 	public void moveY(int dY) {
-		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= world.getPlayer().getyMinUI()) {
+
+		if (listItems.size() == 0){ // Traite le cas de la liste d'item vide
+			return;
+		}
+		if (this.displayHeight > this.height){  // Quand on peut afficher tout MenuConstruction sans avoir à défiler, on interdit le défilement
+			return;
+		}
+
+		if (listItems.get(0).getY() + dY > this.y0){    // Si on tente de faire descendre les Item tel que l'Item du dessus laisse un espace vide entre lui et la limite haute de MenuConstruction
+			dY = this.y0 - listItems.get(0).getY();
+		}
+		else if ( this.y + dY < this.displayHeight + this.y0) { // Si on tente de faire monter les Item tel que l'Item du dessous laisse un espace vide entre lui et la limite basse de MenuConstruction
+			dY = this.displayHeight + this.y0 - this.y;
+		}
+
+		if (Mouse.getX() >= this.x && world.getHeight()-Mouse.getY() >= world.getPlayer().getyMinUI()) {    // Vérifie que la souris est sur le menu de construction au moment du scroll
 			this.y += dY/5;
 			for (Item item : listItems) {
 				item.moveY(dY/5);
