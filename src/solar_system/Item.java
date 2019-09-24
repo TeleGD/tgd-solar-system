@@ -42,20 +42,21 @@ public class Item {
 	private boolean canConstruct;
 	private boolean ownership;
 	private String nbVaisseaux=""; //Sert à indiquer combien de vaisseaux de ce type(uniquement en cliquant sur une ISS)
+	private int buttonWidth;
 	
-	
-	public Item(World world, Case tile, String name, int x, int y) {
+	public Item(World world, Case tile, String name, int x, int y,int imageConstructSize) {
 
 		this.world = world;
 		this.tile = tile;
 		this.name = name;
 		this.constr = nameToConst(name, tile);
-		this.imageConstructSize = 150;
+		//this.imageConstructSize = 150;
 		this.canConstruct = false;
 		Image imgConstruction = null;
 		iconCostProduc = new ArrayList<>();
 		Image imageTemp = this.constr.getSprite(); //AppLoader.loadPicture("/images/constructions/"+name+".png");
 		imgConstruction = imageTemp.getScaledCopy(imageConstructSize,imageConstructSize) ; // on met toutes les images à la même taille (et carrées)
+		this.imageConstructSize= imageConstructSize-8;
 		this.button = new ButtonV2(imgConstruction, x, y, imageConstructSize, imageConstructSize);
 		
 		xName = x + imageConstructSize;

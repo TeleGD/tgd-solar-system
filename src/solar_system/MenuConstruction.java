@@ -29,6 +29,8 @@ public class MenuConstruction {
 	private ButtonV2 suppr;
 	//private Orbital orbital;
 	private boolean orbital;//vaut 1 si c'est une orbitale
+	
+	private int stringLength;//On récupère la longueur d'une chaine de caractère pour savoir quelle taille pourra faire le bouton
 
 	public MenuConstruction(World world, Planet planet, int x, int y) {//,boolean orbital
 		this.world = world;
@@ -51,7 +53,7 @@ public class MenuConstruction {
 			this.constructionsPossibles = selectedCase.infoConstruct();
 			Item item;
 			for (String name : constructionsPossibles) {
-				item = new Item(world, selectedCase, name, x, this.y);//orbital
+				item = new Item(world, selectedCase, name, x, this.y,(int)(world.getWidth()*0.2-stringLength));//orbital
 				listItems.add(item);
 				this.y += item.getHeight();
 			}
@@ -123,6 +125,7 @@ public class MenuConstruction {
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		stringLength = context.getFont().getWidth("Débit(/s) : | Stock : ");
 		for (Item item : listItems) {
 			item.render(container, game, context);
 		}
