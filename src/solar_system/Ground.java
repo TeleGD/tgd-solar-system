@@ -165,7 +165,7 @@ public class Ground {
 			for (int j = 0; j < n; j++ ) {
 				String name = resourcesNames.get(n*i+j);
 				resource = world.getPlayer().getResource(name);
-				resourceQuantity = resourceQuantity(name);
+				resourceQuantity = resource.resourceQuantity(false);
 
 				cases[i][j] = new Case(x_origin+padding+(int)(i*sizeCase*facteur_magique), y_origin+padding+(int)(j*sizeCase*facteur_magique), (int)(sizeCase*facteur_magique), resource, resourceQuantity);
 			}
@@ -213,23 +213,8 @@ public class Ground {
 		}
 		return resource;
 	}
-
-	public int resourceQuantity(String res) {
-		switch (res) {
-			case "Fer" :
-				return 500;
-			case "Bois" :
-				return 1500;
-			case "Cailloux" :
-				return 3000;
-			case "Nourriture" :
-				return 2000;
-			case "Noyau Linux" :
-				return 10;
-			default :
-				return 0;
-		}
-	}
+	
+	
 
 	public boolean mousePressed(int arg0, int x, int y) {
 		// Gère les clics sur le Ground.
