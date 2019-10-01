@@ -78,6 +78,7 @@ public class Player {
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));
 			resources.put("Cailloux",new Resource("Cailloux"));
 			resources.put("Nourriture", new Resource("Nourriture"));
+			resources.put("Noyaux Linux éduqués", new Resource("Noyaux Linux éduqués"));
 		} 
 	
 	public String resourcesToString(){

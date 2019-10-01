@@ -38,7 +38,6 @@ public class Maison extends Building{
 	public static boolean constructPossible(Case tileConstructLocation) {
 		
 		boolean bool=resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
-		System.out.println(bool);
 		return bool;
 	}
 
