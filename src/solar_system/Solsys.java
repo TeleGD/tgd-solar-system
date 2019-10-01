@@ -101,7 +101,7 @@ public class Solsys {
   			} else if (this.menuVaisseau != null && this.menuVaisseau.isPressed(x, y)) {
   				int i = this.menuVaisseau.getPressedItem(x, y);
   				if (i >= 0) this.vaisseau = this.menuVaisseau.getItem(i).getVaisseau();
-  				this.velocity = new Velocity(0.3, this.vaisseau.getV0Max(), 0);
+  				if (this.vaisseau != null) this.velocity = new Velocity(0.3, this.vaisseau.getV0Max(), 0);
   				this.menuVaisseau = null;
   			}
   		}
@@ -174,7 +174,8 @@ public class Solsys {
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		boolean colliding = false;
-		for (Planet p : planets) {
+		for (int i = planets.size()-1; i >= 0; i--) {
+			Planet p = planets.get(i);
 			float angle=p.getAngle()+(float)delta/p.getPeriode();
 			p.setAngle(angle);
 			float distance=p.getDistance();
@@ -187,6 +188,12 @@ public class Solsys {
 					v.crash(p);
 					colliding = true;
 				}
+			}
+			if (p.isDestructed()) planets.remove(i);
+			if (refPlanet != null && refPlanet.isDestructed()) {
+				refPlanet = null;
+				menuVaisseau = null;
+				velocity = null;
 			}
 		}
 		// Faire avancer chaque vaisseau et gérer la collision avec le soleil
