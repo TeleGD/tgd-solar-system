@@ -32,13 +32,8 @@ public class Air {
 		this.sizeCase = (int)(80*world.getFacteurMagique());
 		this.nbSatelite = Math.max(minSatellite, (int) (Math.random()*4));
 		//80% de chance d'avoir une station autour d'une planète autre qu'une planète mère.
-		this.nbStation = Math.max(minStation, (int) (Math.random()*100));//Générer int aléatoire.
-		if(this.nbStation>20) {
-			this.nbStation=1;
-		}
-		else {
-			this.nbStation=0;
-		}
+		this.nbStation = Math.max(minStation, (int) (0.8+Math.random()));//Générer eentre au moins min station avec 80% de chance de générer une station.
+		
 		
 		//System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
 		int nbOrbitals = this.nbSatelite+this.nbStation;

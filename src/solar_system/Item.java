@@ -23,6 +23,8 @@ import solar_system.constructions.TNCY;
 import solar_system.constructions.Vaisseau;
 import solar_system.constructions.vaisseaux.*;
 import solar_system.constructions.ISS;
+import solar_system.constructions.Immeuble;
+import solar_system.constructions.Maison;
 
 
 //TODO : Afficher le nombre de vaisseau du type DEJA construits lorsqu'on clique sur une ISS
@@ -115,6 +117,8 @@ public class Item {
 			case "Colonisator" : return new Colonisator(world.getPlayer(),world);
 			case "Missile" : return new Missile(world.getPlayer(),world);
 			case "Tesla" : return new Tesla(world.getPlayer(),world);
+			case "Maison" : return new Maison(tile,world.getPlayer());
+			case "Immeuble" : return new Immeuble(tile,world.getPlayer());
 			}
 		return null;
 	}
