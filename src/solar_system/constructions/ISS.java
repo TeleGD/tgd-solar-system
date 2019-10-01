@@ -1,21 +1,14 @@
 package solar_system.constructions;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Building;
 import solar_system.Case;
-import solar_system.Player;
 import solar_system.Construction;
-import solar_system.Resource;
+import solar_system.Player;
 import solar_system.constructions.Vaisseau;
-import solar_system.constructions.vaisseaux.Colonisator;
-import solar_system.util.Images;
 
 public class ISS extends Building {
 	
@@ -27,10 +20,10 @@ public class ISS extends Building {
 		this.life=lifeMax;
 		//this.debits.put("Nourriture", 0.02);
 		this.name = "Station intergalactique";
-		this.player=player;
-		this.cout.put("Bois", 100.0); //TODO : équilibrer le cout d'une station
-		this.cout.put("Nourriture", 500.0);
-		this.cout.put("Fer", 100.0);
+		Construction.player = player;
+		cout.put("Bois", 100.0); //TODO : équilibrer le cout d'une station
+		cout.put("Nourriture", 500.0);
+		cout.put("Fer", 100.0);
 		
 	}
 	

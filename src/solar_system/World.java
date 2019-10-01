@@ -88,6 +88,9 @@ public class World extends BasicGameState {
 		if(planetSelected == null){//Si aucune planète n'est sélectionnée
 			solsys.render(container, game, context);
 		}
+		else if (planetSelected.isDestructed()) {
+			planetSelected = null;
+		}
 		else{//Si une planète est sélectionnée, on affiche le render de son ground.
 			planetSelected.render(container, game, context);
 		}

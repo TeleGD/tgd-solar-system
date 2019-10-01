@@ -29,8 +29,8 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 		this.name="Vaisseau spatial";
 		this.lifeMax=80;
 		this.life=lifeMax;
-		this.cout.put("Fer",50.0);
-		this.cout.put("Bois",20.0);
+		cout.put("Fer",50.0);
+		cout.put("Bois",20.0);
 		this.world = world;
 		this.v0Max = 1000;
 	}

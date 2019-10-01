@@ -27,8 +27,8 @@ public class Planet {
 	private int radius2;
 	private float angle,distance,posx,posy;
 	private World world;
-	private Color color;
 	private float mass,periode;
+	private boolean destructed;
 	private String nomImage;
 	private Image image;
 	private float coeffSpeed; // Permet de résuire la vitesse de rotations des planètes
@@ -65,7 +65,6 @@ public class Planet {
 		this.periode=(float)Math.sqrt(Math.pow((double)radius, 3));
 		this.coeffSpeed = 10f;
 		periode *= coeffSpeed;
-		this.color=new Color(type*120,0,255/type);
 		posx=(float)Math.cos((double)this.angle)*this.distance;
 		posy=(float)Math.sin((double)this.angle)*this.distance;
 		Random rnd = new Random();
@@ -173,10 +172,6 @@ public class Planet {
 		return this.minResources;
 	}
 
-	public void setVelocityVector(Velocity v) {
-		System.out.println("On ajoute une vélocité !");
-	}
-
 	public void mouseWheelMoved(int change) {
 		ground.mouseWheelMoved(change);
 	}
@@ -184,7 +179,8 @@ public class Planet {
 	///A PROPOS DES VAISSEAUX APPARTENANT À LA PLANÈTE : 
 	public void initVaisseaux() { //Crée les hashMap avec tous les vaisseaux possibles dedans, initialisés à 0
 		this.vaisseaux.put("Colonisator",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
-		this.vaisseaux.put("Tesla",new ArrayList<Vaisseau>()); //Ajouter vaisseaux ici
+		this.vaisseaux.put("Missile",new ArrayList<Vaisseau>());
+		this.vaisseaux.put("Tesla",new ArrayList<Vaisseau>());
 	}
 	
 	public void addVaisseau(Vaisseau vaisseau) { //Ajoute un vaisseau de type vaisseau
@@ -212,6 +208,14 @@ public class Planet {
 		if(!this.vaisseaux.get(vaisseau).isEmpty()) { //Il y a au moins un vaisseau du type demandé
 			this.vaisseaux.get(vaisseau).remove(0); //On enlève le premier vaisseau, si liste non vide, existe toujours
 		}			
+	}
+	
+	public void destruct() {
+		this.destructed = true;
+	}
+	
+	public boolean isDestructed() {
+		return this.destructed;
 	}
 
 }

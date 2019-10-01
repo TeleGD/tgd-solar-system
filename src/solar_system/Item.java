@@ -115,6 +115,7 @@ public class Item {
 			case "CabaneBucheron" : return new CabaneBucheron(tile, world.getPlayer());
 			case "ISS" : return new ISS(tile, world.getPlayer());
 			case "Colonisator" : return new Colonisator(world.getPlayer(),world);
+			case "Missile" : return new Missile(world.getPlayer(),world);
 			case "Tesla" : return new Tesla(world.getPlayer(),world);
 			case "Maison" : return new Maison(tile,world.getPlayer());
 			case "Immeuble" : return new Immeuble(tile,world.getPlayer());
