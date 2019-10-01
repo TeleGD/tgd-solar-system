@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Velocity {
 	private double norm; // Vitesse représentée
+	private double maxNorm;	// Norme de vitesse maximale
 	private double angle;
 	private int x; // Origine du vecteur
 	private int y;
@@ -22,8 +23,9 @@ public class Velocity {
 	private float deltaDash;  // Permet de mettre les tirets de la flèche du vecteur en mouvement
 	private int len;	// Longueur des tirets de la flèche (en pixels)
 	
-	public Velocity(double norm, double angle) {
+	public Velocity(double norm, double maxNorm, double angle) {
 		this.norm = norm;
+		this.maxNorm = maxNorm;
 		this.angle = angle;
 		this.len = 16;
 	}
@@ -34,6 +36,10 @@ public class Velocity {
 	}
 	
 	public void setVelocity(double norm, double angle) {
+		// Réduction de la norme si elle dépasse la valeur max
+		if (norm > maxNorm) norm = maxNorm;
+		// On la fixe à 0 si elle est négative
+		if (norm < 0) norm = 0;
 		this.norm = norm;
 		this.angle = angle;
 	}

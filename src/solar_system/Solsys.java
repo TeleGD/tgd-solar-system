@@ -101,7 +101,7 @@ public class Solsys {
   			} else if (this.menuVaisseau != null && this.menuVaisseau.isPressed(x, y)) {
   				int i = this.menuVaisseau.getPressedItem(x, y);
   				if (i >= 0) this.vaisseau = this.menuVaisseau.getItem(i).getVaisseau();
-  				this.velocity = new Velocity(0.3, 0);
+  				this.velocity = new Velocity(0.3, this.vaisseau.getV0Max(), 0);
   				this.menuVaisseau = null;
   			}
   		}
@@ -183,10 +183,8 @@ public class Solsys {
 			p.update(container, game, delta);
 			// Collision du vaisseau avec la planète
 			for (Vaisseau v : vaisseauList) {
-				double distance2 = Math.pow(v.getX()-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(v.getY()-(p.getPosY()+world.getHeight()/2), 2);
-				if (distance2 < Math.pow(p.getRadius(), 2)) {
-					v.crash();
-					if (v.hasLeft()) p.setOwner(this.world.getPlayer());
+				if (v.getDistance(p) < p.getRadius()) {
+					v.crash(p);
 					colliding = true;
 				}
 			}
@@ -196,7 +194,7 @@ public class Solsys {
 			if (!colliding && !v.hasLeft()) v.left();
 			double distance2 = Math.pow(v.getX()-world.getWidth()/2, 2)+ Math.pow(v.getY()-world.getHeight()/2, 2);
 			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
-				v.crash();
+				v.crash(null);
 			}
 			v.update(container, game, delta);
 		}

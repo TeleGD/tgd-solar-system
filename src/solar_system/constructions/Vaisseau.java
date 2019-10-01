@@ -1,27 +1,28 @@
 package solar_system.constructions;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import solar_system.Construction;
+import solar_system.Planet;
 import solar_system.Player;
 import solar_system.World;
 
-public class Vaisseau extends Construction{// TODO : A mettre en abstract quand on enverra les vaisseaux construits 
+public abstract class Vaisseau extends Construction{// TODO : A mettre en abstract quand on enverra les vaisseaux construits 
 	
-	private double x;
-	private double y;
-	private double vx;
-	private double vy;
-	private float angle;
-	private boolean launched;
-	private boolean hasLeft;
-	private boolean crashed;
-	private World world;
-	private Image img;
+	protected double x;
+	protected double y;
+	protected double vx;
+	protected double vy;
+	protected double v0Max;
+	protected float angle;
+	protected boolean launched;
+	protected boolean hasLeft;
+	protected boolean crashed;
+	protected World world;
+	protected Image img;
 	
 	public Vaisseau(Player player, World world){
 		super(player) ;
@@ -31,6 +32,7 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		this.cout.put("Fer",50.0);
 		this.cout.put("Bois",20.0);
 		this.world = world;
+		this.v0Max = 1000;
 	}
 	
 	public void launch(int x0, int y0, double vx0, double vy0) {
@@ -72,8 +74,18 @@ public class Vaisseau extends Construction{// TODO : A mettre en abstract quand 
 		return this.crashed;
 	}
 	
-	public void crash() {
+	public void crash(Planet p) {
 		if (hasLeft) this.crashed = true;
+	}
+	
+	// Distance en pixels
+	public double getDistance(Planet p) {
+		double distance2 = Math.pow(x-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(y-(p.getPosY()+world.getHeight()/2), 2);
+		return Math.sqrt(distance2);
+	}
+	
+	public double getV0Max() {
+		return this.v0Max;
 	}
 	
 	public void nextOrbitalPosition(int delta) {
