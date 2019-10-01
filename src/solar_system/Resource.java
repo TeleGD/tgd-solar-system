@@ -1,5 +1,7 @@
 package solar_system;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -74,5 +76,45 @@ public class Resource {
 			//case "Noyaux Linux": path = "/resources/";
 		}
 		return path;
+	}
+	
+	//TODO : Equilibrage (Ressources par cases)
+	public int resourceQuantity(boolean satellite) {
+		double min=0;
+		double fact=0;
+		switch (this.name) {
+			case "Fer" :
+				min=300;
+				fact=100;
+				break;
+				//return 500;
+			case "Bois" :
+				min=800;
+				fact=80;
+				break;
+				//return 1500;
+			case "Cailloux" :
+				min=0;
+				fact=0;
+				break;
+				//return 0;
+			case "Nourriture" :
+				min=1000;
+				fact=200;
+				break;
+				//return 2000;
+			case "Noyau Linux" :
+				min=40;
+				fact=5;
+				break;
+				//return 10;
+			default :
+				//return 0;
+		}
+		if (satellite) {
+			min = min*0.2;
+			fact *= 2.5;
+		}
+		return (int)(min+fact*ThreadLocalRandom.current().nextInt(0, 10));
 	}
 }

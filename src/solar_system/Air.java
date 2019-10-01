@@ -31,13 +31,21 @@ public class Air {
 		this.world = world;
 		this.sizeCase = (int)(80*world.getFacteurMagique());
 		this.nbSatelite = Math.max(minSatellite, (int) (Math.random()*4));
-		this.nbStation = Math.max(minStation, (int) (Math.random()*3));//Générer int aléatoire.
+		//80% de chance d'avoir une station autour d'une planète autre qu'une planète mère.
+		this.nbStation = Math.max(minStation, (int) (Math.random()*100));//Générer int aléatoire.
+		if(this.nbStation>20) {
+			this.nbStation=1;
+		}
+		else {
+			this.nbStation=0;
+		}
+		
 		//System.out.println("Decompte :\n"+nbSatelite+"\n"+nbStation+"\n");
 		int nbOrbitals = this.nbSatelite+this.nbStation;
 		Resource resource;
 		for(int i=0;i<this.nbSatelite;i++){
 			resource = world.getPlayer().getResource(planet.getGround().randomResourceName());//On génère le nom d'une ressource aléatoirement.
-			int rand = ThreadLocalRandom.current().nextInt(1, 20)*50;
+			int rand = resource.resourceQuantity(true);
 			orbitals.add(new Satellite(20,0,(float)(Math.PI*i*2/nbOrbitals), 50,(int)(5.0/4*radius),resource,rand,this.world,this));
 			//System.out.println(planet.getGround().randomResourceName());
 //			orbitals.get(i).getCase().setResource(resource2);//Ona ajoute cette ressource sur le satelliite qu'on vient de créer.
