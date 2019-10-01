@@ -19,6 +19,7 @@ import solar_system.constructions.Ferme;
 import solar_system.constructions.Scierie;
 import solar_system.constructions.CabaneBucheron;
 import solar_system.constructions.ISS;
+import solar_system.constructions.Maison;
 
 public class Case {
 	private Resource resource;
@@ -155,9 +156,15 @@ public class Case {
 				if(TNCY.constructPossible(this)){
 					construPossible.add("TNCY");
 				}
+				if(Maison.constructPossible(this)){
+					construPossible.add("Maison");
+				}
 			} else {
 				if (construction instanceof Mine) {
 					construPossible.add("Mine2");
+				}
+				if(construction instanceof Maison){
+					construPossible.add("Immeuble");
 				}
 			}
 
