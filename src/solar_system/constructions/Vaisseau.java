@@ -5,10 +5,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.util.ArrayList;
+
 import solar_system.Construction;
 import solar_system.Planet;
 import solar_system.Player;
 import solar_system.World;
+import solar_system.constructions.vaisseaux.*;
 
 public abstract class Vaisseau extends Construction{// TODO : A mettre en abstract quand on enverra les vaisseaux construits 
 	
@@ -20,9 +23,11 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	protected float angle;
 	protected boolean launched;
 	protected boolean hasLeft;
+	protected boolean splitted;
 	protected boolean crashed;
 	protected World world;
 	protected Image img;
+	protected ArrayList<Debris> debris;
 	
 	public Vaisseau(Player player, World world){
 		super(player) ;
@@ -33,6 +38,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 		cout.put("Bois",20.0);
 		this.world = world;
 		this.v0Max = 1000;
+		this.debris = new ArrayList<>();
 	}
 	
 	public void launch(int x0, int y0, double vx0, double vy0) {
@@ -60,6 +66,19 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	
 	public int getY() {
 		return (int)this.y;
+	}
+	
+	public void setImage(Image img) {
+		this.img = img;
+		this.img.setCenterOfRotation(img.getWidth()/2, img.getHeight()/2);
+	}
+	
+	public int size() {
+		return this.img.getWidth();
+	}
+	
+	public void setSize(int width) {
+		this.img = this.img.getScaledCopy(width, width);
 	}
 	
 	public boolean hasLeft() {
@@ -100,6 +119,26 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 			angle = (float)(Math.atan2(vx, -vy)*180/Math.PI)-90;
 			this.img.setRotation(angle);
 		}
+	}
+	
+	public void split(int n) {
+		if (!splitted) {
+			double x = this.img.getWidth()*1d/n;
+			double y = this.img.getHeight()*1d/n;
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					Debris d = new Debris(player, world);
+					d.launch((int)this.x, (int)this.y, vx+Math.random()-0.5, vy+Math.random()-0.5);
+					d.setImage(this.img.getSubImage((int)(i*x), (int)(j*y), (int)x, (int)y));
+					debris.add(d);
+				}
+			}
+			splitted = true;
+		}
+	}
+	
+	public ArrayList<Debris> getDebris() {
+		return debris;
 	}
 	
 	public void update (GameContainer container, StateBasedGame game, int delta) {

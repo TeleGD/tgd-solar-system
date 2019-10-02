@@ -146,6 +146,17 @@ public class Solsys {
 				p.setOwner(world.getPlayer());
 			}
 		}
+		else if (key == Input.KEY_D) {
+			System.out.println("D ! "+vaisseauList.size());
+			if (!vaisseauList.isEmpty()) {
+				Vaisseau v = vaisseauList.get(vaisseauList.size()-1);
+				v.split(4);
+				for (Vaisseau d : v.getDebris()) {
+					vaisseauList.add(d);
+				}
+				v.crash(null);
+			}
+		}
 		if (c == this.cheatCode.charAt(0)) this.cheatCode = this.cheatCode.substring(1);
 		else this.cheatCode = "1000";
 		if (this.cheatCode.length() == 0) {
