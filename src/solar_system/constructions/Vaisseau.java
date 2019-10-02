@@ -73,7 +73,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 		this.img.setCenterOfRotation(img.getWidth()/2, img.getHeight()/2);
 	}
 	
-	public int size() {
+	public int getSize() {
 		return this.img.getWidth();
 	}
 	
@@ -149,7 +149,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		if (!crashed && launched && img != null) {
-			context.drawImage(img, (float)x, (float)y);
+			context.drawImage(img, (float)x-img.getWidth()/2, (float)y-img.getHeight()/2);
 		}
 	}
 

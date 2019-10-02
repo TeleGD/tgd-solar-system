@@ -146,11 +146,11 @@ public class Solsys {
 				p.setOwner(world.getPlayer());
 			}
 		}
+		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\
 		else if (key == Input.KEY_D) {
-			System.out.println("D ! "+vaisseauList.size());
 			if (!vaisseauList.isEmpty()) {
 				Vaisseau v = vaisseauList.get(vaisseauList.size()-1);
-				v.split(4);
+				v.split(3);
 				for (Vaisseau d : v.getDebris()) {
 					vaisseauList.add(d);
 				}
@@ -195,7 +195,11 @@ public class Solsys {
 			p.update(container, game, delta);
 			// Collision du vaisseau avec la planète
 			for (Vaisseau v : vaisseauList) {
-				if (v.getDistance(p) < p.getRadius()) {
+				// Le -v.getSize()/4 permet de détecter une collision non pas quand le centre du vaisseau arrive
+				// sur la planète (autrement dit si le centre du vaisseau et le centre de la planètes sont distancés
+				// de moins du rayon de la planète), mais plutôt quand environ un quart du vaisseau commence à entrer
+				// dans la planète.
+				if (v.getDistance(p)-v.getSize()/4 < p.getRadius()) {
 					v.crash(p);
 					colliding = true;
 				}
