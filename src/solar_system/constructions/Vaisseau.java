@@ -134,6 +134,8 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 				}
 			}
 			splitted = true;
+			hasLeft = true;
+			crashed = true;
 		}
 	}
 	

@@ -154,7 +154,6 @@ public class Solsys {
 				for (Vaisseau d : v.getDebris()) {
 					vaisseauList.add(d);
 				}
-				v.crash(null);
 			}
 		}
 		if (c == this.cheatCode.charAt(0)) this.cheatCode = this.cheatCode.substring(1);
