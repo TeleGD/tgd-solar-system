@@ -38,24 +38,52 @@ public class Player {
 	
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
+		int nbRes=0;//Compteur des ressources(sans les cailloux)
+		int chaineWidth=0;//la longueur toutale de la chaine de caractère et des images
+		String str;
+		String str2;
+		int esp;//Espaces entre chaque ressource affichée
+		int chaineHeight;//Hauteur d'une chaine de caractère
+		int posY;//Emplacement du texte en hauteur(coin en bas à gauche)
+		int yMinUI;//Hauteur du rectangle noir sous le menu
 		
-		int size;
-		int comp=0;
-		size=resources.size()+1;//taille du hashmap
+		chaineHeight=context.getFont().getHeight("AZETYUIOPMLKJHGFDSQWXCVBN");
+		posY=world.getHeight()/50+20-chaineHeight/2;
+		
 		context.setColor(Color.black);
+		yMinUI=world.getHeight()/50+40;
 		context.fillRect(0, 0,world.getWidth(),yMinUI);
+		
+		
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
-			context.setColor(Color.white);
-			//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
-			context.drawString(resource.getKey()+" : "+(int)resource.getValue().getQuantite(), 50 + world.getWidth()*comp/size, world.getHeight()/40);
-			// affichage de l'image de la ressource "scaled"
-			context.drawImage(resource.getValue().getImageOnUI().getScaledCopy(40,40),world.getWidth()*comp/size,world.getHeight()/50);
-			comp+=1;
+
+			if(resource.getKey()!="Cailloux") {
+				nbRes++;
+				str=resource.getKey()+" : 10000";//+(int)(resource.getValue().getQuantite());
+				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
+				chaineWidth+=40;//On ajoute la largeur d'une image.
+			}
 		}
-		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
-		if(world.getDispRessources()){
-			context.drawString(resourcesToString(),world.getWidth()*size/(size+1) , world.getHeight()/20);
+		esp=(int)((world.getWidth()-chaineWidth)/(nbRes-1));//Espace entre deux ressources
+		context.setColor(Color.white);
+		chaineWidth=0;
+		for(Map.Entry<String , Resource> resource: resources.entrySet()){
+			if(resource.getKey()!="Cailloux") {
+				str=resource.getKey()+" : 10000";
+				str2=resource.getKey()+" : "+(int)(resource.getValue().getQuantite());
+				context.drawImage(resource.getValue().getImageOnUI().getScaledCopy(40,40),chaineWidth,world.getHeight()/50);//On affiche l'image
+				chaineWidth+=40;//On ajoute la largeur d'une image.
+				context.drawString(str2,chaineWidth,posY);
+				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
+				chaineWidth+=esp;
+				
+			}
 		}
+		
+//		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
+//		if(world.getDispRessources()){
+//			context.drawString(resourcesToString(),world.getWidth()*size/(size+1) , world.getHeight()/20);
+//		}
 		
 	}
 	
@@ -74,11 +102,13 @@ public class Player {
 	public void initRessources(){
 		
 			resources.put("Bois",new Resource("Bois"));
+			resources.put("Nourriture", new Resource("Nourriture"));
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyau Linux", new Resource("Noyau Linux"));
-			resources.put("Cailloux",new Resource("Cailloux"));
-			resources.put("Nourriture", new Resource("Nourriture"));
 			resources.put("Noyaux Linux éduqués", new Resource("Noyaux Linux éduqués"));
+			resources.put("Cailloux",new Resource("Cailloux"));
+			
+			
 		} 
 	
 	public String resourcesToString(){

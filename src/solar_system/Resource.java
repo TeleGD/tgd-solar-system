@@ -21,6 +21,15 @@ public class Resource {
 			quantite = 100;
 			imageOnPlanet = AppLoader.loadPicture("/images/resources/foret.png");
 		}
+		else if (name == "Noyau Linux") {
+			quantite = 0;
+			imageOnPlanet = AppLoader.loadPicture("/images/resources/noyo_raw.png");
+			imageOnUI = AppLoader.loadPicture("/images/resources/noyo_raw.png");
+		}
+		else if (name == "Noyaux Linux éduqués") {
+			quantite = 0;
+			imageOnUI = AppLoader.loadPicture("/images/resources/noyo.png");
+		}
 		else {
 			imageOnPlanet = AppLoader.loadPicture(imagePath(name));
 		}
@@ -71,7 +80,9 @@ public class Resource {
 				break;
 			case "Nourriture": path = "/images/resources/Nourriture.png";
 			break;
-			case "Noyau Linux": path = "/images/resources/noyo.png";
+			case "Noyau Linux": path = "/images/resources/noyo_raw.png";
+			break;
+			case "Noyaux Linux éduqués" : path = "/images/resources/noyo.png";
 			break;
 			default : path = "/images/resources/cailloux.png";
 			//case "Noyaux Linux": path = "/resources/";
