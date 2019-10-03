@@ -211,11 +211,25 @@ public class Solsys {
 			}
 		}
 		// Faire avancer chaque vaisseau et gérer la collision avec le soleil
-		for (Vaisseau v : vaisseauList) {
+		for (int i = 0; i < vaisseauList.size(); i++) {
+			Vaisseau v = vaisseauList.get(i);
 			if (!colliding && !v.hasLeft()) v.left();
 			double distance2 = Math.pow(v.getX()-world.getWidth()/2, 2)+ Math.pow(v.getY()-world.getHeight()/2, 2);
 			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
 				v.crash(null);
+			}
+			// Gestion des crashs avec les autres vaisseaux
+			for (int j = 0; j < i; j++) {
+				Vaisseau v2 = vaisseauList.get(j);
+				/* On vérifie au préalable que le vaisseau v2 n'est pas déjà crashé et que sa taille
+				 * est supérieure à 12 pixels (puisque le vaisseau est subdivisé en "sous-vaisseaux" à
+				 * chaque collision, on arrête les subdivisions lorsque le vaisseau est trop petit) */
+				if (!v2.hasCrashed() && v2.getSize() > 12 && v.getDistance(v2) < (v.getSize()+v2.getSize())/2) {
+					v.split(2);
+					v2.split(2);
+					vaisseauList.addAll(v.getDebris());
+					vaisseauList.addAll(v2.getDebris());
+				}
 			}
 			v.update(container, game, delta);
 		}

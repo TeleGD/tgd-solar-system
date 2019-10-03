@@ -99,7 +99,12 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	
 	// Distance en pixels
 	public double getDistance(Planet p) {
-		double distance2 = Math.pow(x-(p.getPosX()+world.getWidth()/2), 2)+ Math.pow(y-(p.getPosY()+world.getHeight()/2), 2);
+		double distance2 = Math.pow(x-(p.getPosX()+world.getWidth()/2), 2) + Math.pow(y-(p.getPosY()+world.getHeight()/2), 2);
+		return Math.sqrt(distance2);
+	}
+	
+	public double getDistance(Vaisseau v) {
+		double distance2 = Math.pow(this.x-v.getX(), 2) + Math.pow(this.y-v.getY(), 2);
 		return Math.sqrt(distance2);
 	}
 	
@@ -128,7 +133,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					Debris d = new Debris(player, world);
-					d.launch((int)this.x, (int)this.y, vx+Math.random()-0.5, vy+Math.random()-0.5);
+					d.launch((int)(this.x+i*x), (int)(this.y+j*y), vx+Math.random()-0.5, vy+Math.random()-0.5);
 					d.setImage(this.img.getSubImage((int)(i*x), (int)(j*y), (int)x, (int)y));
 					debris.add(d);
 				}
