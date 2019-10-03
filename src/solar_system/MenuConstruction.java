@@ -126,6 +126,7 @@ public class MenuConstruction {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		stringLength = context.getFont().getWidth("Débit(/s) : | Stock :   ");
+		//MenuConstruction connait selectedCase
 		for (Item item : listItems) {
 			item.render(container, game, context);
 		}

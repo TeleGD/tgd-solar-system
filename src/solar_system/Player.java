@@ -41,6 +41,7 @@ public class Player {
 		int nbRes=0;//Compteur des ressources(sans les cailloux)
 		int chaineWidth=0;//la longueur toutale de la chaine de caractère et des images
 		String str;
+		String str2;
 		int esp;//Espaces entre chaque ressource affichée
 		int chaineHeight;//Hauteur d'une chaine de caractère
 		int posY;//Emplacement du texte en hauteur(coin en bas à gauche)
@@ -55,9 +56,10 @@ public class Player {
 		
 		
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
+
 			if(resource.getKey()!="Cailloux") {
 				nbRes++;
-				str=resource.getKey()+" : "+(int)(resource.getValue().getQuantite());
+				str=resource.getKey()+" : 10000";//+(int)(resource.getValue().getQuantite());
 				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
 				chaineWidth+=40;//On ajoute la largeur d'une image.
 			}
@@ -67,10 +69,11 @@ public class Player {
 		chaineWidth=0;
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 			if(resource.getKey()!="Cailloux") {
-				str=resource.getKey()+" : "+(int)(resource.getValue().getQuantite());
+				str=resource.getKey()+" : 10000";
+				str2=resource.getKey()+" : "+(int)(resource.getValue().getQuantite());
 				context.drawImage(resource.getValue().getImageOnUI().getScaledCopy(40,40),chaineWidth,world.getHeight()/50);//On affiche l'image
 				chaineWidth+=40;//On ajoute la largeur d'une image.
-				context.drawString(str,chaineWidth,posY);
+				context.drawString(str2,chaineWidth,posY);
 				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
 				chaineWidth+=esp;
 				
