@@ -1,19 +1,14 @@
 package solar_system;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import app.AppLoader;
-
 import solar_system.constructions.Mine;
-import solar_system.constructions.Mine2;
 import solar_system.constructions.TNCY;
 import solar_system.constructions.Ferme;
 import solar_system.constructions.Scierie;
@@ -72,7 +67,7 @@ public class Case {
 		if (this.resource==null){
 			this.backgroundImg = null;
 		} else {
-			this.backgroundImg = resource.getImage().copy();
+			this.backgroundImg = resource.getImageOnPlanet().copy();
 		}
 	}
 
