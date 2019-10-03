@@ -26,6 +26,7 @@ public class Solsys {
 	private MenuVaisseau menuVaisseau;
 	private Vaisseau vaisseau;
 	private ArrayList<Vaisseau> vaisseauList;
+	private ArrayList<Explosion> explosions;
 	private String cheatCode;
 
 	public Solsys(int nbPlanet, World world) {
@@ -33,6 +34,7 @@ public class Solsys {
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.vaisseauList = new ArrayList<Vaisseau>();
+		this.explosions = new ArrayList<Explosion>();
 		this.world = world;
 		//  addPlanet(new Planet(9,0,0,75,"des",world));  Permet d'ajouter une planète à la place du Soleil
 		for(int k=0; k<nbPlanet-1; k++ ) {
@@ -177,6 +179,9 @@ public class Solsys {
 		}
 		//planets.get(0).render(container, game, context);
 		for (Vaisseau v : vaisseauList) v.render(container, game, context);
+		for (Explosion explosion: explosions) {
+			explosion.render(container, game, context);
+		}
 		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		if (this.velocity != null) this.velocity.render(container, game, context);
 		if (this.menuVaisseau != null) this.menuVaisseau.render(container, game, context);
@@ -204,8 +209,11 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
+				Explosion explosion = new Explosion(world.getFacteurMagique(), "/images/animations/explosion_circle.png", p.getRadius()*2, p.getRadius()*2, 256, 128, (int) p.getPosX() + +world.getWidth()/2-p.getRadius(), (int) p.getPosY() + +world.getHeight()/2-p.getRadius(), 3, 4, 0);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
+				// Explosion de la planète :
+				explosions.add(explosion);
 			}
 			if (refPlanet != null && refPlanet.isDestructed()) {
 				refPlanet = null;
