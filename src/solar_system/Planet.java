@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import app.AppLoader;
 import solar_system.constructions.Vaisseau;
+import solar_system.constructions.vaisseaux.Debris;
 import solar_system.util.Images;
 
 public class Planet {
@@ -37,6 +38,7 @@ public class Planet {
 	private List<Orbital> orbitals;
 	private Player owner;
 	private HashMap <String,ArrayList<Vaisseau>> vaisseaux;
+	private ArrayList<Debris> debris;
 	
 	
 	// ArrayList<HashMap<String, Integer>> resourcesMin, 
@@ -77,6 +79,7 @@ public class Planet {
 		this.air = new Air(5,(int)(5.0/4)*radius2, minSatellite, minStation, world, this);
 		this.orbitals = air.getOrbitals();
 		this.vaisseaux = new HashMap<String,ArrayList<Vaisseau>>();//vaisseaux est la hashmap contenant la liste des vaisseaux associée à leur quantité dans l'ISS
+		this.debris = new ArrayList<>();
 		initVaisseaux();
 	}
 
@@ -210,12 +213,28 @@ public class Planet {
 		}			
 	}
 	
-	public void destruct() {
+	public void destruct(int n) {
+		if (!destructed) {
+			double x = this.image.getWidth()*1d/n;
+			double y = this.image.getHeight()*1d/n;
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
+					Debris d = new Debris(owner, world);
+					d.launch((int)(posx+world.getWidth()/2+i*1.1*x), (int)(posy+world.getHeight()/2+j*1.1*y), Math.random()-0.5, Math.random()-0.5);
+					d.setImage(this.image.getSubImage((int)(i*x), (int)(j*y), (int)x, (int)y));
+					debris.add(d);
+				}
+			}
+		}
 		this.destructed = true;
 	}
 	
 	public boolean isDestructed() {
 		return this.destructed;
+	}
+	
+	public ArrayList<Debris> getDebris() {
+		return this.debris;
 	}
 
 }

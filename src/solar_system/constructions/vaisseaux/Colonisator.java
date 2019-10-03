@@ -11,7 +11,7 @@ public class Colonisator extends Vaisseau{
 	public Colonisator(Player player, World world) {
 		super(player,world);
 		this.name = "Colonisator";
-		this.sprite = AppLoader.loadPicture("/images/constructions/Vaisseau.png");
+		this.sprite = AppLoader.loadPicture("/images/constructions/vseau.png");
 		this.v0Max = 0.35;
 	}
 	

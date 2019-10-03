@@ -203,7 +203,10 @@ public class Solsys {
 					colliding = true;
 				}
 			}
-			if (p.isDestructed()) planets.remove(i);
+			if (p.isDestructed()) {
+				planets.remove(i);
+				vaisseauList.addAll(p.getDebris());
+			}
 			if (refPlanet != null && refPlanet.isDestructed()) {
 				refPlanet = null;
 				menuVaisseau = null;
@@ -224,7 +227,7 @@ public class Solsys {
 				/* On vérifie au préalable que le vaisseau v2 n'est pas déjà crashé et que sa taille
 				 * est supérieure à 12 pixels (puisque le vaisseau est subdivisé en "sous-vaisseaux" à
 				 * chaque collision, on arrête les subdivisions lorsque le vaisseau est trop petit) */
-				if (!v2.hasCrashed() && v2.getSize() > 12 && v.getDistance(v2) < (v.getSize()+v2.getSize())/2) {
+				if (!v2.hasCrashed() && v2.getSize() > 16 && v.getDistance(v2) < (v.getSize()+v2.getSize())/2) {
 					v.split(2);
 					v2.split(2);
 					vaisseauList.addAll(v.getDebris());
