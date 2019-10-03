@@ -3,7 +3,6 @@ package solar_system;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import app.AppLoader;
 
@@ -11,7 +10,8 @@ public class Resource {
 
 	private String name;
 	private double quantite;
-	private Image image;
+	private Image imageOnPlanet;
+	private Image imageOnUI;
 
 	public Resource(String name) {
 		this.name=name;
@@ -19,19 +19,21 @@ public class Resource {
 
 		if (name == "Bois") {
 			quantite = 100;
-			image = AppLoader.loadPicture("/images/resources/foret.png");
+			imageOnPlanet = AppLoader.loadPicture("/images/resources/foret.png");
 		}
-		if (name == "Noyau Linux") {
-			quantite = 100;
-			image = AppLoader.loadPicture("/images/resources/noyo_raw.png");
+		else if (name == "Noyau Linux") {
+			quantite = 0;
+			imageOnPlanet = AppLoader.loadPicture("/images/resources/noyo_raw.png");
+			imageOnUI = AppLoader.loadPicture("/images/resources/noyo_raw.png");
 		}
-		if (name == "Noyaux Linux éduqués") {
-			quantite = 100;
-			image = AppLoader.loadPicture("/images/resources/noyo.png");
+		else if (name == "Noyaux Linux éduqués") {
+			quantite = 0;
+			imageOnUI = AppLoader.loadPicture("/images/resources/noyo.png");
 		}
 		else {
-			image = AppLoader.loadPicture(imagePath(name));
+			imageOnPlanet = AppLoader.loadPicture(imagePath(name));
 		}
+		imageOnUI = AppLoader.loadPicture(imagePath(name));
 	}
 
 	public boolean modifQuantite (double qtite) {
@@ -55,12 +57,12 @@ public class Resource {
 		return quantite;
 	}
 
-	public Image getImage () {
-		return image;
+	public Image getImageOnPlanet() {
+		return imageOnPlanet;
 	}
 	
 	public void setAlpha(float alpha) {
-		this.image.setAlpha(alpha);
+		this.imageOnPlanet.setAlpha(alpha);
 	}
 
 	public void render() {
@@ -81,6 +83,7 @@ public class Resource {
 			case "Noyau Linux": path = "/images/resources/noyo_raw.png";
 			break;
 			case "Noyaux Linux éduqués" : path = "/images/resources/noyo.png";
+			break;
 			default : path = "/images/resources/cailloux.png";
 			//case "Noyaux Linux": path = "/resources/";
 		}
@@ -125,5 +128,9 @@ public class Resource {
 			fact *= 2.5;
 		}
 		return (int)(min+fact*ThreadLocalRandom.current().nextInt(0, 10));
+	}
+
+	public Image getImageOnUI() {
+		return imageOnUI;
 	}
 }

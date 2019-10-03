@@ -68,7 +68,7 @@ public class Player {
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 			if(resource.getKey()!="Cailloux") {
 				str=resource.getKey()+" : "+(int)(resource.getValue().getQuantite());
-				context.drawImage(resource.getValue().getImage().getScaledCopy(40,40),chaineWidth,world.getHeight()/50);//On affiche l'image
+				context.drawImage(resource.getValue().getImageOnUI().getScaledCopy(40,40),chaineWidth,world.getHeight()/50);//On affiche l'image
 				chaineWidth+=40;//On ajoute la largeur d'une image.
 				context.drawString(str,chaineWidth,posY);
 				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
