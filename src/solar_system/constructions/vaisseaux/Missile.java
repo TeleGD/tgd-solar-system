@@ -18,7 +18,10 @@ public class Missile extends Vaisseau{
 	public void crash(Planet p) {
 		if (this.hasLeft) {
 			this.crashed = true;
-			if (p != null) p.destruct();
+			if (p != null) {
+				p.destruct(2);
+				this.split(2);
+			}
 		}
 	}
 }
