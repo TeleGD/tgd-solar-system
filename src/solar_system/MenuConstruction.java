@@ -126,11 +126,18 @@ public class MenuConstruction {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		stringLength = context.getFont().getWidth("Débit(/s) : | Stock :   ");
-		//MenuConstruction connait selectedCase
+		if(this.selectedCase!=null) {
+			if(this.selectedCase.getConstruction()!=null) {//Si il y a une construction sur la case
+				context.setColor(Color.white);//On affiche les stocks encore présents sur la case
+				context.drawString("Stock : "+(int)(this.selectedCase.getResourceQuantity()),x,y);
+			}
+		}
+		
 		for (Item item : listItems) {
 			item.render(container, game, context);
 		}
 		if (suppr != null) {
+			this.suppr.setYpos(y+4+context.getFont().getHeight("Stock"));
 			suppr.render(container, game, context);
 		}
 	}

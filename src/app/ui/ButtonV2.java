@@ -35,4 +35,9 @@ public class ButtonV2 {
 	public int getYpos() {
 		return ypos;
 	}
+	
+	public void setYpos(int y) {
+		ypos=y;
+	}
+	
 }
