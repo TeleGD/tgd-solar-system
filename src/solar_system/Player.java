@@ -49,7 +49,7 @@ public class Player {
 			//Essai d'affichage des ressources :reste à miodif l'emplacement de chaque(pas 399,10));
 			context.drawString(resource.getKey()+" : "+(int)resource.getValue().getQuantite(), 50 + world.getWidth()*comp/size, world.getHeight()/40);
 			// affichage de l'image de la ressource "scaled"
-			context.drawImage(resource.getValue().getImage().getScaledCopy(40,40),world.getWidth()*comp/size,world.getHeight()/50);
+			context.drawImage(resource.getValue().getImageOnUI().getScaledCopy(40,40),world.getWidth()*comp/size,world.getHeight()/50);
 			comp+=1;
 		}
 		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
