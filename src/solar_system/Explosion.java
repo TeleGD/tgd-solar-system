@@ -13,8 +13,10 @@ public class Explosion {
 	private int spriteWidth;
 	private int spriteHeight;
 	protected boolean side; // true : Regarde vers la droite, false : Regarde vers la gauche
-	private int frameDuration = 200;
-
+	private int frameDuration;
+	private Solsys solsys;
+	private int duration;
+	private double correctionRatio = 1.5;  // Facteur multiplicatif de correction de la taille de l'affichage du sprite de l'explosion
 
 	/**
 	 * @param aspectRatio
@@ -26,13 +28,18 @@ public class Explosion {
 	 * @param x
 	 * @param y
 	 * @param nbFramesOnX
+	 * @param duration durée de l'explosion en milisecondes
 	 */
-	public Explosion(float aspectRatio, String spritePath, int spriteWidth, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad){
+	public Explosion(Solsys solsys, float aspectRatio, String spritePath, int spriteWidth, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration){
 		this.aspectRatio = aspectRatio;
-		this.spriteWidth = spriteWidth;
-		this.spriteHeight = spriteHeight;
+		this.spriteWidth = (int) (spriteWidth * correctionRatio);
+		this.spriteHeight = (int) (spriteHeight * correctionRatio);
 		this.x = x;
 		this.y = y;
+		this.solsys = solsys;
+		this.duration = duration;
+
+		this.frameDuration = this.duration / (nbFramesOnX * nbFramesOnY);
 
 		// Chargements des sprites dans les animations :
 		SpriteSheet spriteSheet = null;
@@ -42,10 +49,17 @@ public class Explosion {
 		animation = new Animation();
 
 		if (nbFramesOnY == 1) {
-			loadAnimation(spriteSheet,0, nbFramesOnX-1, animLineToLoad);
+			loadAnimation(spriteSheet,0, nbFramesOnX, animLineToLoad);
 		}
 		else {
-			loadAnimationOnMultipleLines(spriteSheet,0, nbFramesOnX-1, nbFramesOnY);
+			loadAnimationOnMultipleLines(spriteSheet,0, nbFramesOnX, nbFramesOnY);
+		}
+	}
+
+	public void update(GameContainer container, StateBasedGame game, int delta) {
+		this.duration -= delta;
+		if (this.duration <= 0 ){
+			solsys.removeExplosion(this);
 		}
 	}
 

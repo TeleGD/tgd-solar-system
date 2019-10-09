@@ -209,7 +209,7 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
-				Explosion explosion = new Explosion(world.getFacteurMagique(), "/images/animations/explosion_circle.png", p.getRadius()*2, p.getRadius()*2, 256, 128, (int) p.getPosX() + +world.getWidth()/2-p.getRadius(), (int) p.getPosY() + +world.getHeight()/2-p.getRadius(), 3, 4, 0);
+				Explosion explosion = new Explosion(this, world.getFacteurMagique(), "/images/animations/explosion_circle.png", p.getRadius()*2, p.getRadius()*2, 256, 128, (int) p.getPosX() + +world.getWidth()/2-p.getRadius(), (int) p.getPosY() + +world.getHeight()/2-p.getRadius(), 3, 4, 0, 8000);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
 				// Explosion de la planète :
@@ -273,6 +273,14 @@ public class Solsys {
 			this.menuVaisseau.setPos(world.getWidth()/2+(int)refPlanet.getPosX(), world.getHeight()/2+(int)refPlanet.getPosY());
 			this.menuVaisseau.update(container, game, delta);
 		}
+
+		for (int i = explosions.size()-1; i >= 0 ; i--) {
+			explosions.get(i).update(container, game, delta);
+		}
+	}
+
+	public void removeExplosion(Explosion explosion){
+		explosions.remove(explosion);
 	}
 
 }
