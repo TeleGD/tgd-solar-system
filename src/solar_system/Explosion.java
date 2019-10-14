@@ -40,10 +40,10 @@ public class Explosion {
 		this.x = x;
 		this.y = y;
 		this.solsys = solsys;
-		this.duration = duration;
 		this.sound = AppLoader.loadAudio(soundPath);
 
-		this.frameDuration = this.duration / (nbFramesOnX * nbFramesOnY);
+		this.frameDuration = duration / (nbFramesOnX * nbFramesOnY);
+		this.duration = frameDuration * nbFramesOnX * nbFramesOnY;
 
 		// Chargements des sprites dans les animations :
 		SpriteSheet spriteSheet = null;

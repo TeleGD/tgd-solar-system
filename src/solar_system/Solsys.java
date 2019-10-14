@@ -79,7 +79,7 @@ public class Solsys {
   		this.refPlanet = p;
   		this.velocity = v;
  	}
-  	
+
   	public void rightClick(int xmouse, int ymouse) {
 		this.velocity = null;
   		this.refPlanet = this.planetTouched(xmouse, ymouse);
@@ -169,7 +169,11 @@ public class Solsys {
 		}
 
 		if (key == Input.KEY_E){    //TODO :
-			explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
+			if (ThreadLocalRandom.current().nextBoolean()) {
+				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
+			} else {
+				explosions.add(new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.mp3" , 300,480, 270, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 8, 11, 0, 1300, 400));
+			}
 		}
 	}
 
