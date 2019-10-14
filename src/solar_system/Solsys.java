@@ -2,6 +2,7 @@ package solar_system;
 
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -143,12 +144,12 @@ public class Solsys {
 			if (this.velocity != null)
 				this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
 		}
-		else if (key == Input.KEY_0) {
+		else if (key == Input.KEY_0) {  // Cheat pour coloniser toutes les planètes
 			for (Planet p : this.planets) {
 				p.setOwner(world.getPlayer());
 			}
 		}
-		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\
+		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\  //TODO : retirer cette commande de debug
 		else if (key == Input.KEY_D) {
 			if (!vaisseauList.isEmpty()) {
 				Vaisseau v = vaisseauList.get(vaisseauList.size()-1);
@@ -165,6 +166,10 @@ public class Solsys {
 				this.world.getPlayer().getResource(res).modifQuantite(1000);
 			}
 			this.cheatCode = "1000";
+		}
+
+		if (key == Input.KEY_E){    //TODO :
+			explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
 		}
 	}
 
@@ -209,7 +214,7 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
-				Explosion explosion = new Explosion(this, world.getFacteurMagique(), "/images/animations/explosion_circle.png", p.getRadius()*2, p.getRadius()*2, 256, 128, (int) p.getPosX() + +world.getWidth()/2-p.getRadius(), (int) p.getPosY() + +world.getHeight()/2-p.getRadius(), 3, 4, 0, 8000);
+				Explosion explosion = new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3", p.getRadius()*2, 256, 128, (int) p.getPosX() + world.getWidth()/2-p.getRadius(), (int) p.getPosY() + world.getHeight()/2-p.getRadius(), 3, 4, 0, 1200, p.getRadius()*2);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
 				// Explosion de la planète :
@@ -283,4 +288,7 @@ public class Solsys {
 		explosions.remove(explosion);
 	}
 
+	public World getWorld() {
+		return world;
+	}
 }

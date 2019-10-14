@@ -2,6 +2,7 @@ package solar_system;
 
 import app.AppLoader;
 import org.newdawn.slick.*;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Explosion {
@@ -17,11 +18,12 @@ public class Explosion {
 	private Solsys solsys;
 	private int duration;
 	private double correctionRatio = 1.5;  // Facteur multiplicatif de correction de la taille de l'affichage du sprite de l'explosion
+	private Audio sound;
+
 
 	/**
-	 * @param aspectRatio
 	 * @param spritePath chemin vers l'image contenant les sprites d'animation
-	 * @param spriteWidth largeur d'un sprite à l'affichage
+	 * @param soundPath
 	 * @param spriteHeight hauteur d'un sprite à l'affichage
 	 * @param spriteNaturalWidth largeur d'un sprite dans le spriteSheet des ressources du jeu
 	 * @param spriteNaturalHeight hauteur d'un sprite dans le spriteSheet des ressources du jeu
@@ -29,15 +31,17 @@ public class Explosion {
 	 * @param y
 	 * @param nbFramesOnX
 	 * @param duration durée de l'explosion en milisecondes
+	 * @param spriteWidth largeur d'un sprite à l'affichage
 	 */
-	public Explosion(Solsys solsys, float aspectRatio, String spritePath, int spriteWidth, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration){
-		this.aspectRatio = aspectRatio;
+	public Explosion(Solsys solsys, String spritePath, String soundPath, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration, int spriteWidth){
+		this.aspectRatio = solsys.getWorld().getFacteurMagique();
 		this.spriteWidth = (int) (spriteWidth * correctionRatio);
 		this.spriteHeight = (int) (spriteHeight * correctionRatio);
 		this.x = x;
 		this.y = y;
 		this.solsys = solsys;
 		this.duration = duration;
+		this.sound = AppLoader.loadAudio(soundPath);
 
 		this.frameDuration = this.duration / (nbFramesOnX * nbFramesOnY);
 
@@ -54,6 +58,8 @@ public class Explosion {
 		else {
 			loadAnimationOnMultipleLines(spriteSheet,0, nbFramesOnX, nbFramesOnY);
 		}
+
+		this.sound.playAsSoundEffect(1, .6f, false);  // Lance le son dès la fin de l'initialisation de l'explosion
 	}
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
@@ -74,10 +80,11 @@ public class Explosion {
 	}
 
 	public void loadAnimationOnMultipleLines(SpriteSheet spriteSheet, int startX, int endX, int endY) {
-		for (int i = startX; i < endX; i++) {
-			for (int j = 0; j < endY; j++) {
+		for (int j = 0; j < endY; j++) {
+			for (int i = startX; i < endX; i++) {
 				animation.addFrame(spriteSheet.getSprite(i, j).getScaledCopy((int) (spriteWidth * this.aspectRatio), (int) (spriteHeight * this.aspectRatio)), this.frameDuration);
 			}
 		}
+
 	}
 }
