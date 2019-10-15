@@ -170,9 +170,10 @@ public class Solsys {
 
 		if (key == Input.KEY_E){    //TODO :
 			if (ThreadLocalRandom.current().nextBoolean()) {
-				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
+				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.ogg" , 300, 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300));
+//				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_ship.wav" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
 			} else {
-				explosions.add(new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.mp3" , 300,480, 270, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 8, 11, 0, 1300, 400));
+				explosions.add(new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_ship.ogg" , 400, 300,480, 270, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 8, 11, 0, 1300));
 			}
 		}
 	}
@@ -218,7 +219,7 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
-				Explosion explosion = new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.mp3", p.getRadius()*2, 256, 128, (int) p.getPosX() + world.getWidth()/2-p.getRadius(), (int) p.getPosY() + world.getHeight()/2-p.getRadius(), 3, 4, 0, 1200, p.getRadius()*2);
+				Explosion explosion = new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.ogg", p.getRadius()*3, p.getRadius()*3, 480, 270, (int) p.getPosX() + world.getWidth()/2 - p.getRadius(), (int) p.getPosY() + world.getHeight()/2 - p.getRadius(), 8, 11, 0, 1300);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
 				// Explosion de la planète :

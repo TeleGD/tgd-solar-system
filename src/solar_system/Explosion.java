@@ -24,6 +24,7 @@ public class Explosion {
 	/**
 	 * @param spritePath chemin vers l'image contenant les sprites d'animation
 	 * @param soundPath
+	 * @param spriteWidth largeur d'un sprite à l'affichage
 	 * @param spriteHeight hauteur d'un sprite à l'affichage
 	 * @param spriteNaturalWidth largeur d'un sprite dans le spriteSheet des ressources du jeu
 	 * @param spriteNaturalHeight hauteur d'un sprite dans le spriteSheet des ressources du jeu
@@ -31,9 +32,8 @@ public class Explosion {
 	 * @param y
 	 * @param nbFramesOnX
 	 * @param duration durée de l'explosion en milisecondes
-	 * @param spriteWidth largeur d'un sprite à l'affichage
 	 */
-	public Explosion(Solsys solsys, String spritePath, String soundPath, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration, int spriteWidth){
+	public Explosion(Solsys solsys, String spritePath, String soundPath, int spriteWidth, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration){
 		this.aspectRatio = solsys.getWorld().getFacteurMagique();
 		this.spriteWidth = (int) (spriteWidth * correctionRatio);
 		this.spriteHeight = (int) (spriteHeight * correctionRatio);
