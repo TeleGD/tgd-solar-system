@@ -2,6 +2,7 @@ package solar_system;
 
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -26,6 +27,7 @@ public class Solsys {
 	private MenuVaisseau menuVaisseau;
 	private Vaisseau vaisseau;
 	private ArrayList<Vaisseau> vaisseauList;
+	private ArrayList<Explosion> explosions;
 	private String cheatCode;
 
 	public Solsys(int nbPlanet, World world) {
@@ -33,6 +35,7 @@ public class Solsys {
 		this.nbPlanet= nbPlanet;
 		this.planets = new ArrayList<Planet>();
 		this.vaisseauList = new ArrayList<Vaisseau>();
+		this.explosions = new ArrayList<Explosion>();
 		this.world = world;
 		//  addPlanet(new Planet(9,0,0,75,"des",world));  Permet d'ajouter une planète à la place du Soleil
 		for(int k=0; k<nbPlanet-1; k++ ) {
@@ -76,7 +79,7 @@ public class Solsys {
   		this.refPlanet = p;
   		this.velocity = v;
  	}
-  	
+
   	public void rightClick(int xmouse, int ymouse) {
 		this.velocity = null;
   		this.refPlanet = this.planetTouched(xmouse, ymouse);
@@ -141,12 +144,12 @@ public class Solsys {
 			if (this.velocity != null)
 				this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
 		}
-		else if (key == Input.KEY_0) {
+		else if (key == Input.KEY_0) {  // Cheat pour coloniser toutes les planètes
 			for (Planet p : this.planets) {
 				p.setOwner(world.getPlayer());
 			}
 		}
-		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\
+		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\  //TODO : retirer cette commande de debug
 		else if (key == Input.KEY_D) {
 			if (!vaisseauList.isEmpty()) {
 				Vaisseau v = vaisseauList.get(vaisseauList.size()-1);
@@ -164,6 +167,15 @@ public class Solsys {
 			}
 			this.cheatCode = "1000";
 		}
+
+		if (key == Input.KEY_E){    //TODO :
+			if (ThreadLocalRandom.current().nextBoolean()) {
+				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_planet.ogg" , 300, 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300));
+//				explosions.add(new Explosion(this, "/images/animations/explosion_circle.png", "/sounds/explosion_ship.wav" , 300,256, 128, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 3, 4, 0, 1300, 300));
+			} else {
+				explosions.add(new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_ship.ogg" , 400, 300,480, 270, ThreadLocalRandom.current().nextInt(0, world.getWidth() - 300), ThreadLocalRandom.current().nextInt(0, world.getHeight() - 300), 8, 11, 0, 1300));
+			}
+		}
 	}
 
 	public void keyReleased(int key, char c) {
@@ -177,6 +189,9 @@ public class Solsys {
 		}
 		//planets.get(0).render(container, game, context);
 		for (Vaisseau v : vaisseauList) v.render(container, game, context);
+		for (Explosion explosion: explosions) {
+			explosion.render(container, game, context);
+		}
 		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
 		if (this.velocity != null) this.velocity.render(container, game, context);
 		if (this.menuVaisseau != null) this.menuVaisseau.render(container, game, context);
@@ -204,8 +219,11 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
+				Explosion explosion = new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.ogg", p.getRadius()*3, p.getRadius()*3, 480, 270, (int) p.getPosX() + world.getWidth()/2 - p.getRadius(), (int) p.getPosY() + world.getHeight()/2 - p.getRadius(), 8, 11, 0, 1300);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
+				// Explosion de la planète :
+				explosions.add(explosion);
 			}
 			if (refPlanet != null && refPlanet.isDestructed()) {
 				refPlanet = null;
@@ -265,6 +283,17 @@ public class Solsys {
 			this.menuVaisseau.setPos(world.getWidth()/2+(int)refPlanet.getPosX(), world.getHeight()/2+(int)refPlanet.getPosY());
 			this.menuVaisseau.update(container, game, delta);
 		}
+
+		for (int i = explosions.size()-1; i >= 0 ; i--) {
+			explosions.get(i).update(container, game, delta);
+		}
 	}
 
+	public void removeExplosion(Explosion explosion){
+		explosions.remove(explosion);
+	}
+
+	public World getWorld() {
+		return world;
+	}
 }

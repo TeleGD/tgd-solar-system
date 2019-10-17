@@ -6,10 +6,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import app.AppLoader;
 
 public class World extends BasicGameState {
 
@@ -24,6 +27,8 @@ public class World extends BasicGameState {
 	private Image image;
 	private boolean dispRessources;
 	private float facteur_magique;
+	private Audio menuMusic, worldMusic;
+	private float menuMusicPosition, worldMusicPosition;
 	
 	public World (int ID) {
 		this.ID = ID;
@@ -40,8 +45,10 @@ public class World extends BasicGameState {
 		/* Méthode exécutée une unique fois au chargement du programme */
 		this.width = container.getWidth ();
 		this.height = container.getHeight ();
-		 System.out.println(width + "" + height);
-		
+		System.out.println(width + ";" + height);
+		this.menuMusic = AppLoader.loadAudio("/sounds/menu.ogg");
+		this.worldMusic = AppLoader.loadAudio("/sounds/deepspace.ogg");
+		this.menuMusic.playAsMusic(1, 0.8f, true);
 	}
 
 	@Override
@@ -105,14 +112,30 @@ public class World extends BasicGameState {
 		this.mouv = true;
 		this.planetSelected = null;
 		this.dispRessources = false;
+		if (!this.worldMusic.isPlaying()) {
+			this.menuMusic.stop();
+			this.worldMusic.playAsMusic(1, 0.8f, true);
+		}
 	}
 
 	public void pause (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la mise en pause du jeu */
+		if (!this.menuMusic.isPlaying()) {
+			this.worldMusicPosition = this.worldMusic.getPosition();
+			this.worldMusic.stop();
+			this.menuMusic.playAsMusic(1, 0.8f, true);	// (1, gain (entre 0 et 1), bouclage)
+			this.menuMusic.setPosition(menuMusicPosition);
+		}
 	}
 
 	public void resume (GameContainer container, StateBasedGame game) {
 		/* Méthode exécutée lors de la reprise du jeu */
+		if (!this.worldMusic.isPlaying()) {
+			this.menuMusicPosition = this.menuMusic.getPosition();
+			this.menuMusic.stop();
+			this.worldMusic.playAsMusic(1, 0.8f, true);
+			this.worldMusic.setPosition(worldMusicPosition);
+		}
 	}
 
 	public void stop (GameContainer container, StateBasedGame game) {
