@@ -37,7 +37,7 @@ public class Mine extends Building {
 		
 		this.cout.put("Bois", 2000.0);
 		this.cout.put("Nourriture", 2000.0);
-		this.coutPerpetuel.put("Nourriture", 0.02);
+		this.entretiens.put("Nourriture", 0.02);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

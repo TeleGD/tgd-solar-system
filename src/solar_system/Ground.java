@@ -199,9 +199,9 @@ public class Ground {
 		String resource;
 		int rand = ThreadLocalRandom.current().nextInt(0, 17);  // Donne un nombre entier aléatoire entre 0 et 4 inclus
 
-		// Pour le noyau Linux :
+		// Pour le noyaux Linux :
 		if (rand==0) {
-			resource = "Noyau Linux";
+			resource = "Noyaux Linux";
 		} else if (rand%4==0){
 			resource = "Fer";
 		} else if (rand%4==1) {

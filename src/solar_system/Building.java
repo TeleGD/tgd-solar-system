@@ -15,8 +15,8 @@ public class Building extends Construction{
 	protected Case tile;
 	protected HashMap<String, Resource> resourcesProduced;
 	protected Map<String,Double> debits;//Ce qui est prélevé de la case
-	protected HashMap<String,Double> coutPerpetuel;
-	
+	//protected HashMap<String,Double> coutPerpetuel;//Ce qui ezst prélevé au joueur par frame, "entretiens"
+	//C'est la même chose que l'entretiens !!!
 
 	//TODO : constructeur;
 	public Building(Case tile,Player player) {
@@ -24,10 +24,17 @@ public class Building extends Construction{
 		this.tile=tile;
 		resourcesProduced = new HashMap<String, Resource>();
 		Resource resOfCase = tile.getResource() ;
-		if((tile.getOrbital() instanceof Station) == false){
+		//System.out.println(resOfCase.getName());
+		if((tile.getOrbital() instanceof Station) == false && resOfCase.getName() != "Cailloux"){
 			resourcesProduced.put(resOfCase.getName(), resOfCase);
 		}
-		coutPerpetuel = new HashMap<String,Double>();
+		else if (tile.getResource().getName()=="Cailloux") {
+			//System.out.println("POh, un caillou !");
+			Resource noyo = player.getResource("Noyaux Linux éduqués");
+			resourcesProduced.put(noyo.getName(),noyo);
+			
+		}
+		//coutPerpetuel = new HashMap<String,Double>();
 
 		debits = new HashMap<String,Double>();
 		
@@ -45,7 +52,7 @@ public class Building extends Construction{
 			{
 				Resource res = (Resource) resource.getValue();
 				qtiteAjoutee = (double)delta*debits.get(res.getName());
-
+				
 				if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
 					qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
 				}

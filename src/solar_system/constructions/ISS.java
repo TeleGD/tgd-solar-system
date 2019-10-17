@@ -62,7 +62,7 @@ public class ISS extends Building {
 //		//return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
 //	}
 	//public static boolean constructPossible(Case tileConstructLocation) {
-	//	return (player.getResource("Noyau Linux").getQuantite()>=cout.get("Noyau Linux"));
+	//	return (player.getResource("Noyaux Linux").getQuantite()>=cout.get("Noyaux Linux"));
 	
 	//}
 	

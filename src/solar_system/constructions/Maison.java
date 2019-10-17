@@ -17,18 +17,18 @@ public class Maison extends Building{
 	static 
 	{
 		resourcesExploitable = new HashMap<>();
-        resourcesExploitable.put("Noyau Linux",new Resource("Noyau Linux"));
+        resourcesExploitable.put("Noyaux Linux",new Resource("Noyaux Linux"));
 	}
 	
 	public Maison (Case tile, Player player){
 		super(tile, player);
 		this.lifeMax=100;
 		this.life=lifeMax;
-		this.debits.put("Noyau Linux", 0.001);
+		this.debits.put("Noyaux Linux", 0.001);
 		this.name = "Maison";
 		
 		this.cout.put("Bois", 500.0);
-		this.coutPerpetuel.put("Nourriture", 0.1);
+		this.entretiens.put("Nourriture", 0.1);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

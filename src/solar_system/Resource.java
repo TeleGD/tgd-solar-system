@@ -21,7 +21,7 @@ public class Resource {
 			quantite = 100;
 			imageOnPlanet = AppLoader.loadPicture("/images/resources/foret.png");
 		}
-		else if (name == "Noyau Linux") {
+		else if (name == "Noyaux Linux") {
 			quantite = 0;
 			imageOnPlanet = AppLoader.loadPicture("/images/resources/noyo_raw.png");
 			imageOnUI = AppLoader.loadPicture("/images/resources/noyo_raw.png");
@@ -80,7 +80,7 @@ public class Resource {
 				break;
 			case "Nourriture": path = "/images/resources/Nourriture.png";
 			break;
-			case "Noyau Linux": path = "/images/resources/noyo_raw.png";
+			case "Noyaux Linux": path = "/images/resources/noyo_raw.png";
 			break;
 			case "Noyaux Linux éduqués" : path = "/images/resources/noyo.png";
 			break;
@@ -115,7 +115,7 @@ public class Resource {
 				fact=200;
 				break;
 				//return 2000;
-			case "Noyau Linux" :
+			case "Noyaux Linux" :
 				min=40;
 				fact=5;
 				break;
@@ -132,5 +132,13 @@ public class Resource {
 
 	public Image getImageOnUI() {
 		return imageOnUI;
+	}
+
+	public boolean isEqual(Resource res) {
+		// TODO Auto-generated method stub
+		if(this.isEqual(res)) {
+			return true;
+		}
+		return false;
 	}
 }

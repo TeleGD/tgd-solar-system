@@ -104,7 +104,7 @@ public class Player {
 			resources.put("Bois",new Resource("Bois"));
 			resources.put("Nourriture", new Resource("Nourriture"));
 			resources.put("Fer",new Resource("Fer"));
-			resources.put("Noyau Linux", new Resource("Noyau Linux"));
+			resources.put("Noyaux Linux", new Resource("Noyaux Linux"));
 			resources.put("Noyaux Linux éduqués", new Resource("Noyaux Linux éduqués"));
 			resources.put("Cailloux",new Resource("Cailloux"));
 			

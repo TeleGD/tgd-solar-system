@@ -16,19 +16,19 @@ public class Immeuble extends Building{
 	static 
 	{
 		resourcesExploitable = new HashMap<>();
-        resourcesExploitable.put("Noyau Linux",new Resource("Noyau Linux"));
+        resourcesExploitable.put("Noyaux Linux",new Resource("Noyaux Linux"));
 	}
 	
 	public Immeuble (Case tile, Player player){
 		super(tile, player);
 		this.lifeMax=100;
 		this.life=lifeMax;
-		this.debits.put("Noyau Linux", 0.01);
+		this.debits.put("Noyaux Linux", 0.01);
 		this.name = "Maison";
 		
 		this.cout.put("Bois", 1000.0);
 		this.cout.put("Fer", 500.0);
-		this.coutPerpetuel.put("Nourriture", 0.1);
+		this.entretiens.put("Nourriture", 0.1);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {

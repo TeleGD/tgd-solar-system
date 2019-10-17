@@ -37,7 +37,7 @@ public class Mine2 extends Building {
 		//Ajout des coûts de la Mine
 		this.cout.put("Fer", 2000.0);
 		this.cout.put("Nourriture", 5000.0);
-		this.coutPerpetuel.put("Nourriture", 0.04);
+		this.entretiens.put("Nourriture", 0.04);
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
