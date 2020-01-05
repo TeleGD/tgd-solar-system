@@ -34,7 +34,7 @@ public class Explosion {
 	 * @param duration durée de l'explosion en milisecondes
 	 */
 	public Explosion(Solsys solsys, String spritePath, String soundPath, int spriteWidth, int spriteHeight, int spriteNaturalWidth, int spriteNaturalHeight, int x, int y, int nbFramesOnX, int nbFramesOnY, int animLineToLoad, int duration){
-		this.aspectRatio = solsys.getWorld().getFacteurMagique();
+		this.aspectRatio = solsys.getWorld().getFacteurMagique()*solsys.getZoom();
 		this.spriteWidth = (int) (spriteWidth * correctionRatio);
 		this.spriteHeight = (int) (spriteHeight * correctionRatio);
 		this.x = x;
@@ -70,7 +70,8 @@ public class Explosion {
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
-		context.drawAnimation(animation, this.x , this.y);
+		int[] pos = solsys.toScreenPosition(x, y);
+		context.drawAnimation(animation, pos[0], pos[1]);
 	}
 
 	public void loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int animLineToLoad) {

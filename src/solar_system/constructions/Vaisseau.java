@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import solar_system.Construction;
 import solar_system.Planet;
 import solar_system.Player;
+import solar_system.Solsys;
 import solar_system.World;
 import solar_system.constructions.vaisseaux.*;
 
-public abstract class Vaisseau extends Construction{// TODO : A mettre en abstract quand on enverra les vaisseaux construits 
+public abstract class Vaisseau extends Construction { 
 	
 	protected double x;
 	protected double y;
@@ -25,18 +26,18 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	protected boolean hasLeft;
 	protected boolean splitted;
 	protected boolean crashed;
-	protected World world;
+	protected Solsys solsys;
 	protected Image img;
 	protected ArrayList<Debris> debris;
 	
-	public Vaisseau(Player player, World world){
+	public Vaisseau(Player player, Solsys solsys){
 		super(player) ;
 		this.name="Vaisseau spatial";
 		this.lifeMax=80;
 		this.life=lifeMax;
 		cout.put("Fer",50.0);
 		cout.put("Bois",20.0);
-		this.world = world;
+		this.solsys = solsys;
 		this.v0Max = 1000;
 		this.debris = new ArrayList<>();
 	}
@@ -99,8 +100,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	
 	// Distance en pixels
 	public double getDistance(Planet p) {
-		double distance2 = Math.pow(x-(p.getPosX()+world.getWidth()/2), 2) + Math.pow(y-(p.getPosY()+world.getHeight()/2), 2);
-		return Math.sqrt(distance2);
+		return Math.hypot(x-p.getPosX(), y-p.getPosY());
 	}
 	
 	public double getDistance(Vaisseau v) {
@@ -113,8 +113,8 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 	}
 	
 	public void nextOrbitalPosition(int delta) {
-		double rx = this.x - world.getWidth()/2;
-		double ry = this.y - world.getHeight()/2;
+		double rx = this.x;
+		double ry = this.y;
 		double r3 = Math.pow(rx*rx+ry*ry, 1.5);
 		vx -= delta*40*rx/r3;	// Variation de la vitesse = accélération
 		vy -= delta*40*ry/r3;
@@ -132,7 +132,7 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 			double y = this.img.getHeight()*1d/n;
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					Debris d = new Debris(player, world);
+					Debris d = new Debris(player, solsys);
 					d.launch((int)(this.x+i*x), (int)(this.y+j*y), vx+Math.random()-0.5, vy+Math.random()-0.5);
 					d.setImage(this.img.getSubImage((int)(i*x), (int)(j*y), (int)x, (int)y));
 					debris.add(d);
@@ -152,11 +152,18 @@ public abstract class Vaisseau extends Construction{// TODO : A mettre en abstra
 		if (!crashed && launched) {
 			nextOrbitalPosition(delta);
 		}
+		if (Math.hypot(x, y) > 1e5) {
+			this.crashed = true;
+		}
 	}
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		if (!crashed && launched && img != null) {
-			context.drawImage(img, (float)x-img.getWidth()/2, (float)y-img.getHeight()/2);
+			int[] pos = this.solsys.toScreenPosition(x, y);
+			Image scaledImg = img.getScaledCopy(solsys.getZoom());
+			scaledImg.setAlpha(img.getAlpha());
+			scaledImg.setRotation(img.getRotation());
+			context.drawImage(scaledImg, pos[0], pos[1]);
 		}
 	}
 

@@ -166,6 +166,10 @@ public class World extends BasicGameState {
 		return player;
 	}
 	
+	public Solsys getSolsys() {
+		return this.solsys;
+	}
+	
 	@Override
 	public void mousePressed(int arg0, int x, int y) 
 	{

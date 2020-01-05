@@ -28,11 +28,10 @@ public class Building extends Construction{
 		if((tile.getOrbital() instanceof Station) == false && resOfCase.getName() != "Cailloux"){
 			resourcesProduced.put(resOfCase.getName(), resOfCase);
 		}
-		else if (tile.getResource().getName()=="Cailloux") {
+		else if (tile.getResource() != null && tile.getResource().getName()=="Cailloux") {
 			//System.out.println("POh, un caillou !");
 			Resource noyo = player.getResource("Noyaux Linux éduqués");
 			resourcesProduced.put(noyo.getName(),noyo);
-			
 		}
 		//coutPerpetuel = new HashMap<String,Double>();
 

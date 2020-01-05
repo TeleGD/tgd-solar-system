@@ -22,12 +22,14 @@ public class Velocity {
 	private float deltaAlpha; // Varie de 0 à 1 pour rendre la trajectoire de plus en plus transparente
 	private float deltaDash;  // Permet de mettre les tirets de la flèche du vecteur en mouvement
 	private int len;	// Longueur des tirets de la flèche (en pixels)
+	private Solsys solsys;
 	
-	public Velocity(double norm, double maxNorm, double angle) {
+	public Velocity(double norm, double maxNorm, double angle, Solsys solsys) {
 		this.norm = norm;
 		this.maxNorm = maxNorm;
 		this.angle = angle;
 		this.len = 16;
+		this.solsys = solsys;
 	}
 	
 	public void setPos(int x, int y) {
@@ -68,7 +70,7 @@ public class Velocity {
 		return this.simulation;
 	}
 	
-	public void makeSimulation(int xSun, int ySun) {
+	public void makeSimulation() {
 		// Attention : cette gestion d'une liste de positions est exceptionnellement sale.
 		// Si vous trouvez le moyen de faire contenir les positions dans une liste du genre
 		// ArrayList<int[]>, vous êtes le/la bienvenu(e) !
@@ -85,8 +87,8 @@ public class Velocity {
 		double rx, ry;
 		double r3;
 		for (int i = 0; i < 3000; i++) {
-			rx = x - xSun;
-			ry = y - ySun;
+			rx = x;
+			ry = y;
 			r3 = Math.pow(rx*rx+ry*ry, 1.5);
 			vx -= delta*40*rx/r3;	// Variation de la vitesse = accélération
 			vy -= delta*40*ry/r3;
@@ -124,17 +126,22 @@ public class Velocity {
 	
 	public void render (GameContainer container, StateBasedGame game, Graphics context) {
 		context.setColor(Color.white);
-		context.setLineWidth(3);
+		context.setLineWidth(1+2*solsys.getZoom());
 		double aX = (double)(x2-x)/(norm*400);
 		double aY = (double)(y2-y)/(norm*400);
 		for (int i = (int)deltaDash; i < this.norm*400-len; i += 2*len) {
-			context.drawLine((int)(x+i*aX), (int)(y+i*aY), (int)(x+(i+len)*aX), (int)(y+(i+len)*aY));
+			int[] start = solsys.toScreenPosition(x+i*aX, y+i*aY);
+			int[] end = solsys.toScreenPosition(x+(i+len)*aX, y+(i+len)*aY);
+			context.drawLine(start[0], start[1], end[0], end[1]);
 		}
-		context.drawLine(x2, y2, x3, y3);
-		context.drawLine(x2, y2, x4, y4);
+		int[] pos2 = solsys.toScreenPosition(x2, y2);
+		int[] pos3 = solsys.toScreenPosition(x3, y3);
+		int[] pos4 = solsys.toScreenPosition(x4, y4);
+		context.drawLine(pos2[0], pos2[1], pos3[0], pos3[1]);
+		context.drawLine(pos2[0], pos2[1], pos4[0], pos4[1]);
 		
 		// Tracé des pointillés de la simulation si elle existe
-		context.setLineWidth(2);
+		context.setLineWidth(1+solsys.getZoom());
 		if (this.simulation != null) {
 			int n = this.simulation.size();
 			if (n > 30) {
@@ -142,7 +149,9 @@ public class Velocity {
 				for (int i = 30; i < n; i += 60) {
 					pos0 = simulation.get(i-30);
 					pos1 = simulation.get(i);
-					context.drawGradientLine(pos0.get(0), pos0.get(1), 1, 1, 1, -deltaAlpha+(float)(n-i+30)/n, pos1.get(0), pos1.get(1), 1, 1, 1, -deltaAlpha+(float)(n-i)/n);
+					int start[] = solsys.toScreenPosition(pos0.get(0), pos0.get(1));
+					int end[] = solsys.toScreenPosition(pos1.get(0), pos1.get(1));
+					context.drawGradientLine(start[0], start[1], 1, 1, 1, -deltaAlpha+(float)(n-i+30)/n, end[0], end[1], 1, 1, 1, -deltaAlpha+(float)(n-i)/n);
 				}
 			}
 		}

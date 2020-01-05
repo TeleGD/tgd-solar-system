@@ -72,7 +72,7 @@ public class Planet {
 		Random rnd = new Random();
 		this.nomImage = "/images/planets/"+rnd.nextInt(6)+".png";
 		this.image = AppLoader.loadPicture(nomImage);
-		this.image=image.getScaledCopy(radius*2,radius*2);
+		this.image = image.getScaledCopy(radius*2,radius*2);
 		this.image.setAlpha(0.6f);
 		this.minResources = minResources;
 		this.ground = new Ground(this, world);
@@ -219,8 +219,8 @@ public class Planet {
 			double y = this.image.getHeight()*1d/n;
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					Debris d = new Debris(owner, world);
-					d.launch((int)(posx+world.getWidth()/2+i*1.1*x), (int)(posy+world.getHeight()/2+j*1.1*y), Math.random()-0.5, Math.random()-0.5);
+					Debris d = new Debris(owner, world.getSolsys());
+					d.launch((int)(posx+i*1.1*x), (int)(posy+j*1.1*y), Math.random()-0.5, Math.random()-0.5);
 					d.setImage(this.image.getSubImage((int)(i*x), (int)(j*y), (int)x, (int)y));
 					debris.add(d);
 				}

@@ -4,6 +4,7 @@ package solar_system;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -19,6 +20,8 @@ public class Solsys {
 	private int nbPlanet;
 	private List<Planet> planets;
 	private World world;
+	private double centerX, centerY;
+	private double zoom;
 	private Image imageSun;
 	private Velocity velocity;
 	private Planet refPlanet;
@@ -56,6 +59,9 @@ public class Solsys {
 		this.imageSun = AppLoader.loadPicture("/images/planets/soleil.png");
 		this.imageSun = imageSun.getScaledCopy(300,300);
 		this.currentKey = -1;
+		this.centerX = world.getWidth()/2;
+		this.centerY = world.getHeight()/2;
+		this.zoom = 1d;
 		this.cheatCode = "1000";
 	}
 
@@ -64,10 +70,10 @@ public class Solsys {
 			planets.add(p);
 	}
 
-	public Planet planetTouched(int x, int y)
-	{
+	public Planet planetTouched(int x, int y) {
+  		int[] pos = fromScreenPosition(x, y);
 		for(Planet p : planets) {
-			if(Math.hypot(x-p.getPosX()-world.getWidth()/2, y-p.getPosY()-world.getHeight()/2) < p.getRadius()) {
+			if(Math.hypot(pos[0]-p.getPosX(), pos[1]-p.getPosY()) < p.getRadius()) {
 				if (this.menuVaisseau == null || !this.menuVaisseau.isPressed(x, y))
 					return p;
 			}
@@ -95,6 +101,44 @@ public class Solsys {
   			this.menuVaisseau = null;
   		}
   	}
+  	
+  	public void setZoom(double zoom) {
+  		this.zoom = zoom;
+  	}
+  	
+  	public float getZoom() {
+  		return (float)this.zoom;
+  	}
+  	
+  	public double getCenterX() {
+  		return this.centerX;
+  	}
+  	
+  	public double getCenterY() {
+  		return this.centerY;
+  	}
+  	
+  	public int[] toScreenPosition(double x, double y) {
+  		// Convertit une position dans le référentiel du système solaire (à zoom 1)
+  		// en position à afficher à l'écran en fonction de la position du centre et du zoom.
+  		x *= zoom;
+  		y *= zoom;
+  		x += this.centerX;
+  		y += this.centerY;
+  		int[] pos = {(int)x, (int)y};
+  		return pos;
+  	}
+  	
+  	public int[] fromScreenPosition(double x, double y) {
+  		// Convertit une position dans le référentiel du système solaire (à zoom 1)
+  		// en position à afficher à l'écran en fonction de la position du centre et du zoom.
+  		x -= this.centerX;
+  		y -= this.centerY;
+  		x /= zoom;
+  		y /= zoom;
+  		int[] pos = {(int)x, (int)y};
+  		return pos;
+  	}
 
   	public void mousePressed(int arg0, int x, int y) {
   		if (arg0 == 0) { // Clic gauche
@@ -104,7 +148,7 @@ public class Solsys {
   			} else if (this.menuVaisseau != null && this.menuVaisseau.isPressed(x, y)) {
   				int i = this.menuVaisseau.getPressedItem(x, y);
   				if (i >= 0) this.vaisseau = this.menuVaisseau.getItem(i).getVaisseau();
-  				if (this.vaisseau != null) this.velocity = new Velocity(0.3, this.vaisseau.getV0Max(), 0);
+  				if (this.vaisseau != null) this.velocity = new Velocity(0.3, this.vaisseau.getV0Max(), 0, this);
   				this.menuVaisseau = null;
   			}
   		}
@@ -117,8 +161,13 @@ public class Solsys {
 	}
 
 	public void mouseWheelMoved(int change) {
-		if (velocity != null) {
+		if (velocity != null && currentKey != Input.KEY_LCONTROL && currentKey != Input.KEY_RCONTROL) {
 			velocity.setVelocity(velocity.getNorm()+(float)change/10000, velocity.getAngle());
+		} else if ((zoom > 0.02 || change > 0) && (zoom < 50 || change < 0)) {
+			double factor = 1+(double)change/2000;
+			zoom *= factor;
+			centerX += (centerX - Mouse.getX())*(factor-1);
+			centerY += (centerY - (this.world.getHeight()-Mouse.getY()))*(factor-1);
 		}
 	}
 
@@ -132,8 +181,9 @@ public class Solsys {
 				// s'est déjà retrouvé avec un élément null en itérant sur cette liste...)
 				if (vt != null) this.vaisseauList.add(vt);
 				for (Vaisseau v : vaisseauList) {
-					if (!v.isLaunched())
+					if (!v.isLaunched()) {
 						v.launch(velocity.getX(), velocity.getY(), velocity.getNorm()*Math.cos(velocity.getAngle()), velocity.getNorm()*Math.sin(velocity.getAngle()));
+					}
 				}
 				refPlanet.removeVaisseau(vaisseau.getName());
 				this.vaisseau = null;
@@ -142,22 +192,18 @@ public class Solsys {
 		}
 		else if (key == Input.KEY_SPACE) {
 			if (this.velocity != null)
-				this.velocity.makeSimulation(world.getWidth()/2, world.getHeight()/2);
+				this.velocity.makeSimulation();
 		}
 		else if (key == Input.KEY_0) {  // Cheat pour coloniser toutes les planètes
 			for (Planet p : this.planets) {
 				p.setOwner(world.getPlayer());
 			}
 		}
-		// /!\ Pour tester l'explosion d'un vaisseau en plusieurs débris ! /!\  //TODO : retirer cette commande de debug
-		else if (key == Input.KEY_D) {
-			if (!vaisseauList.isEmpty()) {
-				Vaisseau v = vaisseauList.get(vaisseauList.size()-1);
-				v.split(3);
-				for (Vaisseau d : v.getDebris()) {
-					vaisseauList.add(d);
-				}
-			}
+		// Recentrer l'affichage
+		else if (key == Input.KEY_C) {
+			this.zoom = 1;
+			this.centerX = this.world.getWidth()/2;
+			this.centerY = this.world.getHeight()/2;
 		}
 		if (c == this.cheatCode.charAt(0)) this.cheatCode = this.cheatCode.substring(1);
 		else this.cheatCode = "1000";
@@ -185,14 +231,18 @@ public class Solsys {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		for (Planet p: planets) {
 			int radius = p.getRadius();
-			context.drawImage(p.getImage(),p.getPosX()+world.getWidth()/2-radius,p.getPosY()+world.getHeight()/2-radius);
+			int[] pos = toScreenPosition(p.getPosX()-radius, p.getPosY()-radius);
+			Image scaledImg = p.getImage().getScaledCopy((float)zoom);
+			scaledImg.setAlpha(p.getImage().getAlpha());
+			context.drawImage(scaledImg, pos[0], pos[1]);
 		}
 		//planets.get(0).render(container, game, context);
 		for (Vaisseau v : vaisseauList) v.render(container, game, context);
 		for (Explosion explosion: explosions) {
 			explosion.render(container, game, context);
 		}
-		context.drawImage(imageSun,world.getWidth()/2-150,world.getHeight()/2-150);
+		int[] pos = toScreenPosition(-imageSun.getWidth()/2, -imageSun.getHeight()/2);
+		context.drawImage(imageSun.getScaledCopy((float)zoom), pos[0], pos[1]);
 		if (this.velocity != null) this.velocity.render(container, game, context);
 		if (this.menuVaisseau != null) this.menuVaisseau.render(container, game, context);
 	}
@@ -219,7 +269,7 @@ public class Solsys {
 				}
 			}
 			if (p.isDestructed()) {
-				Explosion explosion = new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.ogg", p.getRadius()*3, p.getRadius()*3, 480, 270, (int) p.getPosX() + world.getWidth()/2 - p.getRadius(), (int) p.getPosY() + world.getHeight()/2 - p.getRadius(), 8, 11, 0, 1300);
+				Explosion explosion = new Explosion(this, "/images/animations/black_hole.png", "/sounds/explosion_planet.ogg", p.getRadius()*3, p.getRadius()*3, 480, 270, (int) p.getPosX() - p.getRadius(), (int) p.getPosY() - p.getRadius(), 8, 11, 0, 1300);
 				planets.remove(i);
 				vaisseauList.addAll(p.getDebris());
 				// Explosion de la planète :
@@ -235,7 +285,7 @@ public class Solsys {
 		for (int i = 0; i < vaisseauList.size(); i++) {
 			Vaisseau v = vaisseauList.get(i);
 			if (!colliding && !v.hasLeft()) v.left();
-			double distance2 = Math.pow(v.getX()-world.getWidth()/2, 2)+ Math.pow(v.getY()-world.getHeight()/2, 2);
+			double distance2 = Math.pow(v.getX(), 2) + Math.pow(v.getY(), 2);
 			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
 				v.crash(null);
 			}
@@ -256,9 +306,9 @@ public class Solsys {
 		}
 		// Supprimer les vaisseaux crashés
 		for (int i = vaisseauList.size()-1; i >= 0; i--) if (vaisseauList.get(i).hasCrashed()) vaisseauList.remove(i);
+		// Changement de la norme et de la direction de la vélocité
 		if (this.velocity != null) {
-			//velocity.moveAngle((float)delta/refPlanet.getPeriode());
-			velocity.setPos((int)refPlanet.getPosX()+world.getWidth()/2, (int)refPlanet.getPosY()+world.getHeight()/2);
+			velocity.setPos((int)refPlanet.getPosX(), (int)refPlanet.getPosY());
 			if (currentKey == Input.KEY_LEFT) {
 				velocity.moveAngle(-0.01);
 			} else if (currentKey == Input.KEY_RIGHT) {
@@ -269,8 +319,9 @@ public class Solsys {
 				velocity.setVelocity(velocity.getNorm()-0.002, velocity.getAngle());
 			}
 			if (leftClick) {
-				float dx = Mouse.getX()-velocity.getX();
-				float dy = world.getHeight()-Mouse.getY()-velocity.getY();
+				int mousePos[] = fromScreenPosition(Mouse.getX(), world.getHeight()-Mouse.getY()); 
+				float dx = mousePos[0]-velocity.getX();
+				float dy = mousePos[1]-velocity.getY();
 				double angle = Math.PI/2;
 				if (dx != 0) angle = Math.atan(dy/dx);
 				if (dx < 0) angle += Math.PI;
@@ -279,13 +330,20 @@ public class Solsys {
 			}
 			velocity.update(container, game, delta);
 		}
+		// Position du menu des vaisseaux
 		if (this.menuVaisseau != null) {
-			this.menuVaisseau.setPos(world.getWidth()/2+(int)refPlanet.getPosX(), world.getHeight()/2+(int)refPlanet.getPosY());
+	  		int[] pos = toScreenPosition(refPlanet.getPosX(), refPlanet.getPosY());
+			this.menuVaisseau.setPos(pos[0], pos[1]);
 			this.menuVaisseau.update(container, game, delta);
 		}
-
+		// Gestion des explosions
 		for (int i = explosions.size()-1; i >= 0 ; i--) {
 			explosions.get(i).update(container, game, delta);
+		}
+		// Déplacement de l'affichage avec la souris
+		if (Mouse.isButtonDown(0) && (this.velocity == null || Keyboard.isKeyDown(Input.KEY_LCONTROL) || Keyboard.isKeyDown(Input.KEY_RCONTROL))) {
+			this.centerX += Mouse.getDX();
+			this.centerY -= Mouse.getDY();
 		}
 	}
 

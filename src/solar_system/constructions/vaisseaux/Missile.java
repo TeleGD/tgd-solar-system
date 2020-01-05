@@ -3,13 +3,14 @@ package solar_system.constructions.vaisseaux;
 import app.AppLoader;
 import solar_system.Planet;
 import solar_system.Player;
+import solar_system.Solsys;
 import solar_system.World;
 import solar_system.constructions.Vaisseau;
 
 public class Missile extends Vaisseau{
 	
-	public Missile(Player player, World world) {
-		super(player,world);
+	public Missile(Player player, Solsys solsys) {
+		super(player, solsys);
 		this.name = "Missile";
 		this.sprite = AppLoader.loadPicture("/images/constructions/Vaisseau.png");
 		this.v0Max = 0.4;
