@@ -30,14 +30,14 @@ public class Welcome extends AppPage {
 	private int logoNaturalWidth;
 	private int logoNaturalHeight;
 
-	public Welcome (int ID) {
-		super (ID);
+	public Welcome(int ID) {
+		super(ID);
 	}
 
 	@Override
-	public void init (GameContainer container, StateBasedGame game) {
-		super.initSize (container, game, 600, 400);
-		super.init (container, game);
+	public void init(GameContainer container, StateBasedGame game) {
+		super.initSize(container, game, 600, 400);
+		super.init(container, game);
 
 		this.hintBoxX = this.contentX;
 		this.hintBoxY = this.contentY;
@@ -53,30 +53,30 @@ public class Welcome extends AppPage {
 		this.subtitleVisibility = false;
 		this.hintBlink = true;
 
-		this.setHint ("PRESS [START]");
-		this.setLogo (AppLoader.loadPicture ("/images/affiche_jeu.png"));
+		this.setHint("PRESS [START]");
+		this.setLogo(AppLoader.loadPicture("/images/logo.png"));
 	}
 
 	@Override
-	public void update (GameContainer container, StateBasedGame game, int  delta) {
-		super.update (container, game, delta);
-		Input input = container.getInput ();
-		if (input.isKeyDown (Input.KEY_ESCAPE)) {
-			container.exit ();
-		} else if (input.isKeyDown (Input.KEY_ENTER)) {
-			game.enterState (1, new FadeOutTransition (), new FadeInTransition ());
+	public void update(GameContainer container, StateBasedGame game, int  delta) {
+		super.update(container, game, delta);
+		Input input = container.getInput();
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
+			container.exit();
+		} else if (input.isKeyDown(Input.KEY_ENTER)) {
+			game.enterState(1, new FadeOutTransition(), new FadeInTransition());
 		}
 	}
 
 	@Override
-	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		super.render (container, game, context);
-		this.renderLogo (container, game, context);
+	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		super.render(container, game, context);
+		this.renderLogo(container, game, context);
 	}
 
-	private void renderLogo (GameContainer container, StateBasedGame game, Graphics context) {
+	private void renderLogo(GameContainer container, StateBasedGame game, Graphics context) {
 		if (this.logoVisibility) {
-			context.drawImage (
+			context.drawImage(
 				this.logo,
 				this.logoX,
 				this.logoY,
@@ -90,12 +90,12 @@ public class Welcome extends AppPage {
 		}
 	}
 
-	public void setLogo (Image logo) {
-		this.logo = logo.copy ();
-		this.logoNaturalWidth = logo.getWidth ();
-		this.logoNaturalHeight = logo.getHeight ();
-		this.logoWidth = Math.min (Math.max (this.logoBoxWidth, 0), this.logoNaturalWidth);
-		this.logoHeight = Math.min (Math.max (this.logoBoxHeight, 0), this.logoNaturalHeight);
+	public void setLogo(Image logo) {
+		this.logo = logo.copy();
+		this.logoNaturalWidth = logo.getWidth();
+		this.logoNaturalHeight = logo.getHeight();
+		this.logoWidth = Math.min(Math.max(this.logoBoxWidth, 0), this.logoNaturalWidth);
+		this.logoHeight = Math.min(Math.max(this.logoBoxHeight, 0), this.logoNaturalHeight);
 		int a = this.logoWidth * this.logoNaturalHeight;
 		int b = this.logoNaturalWidth * this.logoHeight;
 		if (a < b) {
@@ -107,8 +107,8 @@ public class Welcome extends AppPage {
 		this.logoY = this.logoBoxY + (this.logoBoxHeight - this.logoHeight) / 2;
 	}
 
-	public Image getLogo () {
-		return logo.copy ();
+	public Image getLogo() {
+		return logo.copy();
 	}
 
 }

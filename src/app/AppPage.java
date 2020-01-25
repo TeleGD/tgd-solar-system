@@ -28,9 +28,9 @@ public abstract class AppPage extends BasicGameState {
 		AppPage.backgroundColor = Color.black;
 		AppPage.highlightColor = Color.red;
 
-		AppPage.titleFont = AppLoader.loadFont ("/fonts/press-start-2p.ttf", java.awt.Font.BOLD, 40);
-		AppPage.subtitleFont = AppLoader.loadFont ("/fonts/vt323.ttf", java.awt.Font.BOLD, 24);
-		AppPage.hintFont = AppLoader.loadFont ("/fonts/press-start-2p.ttf", java.awt.Font.PLAIN, 20);
+		AppPage.titleFont = AppLoader.loadFont("/fonts/press-start-2p.ttf", AppFont.BOLD, 40);
+		AppPage.subtitleFont = AppLoader.loadFont("/fonts/vt323.ttf", AppFont.BOLD, 24);
+		AppPage.hintFont = AppLoader.loadFont("/fonts/press-start-2p.ttf", AppFont.PLAIN, 20);
 
 		AppPage.titleLineHeight = 50;
 		AppPage.subtitleLineHeight = 30;
@@ -88,17 +88,17 @@ public abstract class AppPage extends BasicGameState {
 
 	private int ID;
 
-	public AppPage (int ID) {
+	public AppPage(int ID) {
 		this.ID = ID;
 	}
 
 	@Override
-	public int getID () {
+	public int getID() {
 		return this.ID;
 	}
 
 	@Override
-	public void init (GameContainer container, StateBasedGame game) {
+	public void init(GameContainer container, StateBasedGame game) {
 		this.titleBoxWidth = this.contentWidth;
 		this.titleBoxHeight = AppPage.titleLineHeight;
 		this.titleBoxX = this.contentX;
@@ -122,111 +122,111 @@ public abstract class AppPage extends BasicGameState {
 		this.hintBlinkPeriod = 4000;
 		this.hintBlinkCountdown = 0;
 
-		this.setTitle ("");
-		this.setSubtitle ("");
-		this.setHint ("");
+		this.setTitle("");
+		this.setSubtitle("");
+		this.setHint("");
 	}
 
 	@Override
-	public void update (GameContainer container, StateBasedGame game, int delta) {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		if (this.hintBlink) {
 			this.hintBlinkCountdown = (this.hintBlinkCountdown + this.hintBlinkPeriod - delta) % this.hintBlinkPeriod;
 		}
 	}
 
 	@Override
-	public void render (GameContainer container, StateBasedGame game, Graphics context) {
-		this.renderBackground (container, game, context);
-		this.renderTitle (container, game, context);
-		this.renderSubtitle (container, game, context);
-		this.renderHint (container, game, context);
+	public void render(GameContainer container, StateBasedGame game, Graphics context) {
+		this.renderBackground(container, game, context);
+		this.renderTitle(container, game, context);
+		this.renderSubtitle(container, game, context);
+		this.renderHint(container, game, context);
 	}
 
-	private void renderBackground (GameContainer container, StateBasedGame game, Graphics context) {
-		context.setBackground (AppPage.backgroundColor);
+	private void renderBackground(GameContainer container, StateBasedGame game, Graphics context) {
+		context.setBackground(AppPage.backgroundColor);
 	}
 
-	private void renderTitle (GameContainer container, StateBasedGame game, Graphics context) {
+	private void renderTitle(GameContainer container, StateBasedGame game, Graphics context) {
 		if (this.titleVisibility) {
-			context.setFont (AppPage.titleFont);
-			context.setColor (AppPage.highlightColor);
-			context.drawString (this.title, this.titleX - 2, this.titleY - 2);
-			context.setColor (AppPage.foregroundColor);
-			context.drawString (this.title, this.titleX + 2, this.titleY + 2);
+			context.setFont(AppPage.titleFont);
+			context.setColor(AppPage.highlightColor);
+			context.drawString(this.title, this.titleX - 2, this.titleY - 2);
+			context.setColor(AppPage.foregroundColor);
+			context.drawString(this.title, this.titleX + 2, this.titleY + 2);
 		}
 	}
 
-	private void renderSubtitle (GameContainer container, StateBasedGame game, Graphics context) {
+	private void renderSubtitle(GameContainer container, StateBasedGame game, Graphics context) {
 		if (this.subtitleVisibility) {
-			context.setFont (AppPage.subtitleFont);
-			context.setColor (AppPage.foregroundColor);
-			context.drawRect (this.subtitleBoxX, this.subtitleBoxY, this.subtitleBoxWidth, this.subtitleBoxHeight);
-			context.drawString (this.subtitle, this.subtitleX, this.subtitleY);
+			context.setFont(AppPage.subtitleFont);
+			context.setColor(AppPage.foregroundColor);
+			context.drawRect(this.subtitleBoxX, this.subtitleBoxY, this.subtitleBoxWidth, this.subtitleBoxHeight);
+			context.drawString(this.subtitle, this.subtitleX, this.subtitleY);
 		}
 	}
 
-	private void renderHint (GameContainer container, StateBasedGame game, Graphics context) {
+	private void renderHint(GameContainer container, StateBasedGame game, Graphics context) {
 		if (this.hintVisibility) {
-			context.setFont (AppPage.hintFont);
-			context.setColor (AppPage.foregroundColor);
-			context.drawRect (this.hintBoxX, this.hintBoxY, this.hintBoxWidth, this.hintBoxHeight);
+			context.setFont(AppPage.hintFont);
+			context.setColor(AppPage.foregroundColor);
+			context.drawRect(this.hintBoxX, this.hintBoxY, this.hintBoxWidth, this.hintBoxHeight);
 			if (this.hintBlink) {
-				int r = AppPage.foregroundColor.getRed ();
-				int g = AppPage.foregroundColor.getGreen ();
-				int b = AppPage.foregroundColor.getBlue ();
+				int r = AppPage.foregroundColor.getRed();
+				int g = AppPage.foregroundColor.getGreen();
+				int b = AppPage.foregroundColor.getBlue();
 				int a = 1024 * this.hintBlinkCountdown / this.hintBlinkPeriod - 512;
 				if (a < 0) {
 					a *= -1;
 				}
 				a -= 128;
-				a = Math.max (Math.min (a, 255), 0);
-				context.setColor (new Color (r, g, b, a));
+				a = Math.max(Math.min(a, 255), 0);
+				context.setColor(new Color(r, g, b, a));
 			}
-			context.drawString (this.hint, this.hintX, this.hintY);
+			context.drawString(this.hint, this.hintX, this.hintY);
 		}
 	}
 
-	public void setTitle (String title) {
+	public void setTitle(String title) {
 		this.title = title;
-		this.titleWidth = AppPage.titleFont.getWidth (title);
-		this.titleHeight = AppPage.titleFont.getHeight (title);
+		this.titleWidth = AppPage.titleFont.getWidth(title);
+		this.titleHeight = AppPage.titleFont.getHeight(title);
 		this.titleX = this.titleBoxX + (this.titleBoxWidth - this.titleWidth) / 2;
 		this.titleY = this.titleBoxY + (this.titleBoxHeight - this.titleHeight) / 2;
 	}
 
-	public String getTitle () {
+	public String getTitle() {
 		return this.title;
 	}
 
-	public void setSubtitle (String subtitle) {
+	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
-		this.subtitleWidth = AppPage.subtitleFont.getWidth (subtitle);
-		this.subtitleHeight = AppPage.subtitleFont.getHeight (subtitle);
+		this.subtitleWidth = AppPage.subtitleFont.getWidth(subtitle);
+		this.subtitleHeight = AppPage.subtitleFont.getHeight(subtitle);
 		this.subtitleX = this.subtitleBoxX + (this.subtitleBoxWidth - this.subtitleWidth) / 2;
 		this.subtitleY = this.subtitleBoxY + (this.subtitleBoxHeight - this.subtitleHeight) / 2;
 	}
 
-	public String getSubtitle () {
+	public String getSubtitle() {
 		return this.subtitle;
 	}
 
-	public void setHint (String hint) {
+	public void setHint(String hint) {
 		this.hint = hint;
-		this.hintWidth = AppPage.hintFont.getWidth (hint);
-		this.hintHeight = AppPage.hintFont.getHeight (hint);
+		this.hintWidth = AppPage.hintFont.getWidth(hint);
+		this.hintHeight = AppPage.hintFont.getHeight(hint);
 		this.hintX = this.hintBoxX + (this.hintBoxWidth - this.hintWidth) / 2;
 		this.hintY = this.hintBoxY + (this.hintBoxHeight - this.hintHeight) / 2;
 	}
 
-	public String getHint () {
+	public String getHint() {
 		return this.hint;
 	}
 
-	public void initSize (GameContainer container, StateBasedGame game, int width, int height) {
+	public void initSize(GameContainer container, StateBasedGame game, int width, int height) {
 		this.contentWidth = width;
 		this.contentHeight = height;
-		this.contentX = (container.getWidth () - this.contentWidth) / 2;
-		this.contentY = (container.getHeight () - this.contentHeight) / 2;
+		this.contentX = (container.getWidth() - this.contentWidth) / 2;
+		this.contentY = (container.getHeight() - this.contentHeight) / 2;
 	}
 
 }

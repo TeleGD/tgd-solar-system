@@ -7,8 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
-import app.AppLoader;
-
 public class MenuItem {
 	private int xpos, ypos, xsize, ysize, padding;
 	private int imgWidth, imgHeight, textWidth, textHeight;
@@ -16,7 +14,7 @@ public class MenuItem {
 	private Image img;
 	private Image bkg, bkgHigh;
 	private String text;
-	
+
 	public MenuItem(Image img, String text, int padding, int xpos, int ypos) {
 		this.setImage(img);
 		this.text = text;
@@ -27,11 +25,11 @@ public class MenuItem {
 		//this.bkg = AppLoader.loadPicture("/images/menu_item.png");
 		//this.bkgHigh = AppLoader.loadPicture("/images/menu_item_highlighted.png");
 	}
-	
+
 	private void updateSize() {
 		xsize = 3*padding;
 		ysize = 2*padding;
-		
+
 		if (this.img != null) {
 			xsize += this.imgWidth;
 			if (this.imgHeight >= this.textHeight) ysize += this.imgHeight;
@@ -41,55 +39,55 @@ public class MenuItem {
 			if (this.textHeight > this.imgHeight) ysize += this.textHeight;
 		}
 	}
-	
+
 	public int getWidth() {
 		return this.xsize;
 	}
-	
+
 	public int getHeight() {
 		return this.ysize;
 	}
-	
+
 	public int getXPos() {
 		return this.xpos;
 	}
-	
+
 	public int getYPos() {
 		return this.ypos;
 	}
-	
+
 	public Image getImage() {
 		return this.img;
 	}
-	
+
 	public String getText() {
 		return this.text;
 	}
-	
+
 	public boolean isPressed(int xmouse, int ymouse) {
 		return (xpos <= xmouse && xmouse <= xpos+xsize && ypos <= ymouse && ymouse <= ypos+ysize);
 	}
-	
+
 	public void updateHighlight(int worldHeight) {
 		this.highlighted = this.isPressed(Mouse.getX(), worldHeight-Mouse.getY());
 	}
-	
+
 	public void setWidth(int width) {
 		this.xsize = width;
 	}
-	
+
 	public void setHeight(int height) {
 		this.ysize = height;
 	}
-	
+
 	public void setXPos(int x) {
 		this.xpos = x;
 	}
-	
+
 	public void setYPos(int y) {
 		this.ypos = y;
 	}
-	
+
 	public void setImage(Image img) {
 		this.img = img;
 		if (img != null) {
@@ -100,11 +98,11 @@ public class MenuItem {
 			this.imgHeight = 0;
 		}
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 		if (text != null) {
 			int newTextWidth = context.getFont().getWidth(text);

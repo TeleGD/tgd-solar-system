@@ -9,21 +9,21 @@ public class AppPicture extends Image {
 
 	private String filename;
 
-	public AppPicture (String filename, InputStream stream) throws Exception {
-		super (stream, filename, false);
-		this.setFilename (filename);
+	public AppPicture(String filename, InputStream stream) throws Exception {
+		super(stream, filename, false);
+		this.setFilename(filename);
 	}
 
-	public AppPicture (String filename) {
-		super (new EmptyImageData (0, 0));
-		this.setFilename (filename);
+	public AppPicture(String filename) {
+		super(new EmptyImageData(0, 0));
+		this.setFilename(filename);
 	}
 
-	private void setFilename (String filename) {
+	private void setFilename(String filename) {
 		this.filename = filename;
 	}
 
-	public String getFilename () {
+	public String getFilename() {
 		return this.filename;
 	}
 

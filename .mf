@@ -1,2 +1,2 @@
 Main-Class: Main
-Class-Path: ibxm.jar jnlp.jar jorbis-0.0.15.jar lwjgl_util_applet.jar natives-linux.jar natives-windows.jar slick.jar jinput.jar jogg-0.0.7.jar lwjgl.jar lwjgl_util.jar natives-mac.jar slick-examples.jar tinylinepp.jar
+Class-Path: ibxm.jar jinput.jar jnlp.jar jogg-0.0.7.jar jorbis-0.0.15.jar lwjgl_util_applet.jarslick.jar lwjgl_util.jar lwjgl.jar natives-linux.jar natives-mac.jar natives-windows.jar slick-examples.jar slick.jar tinylinepp.jar

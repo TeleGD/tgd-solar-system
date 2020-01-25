@@ -2,24 +2,24 @@
 <classpath>
 	<classpathentry kind="src" path="src">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="tgd-solar_system/res/natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="tgd-solar-system/sys/x86"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="res"/>
-	<classpathentry kind="lib" path="lib/ibxm.jar"/>
-	<classpathentry kind="lib" path="lib/jinput.jar"/>
-	<classpathentry kind="lib" path="lib/jnlp.jar"/>
-	<classpathentry kind="lib" path="lib/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="lib/jorbis-0.0.15.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl_util_applet.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
-	<classpathentry kind="lib" path="lib/natives-linux.jar"/>
-	<classpathentry kind="lib" path="lib/natives-mac.jar"/>
-	<classpathentry kind="lib" path="lib/natives-windows.jar"/>
-	<classpathentry kind="lib" path="lib/slick-examples.jar"/>
-	<classpathentry kind="lib" path="lib/slick.jar"/>
-	<classpathentry kind="lib" path="lib/tinylinepp.jar"/>
+	<classpathentry kind="lib" path="lib/common/ibxm.jar"/>
+	<classpathentry kind="lib" path="lib/common/jnlp.jar"/>
+	<classpathentry kind="lib" path="lib/common/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/common/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/common/natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/common/natives-mac.jar"/>
+	<classpathentry kind="lib" path="lib/common/natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/common/slick-examples.jar"/>
+	<classpathentry kind="lib" path="lib/common/slick.jar"/>
+	<classpathentry kind="lib" path="lib/common/tinylinepp.jar"/>
+	<classpathentry kind="lib" path="lib/x86/jinput.jar"/>
+	<classpathentry kind="lib" path="lib/x86/lwjgl_util_applet.jar"/>
+	<classpathentry kind="lib" path="lib/x86/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/x86/lwjgl.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

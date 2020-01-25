@@ -3,7 +3,6 @@ package app.ui;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 @SuppressWarnings("serial")
@@ -14,15 +13,23 @@ public class ColorPicker extends TGDComponent {
 	private int[] c;
 
 	private Button bouton ;
+	private int rowSelected;
 
 	public ColorPicker(GameContainer container, float x, float y, float width, float height) {
 		super(container, x, y, width, height);
 		c = new int[]{0,0,0,255};
-		bouton = new Button(container,x,5*(height-(paddingBottom-paddingTop))/6,width,(height-(paddingBottom-paddingTop))/6);
-		bouton.setBackgroundColor(Color.white);
-		bouton.setTextColor(Color.black);
+		float h = height-paddingTop-paddingBottom;
+		float w = width -paddingLeft-paddingRight;
+		bouton = new Button(container,x+paddingLeft,y+paddingTop+h*5/6,w,h/6);
+		bouton.setBackgroundColor(Color.black);
+		bouton.setBackgroundColorEntered(new Color(30,30,30));
+		bouton.setBackgroundColorPressed(new Color(40,40,40));
+		bouton.setBorderWidth(0);
+		bouton.setTextColor(Color.white);
+		bouton.setTextColorEntered(Color.white);
+		bouton.setTextColorPressed(Color.white);
 		bouton.setText("Ok !");//sez
-
+		rowSelected = 0;
 	}
 
 	@Override
@@ -31,37 +38,45 @@ public class ColorPicker extends TGDComponent {
 	}
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		super.render(container, game, g);
+		if (!visible) {
+			return;
+		}
 		float h = height-paddingTop-paddingBottom;
 		float w = width -paddingLeft-paddingRight;
 
 		for(int i=0;i<4;i++){
 			g.setColor(Color.black);
-			g.fillRect(x+paddingLeft,y+paddingTop+h/6*i,w,h/6);
-			if(i == 0)
+			g.fillRect(x+paddingLeft,y+paddingTop+h*i/6,w,h/6);
+			String s = "";
+			if (i == 0) {
+				s = "R";
 				g.setColor(new Color(c[i],0,0,255));
-			else if (i==1)
+			} else if (i == 1) {
+				s = "V";
 				g.setColor(new Color(0,c[i],0,255));
-			else if (i==2)
+			} else if (i == 2) {
+				s = "B";
 				g.setColor(new Color(0,0,c[i],255));
-			else if (i==3)
+			} else if (i == 3) {
+				s = "A";
 				g.setColor(new Color(255,255,255,c[i]));
-
-			g.fillRect(x+paddingLeft+1,y+paddingTop+h/6*i+1,w-2,h/6-2);
+			}
+			g.fillRect(x+paddingLeft+1,y+paddingTop+h*i/6+1,w-2,h/6-2);
 			g.setColor(Color.black);
-			g.fillRect((float) (x+paddingLeft+1+c[i]*w/255.0)-2, (float) (y+paddingTop+h/6*i+1),4,h/6-2);
+			g.fillRect(x+paddingLeft+1+(w-6)*c[i]/255,y+paddingTop+h*i/6+1,4,h/6-2);
 			g.setColor(Color.white);
 
-			g.drawString(""+c[i],x+width/2-10,y+paddingTop+h/6*i+h/30);
+			g.drawString(s+" : "+c[i],x+width/2-20,y+paddingTop+h*i/6+h/30);
 
 		}
 
 		g.setColor(Color.black);
-		g.fillRect(x+paddingLeft,y+paddingTop+4*h/6,w,h/6);
+		g.fillRect(x+paddingLeft,y+paddingTop+h*4/6,w,h/6);
 
 		g.setColor(new Color(c[0],c[1],c[2],c[3]));
-		g.fillRect(x+paddingLeft+1,y+paddingTop+4*h/6+1,w-2,h/6-2);
+		g.fillRect(x+paddingLeft+1,y+paddingTop+h*4/6+1,w-2,h/6-2);
 
 		bouton.render(container, game, g);
 
@@ -70,15 +85,15 @@ public class ColorPicker extends TGDComponent {
 	@Override
 	public void setX(float x) {
 		super.setX(x);
-		bouton.setX(x);
+		bouton.setX(x+paddingLeft);
 	}
 	@Override
 	public void setY(float y) {
 		super.setY(y);
-		bouton.setY(y+5*(height-(paddingBottom-paddingTop))/6);
+		bouton.setY(y+paddingTop+(height-paddingTop-paddingBottom)*5/6);
 	}
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) {
 		super.update(container, game, delta);
 		bouton.update(container, game, delta);
 	}
@@ -100,6 +115,10 @@ public class ColorPicker extends TGDComponent {
 	@Override
 	public void mousePressed(int arg0, int xM, int yM) {
 		super.mousePressed(arg0, xM, yM);
+		int row = (int) ((yM - y) / ((height - paddingTop - paddingBottom) / 6));
+		if (row < 4 && row >= 0 && contains(xM, yM)) {
+			rowSelected = row;
+		}
 		changeColor(xM,yM);
 	}
 
@@ -113,13 +132,10 @@ public class ColorPicker extends TGDComponent {
 		if(contains(xM,yM)){
 
 			if(xM>x+paddingLeft && xM<x+width-paddingLeft-paddingRight){
-				int row = (int) ((yM-y)/((height-paddingTop-paddingBottom)/6));
 				int etat = (int) (255*((double)(xM-x)/(double)(width-paddingLeft-paddingRight)));
 
 				//System.out.println("etat = "+etat);
-				if(row<4){
-					c[row] = etat;
-				}
+				c[rowSelected] = etat;
 			}
 
 			/*
@@ -128,6 +144,10 @@ public class ColorPicker extends TGDComponent {
 				c[(int) ((yM-y)/(height))] = (int) (255*(x/width));
 			}
 			*/
+		} else if (xM > x + width) {
+			c[rowSelected] = 255;
+		} else if (xM < x) {
+			c[rowSelected] = 0;
 		}
 	}
 }

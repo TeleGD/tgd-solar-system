@@ -12,30 +12,29 @@ import app.elements.MenuItem;
 
 public class Choice extends AppMenu {
 
-	public Choice (int ID) {
-		super (ID);
+	public Choice(int ID) {
+		super(ID);
 	}
 
 	@Override
-	public void init (GameContainer container, StateBasedGame game) {
-		super.initSize (container, game, 600, 400);
-		super.init (container, game);
-		this.setSubtitle ("Sélectionnez une option");
-		this.setMenu (Arrays.asList (new MenuItem [] {
-			new MenuItem ("Jouer") {
-				public void itemSelected () {
-					((solar_system.World) game.getState (3)).setState (0);
-					game.enterState (3, new FadeOutTransition (), new FadeInTransition ());
+	public void init(GameContainer container, StateBasedGame game) {
+		super.initSize(container, game, 600, 400);
+		super.init(container, game);
+		this.setTitle("Solar System");
+		this.setSubtitle("Sélectionnez une option");
+		this.setMenu(Arrays.asList(new MenuItem[] {
+			new MenuItem("Jouer") {
+				public void itemSelected() {
+					game.enterState(3, new FadeOutTransition(), new FadeInTransition());
 				}
 			},
-			new MenuItem ("Retour") {
-				public void itemSelected () {
-					game.enterState (0, new FadeOutTransition (), new FadeInTransition ());
+			new MenuItem("Retour") {
+				public void itemSelected() {
+					game.enterState(0, new FadeOutTransition(), new FadeInTransition());
 				}
 			}
 		}));
-		this.setTitle ("SOLAR_SYSTEM");
-		this.setHint ("Copyright (c) TGD 2019");
+		this.setHint("Copyright (c) TGD 2019");
 	}
 
 }
