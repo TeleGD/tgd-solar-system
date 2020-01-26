@@ -19,6 +19,7 @@ public abstract class Construction {
 	protected static Player player;
 	protected Image sprite;
 	protected boolean prelevementReussi;
+	protected double qtite_a_prelever;
 	//protected Case tile;
 
 
@@ -47,11 +48,13 @@ public abstract class Construction {
 		for( Map.Entry<String , Double> entry : entretiens.entrySet())
 		{
 			String resource_name = entry.getKey();
-			double qtite_a_prelever = entry.getValue();
+			this.qtite_a_prelever = entry.getValue();
+			double qtiteAjoutee = 0;		
 
 			if ( player.getResource( resource_name ).modifQuantite( - qtite_a_prelever ) == false ) {
 				prelevementReussi = false;
 			}
+			
 		}
 
 	}

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 import app.AppLoader;
+import games.solarSystem.constructions.TNCY;
 
 public class Building extends Construction{
 
@@ -45,16 +46,27 @@ public class Building extends Construction{
 		super.update(container, game, delta);
 		// On prélève autant de ressources que possible,
 		// et on ne récupère les ressources de la case que si tous les prélèvements ont réussi :
-		if (prelevementReussi) {
+		if (prelevementReussi && (!(this instanceof TNCY))) {
 			double qtiteAjoutee = 0;
+			
 			for( Map.Entry<String , Resource> resource : resourcesProduced.entrySet())
 			{
 				Resource res = (Resource) resource.getValue();
+				//System.out.println("Ma resource, c'est "+debits.get(res.getName())+" ! ");
+				//qtiteAjoutee = (double)delta*debits.get(res.getName());
 				qtiteAjoutee = (double)delta*debits.get(res.getName());
-
 				if ( res.equals(tile.getResource()) ){   // Cas où la production dépend des ressources sur la case
 					qtiteAjoutee = tile.preleveResource(qtiteAjoutee);
 				}
+				res.modifQuantite(qtiteAjoutee);
+			}
+		}
+		else if(prelevementReussi) {
+			double qtiteAjoutee = super.qtite_a_prelever;
+
+			for( Map.Entry<String , Resource> resource : resourcesProduced.entrySet())
+			{
+				Resource res = (Resource) resource.getValue();
 				res.modifQuantite(qtiteAjoutee);
 			}
 		}

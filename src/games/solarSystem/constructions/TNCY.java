@@ -1,6 +1,7 @@
 package games.solarSystem.constructions;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -39,6 +40,21 @@ public class TNCY extends Building {
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
 
 	}
+	
+	/*public void update(GameContainer container, StateBasedGame game, int delta) {
+		prelevementReussi = true;
+
+		for( Map.Entry<String , Double> entry : entretiens.entrySet())
+		{
+			String resource_name = entry.getKey();
+			double qtite_a_prelever = entry.getValue();
+
+			if ( player.getResource( resource_name ).modifQuantite( - qtite_a_prelever ) == false ) {
+				prelevementReussi = false;
+			}
+		}
+
+	}*/
 
 	public static boolean constructPossible(Case tileConstructLocation) {
 		return resourcesExploitable.containsKey(tileConstructLocation.getResource().getName());
