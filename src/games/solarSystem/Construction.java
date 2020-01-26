@@ -74,7 +74,7 @@ public abstract class Construction {
 		// (condition à vérifier par l'item du menu)
 		System.out.println(this.name);
 		for(Map.Entry<String, Double> costEntry : cout.entrySet()) {
-			System.out.println(cout.entrySet());
+			//System.out.println(cout.entrySet());
 			player.getResource( costEntry.getKey() ).modifQuantite( - costEntry.getValue() );
 			System.out.println("Vous venez de payer "+costEntry.getValue()+" "+costEntry.getKey());
 		}

@@ -25,6 +25,7 @@ public class ISS extends Building {
 		cout.put("Nourriture", 500.0);
 		cout.put("Fer", 100.0);
 
+
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context) {
