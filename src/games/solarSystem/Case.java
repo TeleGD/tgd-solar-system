@@ -84,7 +84,7 @@ public class Case {
 		}
 		else if (!(orbital instanceof Station)){
 			context.setColor(new Color(0, 0, 0, 127));
-			context.drawRect(x, y, size, size);
+			//context.drawRect(x, y, size, size);
 		}
 		if(construction != null) {
 			if(construction instanceof Building) {

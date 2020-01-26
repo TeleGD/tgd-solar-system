@@ -12,10 +12,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import app.AppLoader;
 
 import games.solarSystem.constructions.Vaisseau;
+import games.solarSystem.constructions.vaisseaux.Tesla;
 
 public class Solsys {
 	private int nbPlanet;
@@ -33,6 +36,7 @@ public class Solsys {
 	private ArrayList<Vaisseau> vaisseauList;
 	private ArrayList<Explosion> explosions;
 	private String cheatCode;
+	private boolean ended; // le jeu est-il terminé ?
 
 	public Solsys(int nbPlanet, World world) {
 		System.out.println(nbPlanet);
@@ -64,6 +68,7 @@ public class Solsys {
 		this.centerY = world.getHeight()/2;
 		this.zoom = 1d;
 		this.cheatCode = "1000";
+		this.ended = false;
 	}
 
 	public void addPlanet(Planet p) {
@@ -250,6 +255,10 @@ public class Solsys {
 
 	public void update(GameContainer container, StateBasedGame game, int delta) {
 		boolean colliding = false;
+		if (!ended && planets.isEmpty()) {
+			ended = true;
+			game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+		}
 		for (int i = planets.size()-1; i >= 0; i--) {
 			Planet p = planets.get(i);
 			float angle=p.getAngle()+(float)delta/p.getPeriode();
@@ -289,6 +298,11 @@ public class Solsys {
 			double distance2 = Math.pow(v.getX(), 2) + Math.pow(v.getY(), 2);
 			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
 				v.crash(null);
+			}
+			// On a lancé une Tesla super loin
+			if (v instanceof Tesla && Math.hypot(v.getX(), v.getY()) > 2000) {
+				ended = true;
+				game.enterState(5, new FadeOutTransition(), new FadeInTransition());
 			}
 			// Gestion des crashs avec les autres vaisseaux
 			for (int j = 0; j < i; j++) {

@@ -53,6 +53,8 @@ public final class Main {
 				this.addState(new pages.Choice(1));
 				this.addState(new pages.Pause(2));
 				this.addState(new games.solarSystem.World(3));
+				this.addState(new pages.SadEnd(4));
+				this.addState(new pages.HappyEnd(5));
 			}
 
 		};
