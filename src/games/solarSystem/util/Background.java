@@ -3,34 +3,27 @@ package games.solarSystem.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
+import app.AppLoader;
+
 public class Background {
-	protected double width;
-	protected double height;
-	protected double minDist;
-	protected double newPointsCount;
-	protected List<int[]> samplePoint;
+	private int width;
+	private int height;
+	private double lambda0, phi0;
+	private double angle;
+	private Image starmap;
+	private Image generated;
 
-	//Constructeur
-	public Background() {
-		this(1920, 1080, 5, 0);
-	}
-
-	public Background(double width, double height, double minDist, double newPointsCount){
+	public Background(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.minDist = minDist;
-		this.newPointsCount = newPointsCount;
-		this.samplePoint = new ArrayList<int[]>();
+		this.starmap = AppLoader.loadPicture("/images/solarSystem/starmap_4k.jpg"); // projection équirectangulaire
 	}
-
-	public void setMinDist(double minDist){
-		this.minDist = minDist;
-	}
-
-	public void generatePoisson(){
-		//Création de la grille basé sur cellSize
-		double cellSize = minDist/Math.sqrt(2);
-
-
+	
+	public void generate() throws SlickException {
+		this.generated = new Image(width, height);
+		// TODO : projection de Mercator
 	}
 }

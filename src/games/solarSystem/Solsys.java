@@ -300,7 +300,7 @@ public class Solsys {
 				v.crash(null);
 			}
 			// On a lancé une Tesla super loin
-			if (v instanceof Tesla && Math.hypot(v.getX(), v.getY()) > 2000) {
+			if (!ended && v instanceof Tesla && Math.hypot(v.getX(), v.getY()) > 2000) {
 				ended = true;
 				game.enterState(5, new FadeOutTransition(), new FadeInTransition());
 			}
