@@ -16,12 +16,12 @@ public class Player {
 	private int DiscoveredPlanet;
 
 	private int yMinUI;
-	
+
 	private World world;
-	
-	
+
+
 	// initialiZation des ressources du joueur
-	
+
 	public Player(World world) {
 		initRessources();
 		this.world=world;
@@ -35,7 +35,7 @@ public class Player {
 		yMinUI = world.getHeight()/50+40;
 		//TODO : initialiser ici plus de trucs pour l'affichage du menu, plutôt que de les calculer dans render()
 	}
-	
+
 
 	public void render(GameContainer container, StateBasedGame game, Graphics context){
 		int nbRes=0;//Compteur des ressources(sans les cailloux)
@@ -46,15 +46,15 @@ public class Player {
 		int chaineHeight;//Hauteur d'une chaine de caractère
 		int posY;//Emplacement du texte en hauteur(coin en bas à gauche)
 		int yMinUI;//Hauteur du rectangle noir sous le menu
-		
+
 		chaineHeight=context.getFont().getHeight("AZETYUIOPMLKJHGFDSQWXCVBN");
 		posY=world.getHeight()/50+20-chaineHeight/2;
-		
+
 		context.setColor(Color.black);
 		yMinUI=world.getHeight()/50+40;
 		context.fillRect(0, 0,world.getWidth(),yMinUI);
-		
-		
+
+
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
 
 			if(resource.getKey()!="Cailloux") {
@@ -76,41 +76,41 @@ public class Player {
 				context.drawString(str2,chaineWidth,posY);
 				chaineWidth+=context.getFont().getWidth(str);//On ajoute la longeuur de la chaine de caractères
 				chaineWidth+=esp;
-				
+
 			}
 		}
-		
+
 //		context.drawString("Autres Ressources...", world.getWidth()*size/(size+1), world.getHeight()/40);
 //		if(world.getDispRessources()){
 //			context.drawString(resourcesToString(),world.getWidth()*size/(size+1) , world.getHeight()/20);
 //		}
-		
+
 	}
-	
+
 /////////////////////////////////////////////////////////////////////
 	//VA CHERCHER TES RESSOURCES TOI MEME !!! <3//
 /////////////////////////////////////////////////////////////////////
 
 	public void update (GameContainer container, StateBasedGame game, int delta) {
-		
+
 	}
-	
+
 	public Resource getResource(String name) {
 		return resources.get(name);
 	}
-	
+
 	public void initRessources(){
-		
+
 			resources.put("Bois",new Resource("Bois"));
 			resources.put("Nourriture", new Resource("Nourriture"));
 			resources.put("Fer",new Resource("Fer"));
 			resources.put("Noyaux Linux", new Resource("Noyaux Linux"));
 			resources.put("Noyaux Linux éduqués", new Resource("Noyaux Linux éduqués"));
 			resources.put("Cailloux",new Resource("Cailloux"));
-			
-			
-		} 
-	
+
+
+		}
+
 	public String resourcesToString(){
 		StringBuilder sb = new StringBuilder();
 		for(Map.Entry<String , Resource> resource: resources.entrySet()){
@@ -118,11 +118,11 @@ public class Player {
 		}
 		return sb.toString();
 	}
-	
+
 	public Map<String,Resource> getResources(){
 		return resources;
 	}
-	
+
 	public boolean mousePressed(int arg0,int x ,int y){
 		//Aled les commentaires ???
 		return (x<world.getWidth() && x>world.getWidth()*resources.size()/(resources.size()+1) && y<world.getHeight()/20 && y>0);
