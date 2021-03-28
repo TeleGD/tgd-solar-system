@@ -31,11 +31,11 @@ public abstract class Vaisseau extends Construction {
 
 	public Vaisseau(Player player, Solsys solsys){
 		super(player) ;
-		this.name="Vaisseau spatial";
-		this.lifeMax=80;
-		this.life=lifeMax;
-		cout.put("Fer",50.0);
-		cout.put("Bois",20.0);
+		this.name = "Vaisseau spatial";
+		this.lifeMax = 80;
+		this.life = lifeMax;
+		cout.put("Fer", 50.0);
+		cout.put("Bois", 20.0);
 		this.solsys = solsys;
 		this.v0Max = 1000;
 		this.debris = new ArrayList<>();

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import games.solarSystem.constructions.vaisseaux.Debris;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -247,8 +248,10 @@ public class Solsys {
 		for (Explosion explosion: explosions) {
 			explosion.render(container, game, context);
 		}
-		int[] pos = toScreenPosition(-imageSun.getWidth()/2, -imageSun.getHeight()/2);
-		context.drawImage(imageSun.getScaledCopy((float)zoom), pos[0], pos[1]);
+		if (!ended) {
+			int[] pos = toScreenPosition(-imageSun.getWidth()/2, -imageSun.getHeight()/2);
+			context.drawImage(imageSun.getScaledCopy((float)zoom), pos[0], pos[1]);
+		}
 		if (this.velocity != null) this.velocity.render(container, game, context);
 		if (this.menuVaisseau != null) this.menuVaisseau.render(container, game, context);
 	}
@@ -258,6 +261,13 @@ public class Solsys {
 		if (!ended && planets.isEmpty()) {
 			ended = true;
 			game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+			int[] pos = toScreenPosition(-imageSun.getWidth()/2., -imageSun.getHeight()/2.);
+			Debris sun = new Debris(world.getPlayer(), this);
+			sun.setImage(this.imageSun);
+			sun.launch(0,0,0,0);
+			sun.split(5);
+			this.vaisseauList.addAll(sun.getDebris());
+			this.explosions.add(new Explosion(this, "/images/solarSystem/animations/explosion_circle.png", "/sounds/solarSystem/explosion_planet.ogg" , 300, 300,256, 128, pos[0], pos[1], 3, 4, 0, 1300));
 		}
 		for (int i = planets.size()-1; i >= 0; i--) {
 			Planet p = planets.get(i);
@@ -296,7 +306,7 @@ public class Solsys {
 			Vaisseau v = vaisseauList.get(i);
 			if (!colliding && !v.hasLeft()) v.left();
 			double distance2 = Math.pow(v.getX(), 2) + Math.pow(v.getY(), 2);
-			if (distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
+			if (!ended && distance2 < Math.pow(this.imageSun.getWidth()*0.6, 2)/2) {
 				v.crash(null);
 			}
 			// On a lancé une Tesla super loin
