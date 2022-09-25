@@ -9,4 +9,4 @@
 - Nathan Barloy (@nathanBarloy)
 - Océane Chazé (@OceaneC)
 - Théotime Frognet (@Terestios)
-- Tristan Le Godais (@TrisTOON)
+- Tristan Le Godais (@PolariTOON)
